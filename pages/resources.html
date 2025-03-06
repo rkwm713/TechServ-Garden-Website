@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources & Budget - TechServ Community Garden</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Additional CSS for Resources page -->
+    <style>
+        /* Resources specific styles */
+        .resources-header {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .resources-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--neutral-light);
+            margin-top: var(--spacing-md);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .resources-tab {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        
+        .resources-tab.active {
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .budget-section {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .budget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .budget-title {
+            margin-bottom: 0;
+        }
+        
+        .budget-overview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .budget-card {
+            background-color: var(--neutral-light);
+            border-radius: var(--border-radius-sm);
+            padding: var(--spacing-md);
+            text-align: center;
+        }
+        
+        .budget-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .budget-label {
+            color: var(--neutral-dark);
+            font-weight: 500;
+        }
+        
+        .budget-progress {
+            height: 8px;
+            background-color: var(--neutral-light);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: var(--spacing-sm);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+        }
+        
+        .progress-bar.warning {
+            background-color: #FFC107;
+        }
+        
+        .progress-bar.danger {
+            background-color: #F44336;
+        }
+        
+        .budget-chart {
+            background-color: var(--neutral-light);
+            border-radius: var(--border-radius-sm);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chart-placeholder {
+            text-align: center;
+            color: var(--neutral-medium);
+        }
+        
+        .chart-placeholder i {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .expenses-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .expenses-table th,
+        .expenses-table td {
+            padding: var(--spacing-sm);
+            text-align: left;
+            border-bottom: 1px solid var(--neutral-light);
+        }
+        
+        .expenses-table th {
+            font-weight: 600;
+            color: var(--neutral-dark);
+            background-color: var(--neutral-light);
+        }
+        
+        .expenses-table tr:hover {
+            background-color: var(--neutral-light);
+        }
+        
+        .expense-category {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .category-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 0.875rem;
+        }
+        
+        .category-seeds {
+            background-color: #4CAF50;
+        }
+        
+        .category-tools {
+            background-color: #2196F3;
+        }
+        
+        .category-soil {
+            background-color: #795548;
+        }
+        
+        .category-irrigation {
+            background-color: #00BCD4;
+        }
+        
+        .category-structures {
+            background-color: #FF9800;
+        }
+        
+        .category-misc {
+            background-color: #9E9E9E;
+        }
+        
+        .expense-amount {
+            font-weight: 600;
+        }
+        
+        .expense-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .inventory-section {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .inventory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .inventory-title {
+            margin-bottom: 0;
+        }
+        
+        .inventory-search {
+            display: flex;
+            gap: var(--spacing-xs);
+            width: 300px;
+        }
+        
+        .inventory-search input {
+            flex-grow: 1;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border: 1px solid var(--neutral-medium);
+            border-radius: var(--border-radius-sm);
+        }
+        
+        .inventory-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .inventory-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .inventory-table th,
+        .inventory-table td {
+            padding: var(--spacing-sm);
+            text-align: left;
+            border-bottom: 1px solid var(--neutral-light);
+        }
+        
+        .inventory-table th {
+            font-weight: 600;
+            color: var(--neutral-dark);
+            background-color: var(--neutral-light);
+        }
+        
+        .inventory-table tr:hover {
+            background-color: var(--neutral-light);
+        }
+        
+        .item-name {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .item-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 0.875rem;
+        }
+        
+        .item-quantity {
+            font-weight: 600;
+        }
+        
+        .item-status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-in-stock {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+        
+        .status-low {
+            background-color: #FFF3E0;
+            color: #E65100;
+        }
+        
+        .status-out {
+            background-color: #FFEBEE;
+            color: #C62828;
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .sustainability-section {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .sustainability-header {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .metric-card {
+            background-color: var(--neutral-light);
+            border-radius: var(--border-radius-sm);
+            padding: var(--spacing-md);
+            text-align: center;
+        }
+        
+        .metric-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .metric-label {
+            color: var(--neutral-dark);
+            font-weight: 500;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .metric-description {
+            font-size: 0.875rem;
+            color: var(--neutral-medium);
+        }
+        
+        .sustainability-chart {
+            background-color: var(--neutral-light);
+            border-radius: var(--border-radius-sm);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .donations-section {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .donations-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .donations-title {
+            margin-bottom: 0;
+        }
+        
+        .donations-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .donations-table th,
+        .donations-table td {
+            padding: var(--spacing-sm);
+            text-align: left;
+            border-bottom: 1px solid var(--neutral-light);
+        }
+        
+        .donations-table th {
+            font-weight: 600;
+            color: var(--neutral-dark);
+            background-color: var(--neutral-light);
+        }
+        
+        .donations-table tr:hover {
+            background-color: var(--neutral-light);
+        }
+        
+        .donation-organization {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .organization-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 0.875rem;
+        }
+        
+        .donation-amount {
+            font-weight: 600;
+        }
+        
+        .wishlist-section {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .wishlist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .wishlist-title {
+            margin-bottom: 0;
+        }
+        
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+        }
+        
+        .wishlist-item {
+            background-color: var(--neutral-light);
+            border-radius: var(--border-radius-sm);
+            padding: var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        
+        .wishlist-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .wishlist-item-name {
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .wishlist-item-priority {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .priority-high {
+            background-color: #FFEBEE;
+            color: #C62828;
+        }
+        
+        .priority-medium {
+            background-color: #FFF3E0;
+            color: #E65100;
+        }
+        
+        .priority-low {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+        }
+        
+        .wishlist-item-description {
+            font-size: 0.875rem;
+            color: var(--neutral-dark);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .wishlist-item-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: var(--neutral-medium);
+        }
+        
+        .wishlist-item-actions {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        @media (max-width: 991px) {
+            .budget-overview,
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .budget-header,
+            .inventory-header,
+            .donations-header,
+            .wishlist-header {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+                align-items: flex-start;
+            }
+            
+            .inventory-search {
+                width: 100%;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .expenses-table,
+            .inventory-table,
+            .donations-table {
+                font-size: 0.875rem;
+            }
+            
+            .expense-actions,
+            .item-actions {
+                flex-direction: column;
+                gap: var(--spacing-xs);
+            }
+        }
+        
+        @media (max-width: 575px) {
+            .budget-overview {
+                grid-template-columns: 1fr;
+            }
+            
+            .expenses-table th:nth-child(3),
+            .expenses-table td:nth-child(3),
+            .inventory-table th:nth-child(4),
+            .inventory-table td:nth-child(4) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-container">
+                <iframe src="../assets/images/logo.html" title="TechServ Garden Logo" class="logo" style="border: none; overflow: hidden;"></iframe>
+                <h1>TechServ Community Garden</h1>
+            </div>
+            
+            <nav class="main-nav">
+                <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                    <span class="hamburger"></span>
+                </button>
+                <ul class="nav-list">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="garden-planning.html">Garden Planning</a></li>
+                    <li><a href="tasks.html">Tasks</a></li>
+                    <li><a href="garden-map.html">Garden Map</a></li>
+                    <li><a href="profile.html">My Profile</a></li>
+                    <li><a href="knowledge.html">Knowledge Base</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="resources.html" class="active">Resources</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-container">
+                    <input type="text" placeholder="Search..." class="search-input">
+                    <button class="search-button"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-account">
+                    <a href="profile.html" class="user-icon"><i class="fas fa-user-circle"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container main-container">
+        <main class="main-content">
+            <section class="resources-header">
+                <h2>Resources & Budget</h2>
+                <p>Track garden expenses, manage inventory, and monitor sustainability metrics for the TechServ Community Garden.</p>
+                
+                <div class="resources-tabs">
+                    <div class="resources-tab active">Budget</div>
+                    <div class="resources-tab">Inventory</div>
+                    <div class="resources-tab">Sustainability</div>
+                    <div class="resources-tab">Donations</div>
+                    <div class="resources-tab">Wishlist</div>
+                </div>
+            </section>
+            
+            <section class="budget-section" id="budget">
+                <div class="budget-header">
+                    <h3 class="budget-title">Budget Overview</h3>
+                    <button class="btn primary-btn">Add Expense</button>
+                </div>
+                
+                <div class="budget-overview">
+                    <div class="budget-card">
+                        <div class="budget-value">$2,500</div>
+                        <div class="budget-label">Total Budget</div>
+                    </div>
+                    
+                    <div class="budget-card">
+                        <div class="budget-value">$1,875</div>
+                        <div class="budget-label">Spent</div>
+                        <div class="budget-progress">
+                            <div class="progress-bar" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="budget-card">
+                        <div class="budget-value">$625</div>
+                        <div class="budget-label">Remaining</div>
+                        <div class="budget-progress">
+                            <div class="progress-bar" style="width: 25%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="budget-card">
+                        <div class="budget-value">$350</div>
+                        <div class="budget-label">Donations</div>
+                    </div>
+                </div>
+                
+                <div class="budget-chart">
+                    <div class="chart-placeholder">
+                        <i class="fas fa-chart-pie"></i>
+                        <p>Budget Allocation by Category</p>
+                        <p class="text-muted">Seeds & Plants (30%), Tools (25%), Soil & Fertilizer (20%), Irrigation (15%), Structures (5%), Miscellaneous (5%)</p>
+                    </div>
+                </div>
+                
+                <h4>Recent Expenses</h4>
+                <table class="expenses-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="expense-category">
+                                    <div class="category-icon category-seeds">
+                                        <i class="fas fa-seedling"></i>
+                                    </div>
+                                    <span>Seeds & Plants</span>
+                                </div>
+                            </td>
+                            <td>Spring vegetable seeds</td>
+                            <td>Mar 1, 2025</td>
+                            <td class="expense-amount">$125.00</td>
+                            <td class="expense-actions">
+                                <button class="btn small-btn secondary-btn">Edit</button>
+                                <button class="btn small-btn secondary-btn">Delete</button>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div class="expense-category">
+                                    <div class="category-icon category-tools">
+                                        <i class="fas fa-tools"></i>
+                                    </div>
+                                    <span>Tools</span>
+                                </div>
+                            </td>
+                            <td>Replacement garden shears (5)</td>
+                            <td>Feb 25, 2025</td>
+                            <td class="expense-amount">$85.50</td>
+                            <td class="expense-actions">
+                                <button class="btn small-btn secondary-btn">Edit</button>
+                                <button class="btn small-btn secondary-btn">Delete</button>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div class="expense-category">
+                                    <div class="category-icon category-soil">
+                                        <i class="fas fa-mountain"></i>
+                                    </div>
+                                    <span>Soil & Fertilizer</span>
+                                </div>
+                            </td>
+                            <td>Organic compost (10 bags)</td>
+                            <td>Feb 20, 2025</td>
+                            <td class="expense-amount">$120.00</td>
+                            <td class="expense-actions">
+                                <button class="btn small-btn secondary-btn">Edit</button>
+                                <button class="btn small-btn secondary-btn">Delete</button>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div class="expense-category">
+                                    <div class="category-icon category-irrigation">
+                                        <i class="fas fa-tint"></i>
+                                    </div>
+                                    <span>Irrigation</span>
+                                </div>
+                            </td>
+                            <td>Drip irrigation supplies</td>
+                            <td>Feb 15, 2025</td>
+                            <td class="expense-amount">$210.75</td>
+                            <td class="expense-actions">
+                                <button class="btn small-btn secondary-btn">Edit</button>
+                                <button class="btn small-btn secondary-btn">Delete</button>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div class="expense-category">
+                                    <div class="category-icon category-structures">
+                                        <i class="fas fa-home"></i>
+                                    </div>
+                                    <span>Structures</span>
+                                </div>
+                            </td>
+                            <td>Tomato cages (20)</td>
+                            <td>Feb 10, 2025</td>
+                            <td class="expense-amount">$95.00</td>
+                            <td class="expense-actions">
+                                <button class="btn small-btn secondary-btn">Edit</button>
+                                <button class="btn small-btn secondary-btn">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="text-align: center;">
+                    <button class="btn secondary-btn">View All Expenses</button>
+                </div>
+            </section>
+            
+            <section class="inventory-section" id="inventory">
+                <div class="inventory-header">
+                    <h3 class="inventory-title">Inventory Management</h3>
+                    <div class="inventory-search">
+                        <input type="text" placeholder="Search inventory...">
+                        <button class="btn primary-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                
+                <div class="inventory-filters">
+                    <select class="filter-select">
+                        <option value="all">All Categories</option>
+                        <option value="seeds">Seeds & Plants</option>
+                        <option value="tools">Tools</option>
+                        <option value="soil">Soil & Fertilizer</option>
+                        <option value="irrigation">Irrigation</option>
+                        <option value="structures">Structures</option>
+                    </select>
+                    
+                    <select class="filter-select">
+                        <option value="all">All Statuses</option>
+                        <option value="in-stock">In Stock</option>
+                        <option value="low">Low Stock</option>
+                        <option value="out">Out of Stock</option>
+                    </select>
+                    
+                    <button class="btn secondary-btn">Filter</button>
+                </div>
+                
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="item-name">
+                                    <div class="item-icon category-seeds">
+                                        <i class="fas fa-seedling"></i>
+                                    </div>
+                                    <span>Tomato Seeds - Cherokee Purple</span>
+                                </div>
+                            </td>
+                            <td>Seeds & Plants</td>
+                            <td class="item-quantity">250 seeds</td>
+                            <td>Seed Cabinet A2</td>
+                            <td><span class="item-status status-in-stock">In Stock</span></td>
+                            <td class="item-actions">
+                                <button class="btn small-btn secondary-btn">Edit</button>
+                                <button class="btn small-btn secondary-btn">Use</button>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div class="item-name">
+                                    <div class="item-icon category-tools">
+                                        <i class="fas fa-tools"></i>
+                                    </div>
+                                    <span>Garden Shears</span>
+                                </div>
+                            </td>
+                            <td>Tools</td>
+                            <td class="item-quantity">8 pairs</td>
+                            <td>Tool Shed B</td>
+                            <td><span class="item-status status-in-stock">In Stock</span></td>
+                            <td class="item-actions">
+                                <button class="btn small-btn secondary-btn">Edit</button>
+                                <button class="btn small-btn secondary-btn">Use</button>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div class="item-name">
+                                    <div class="item-icon category-soil">
+                                        <i class="fas fa-mountain"></i>
+                                    </div>
+                                    <span>Organic Compost</span>
+                                </div>
+                            </td>
+                            <td>Soil & Fertilizer</td>
+                            <td class="item-quantity">3 bags</td>
+                            <td>Storage Area C</td>
+                            <td><span class="item-status status-low">Low Stock</span></td>
+                            <td class="item-actions">
+                                <button class="btn small-btn secondary-btn">Edit</button>
+                                <button class="btn small-btn secondary-btn">Use</button>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div class="item-name">
+                                    <div class="item-icon category-irrigation">
+                                        <i class="fas fa-tint"></i>
+                                    </div>
+                                    <span>Drip Irrigation Tubing</span>
+                                </div>
+                            </td>
+                            <td>Irrigation</td>
+                            <td class="item-quantity">150 ft</td>
+                            <td>Storage Area D</td>
+                            <td><span class="item-status status-in-stock">In Stock</span></td>
+                            <td class="item-actions">
+                                <button class="btn small-btn secondary-btn">Edit</button>
+                                <button class="btn small-btn secondary-btn">Use</button>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div class="item-name">
+                                    <div class="item-icon category-structures">
+                                        <i class="fas fa-home"></i>
+                                    </div>
+                                    <span>Tomato Cages</span>
+                                </div>
+                            </td>
+                            <td>Structures</td>
+                            <td class="item-quantity">0</td>
+                            <td>Storage Area E</td>
+                            <td><span class="item-status status-out">Out of Stock</span></td>
+                            <td class="item-actions">
+                                <button class="btn small-btn secondary-btn">Edit</button>
+                                <button class="btn small-btn secondary-btn">Order</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="text-align: center;">
+                    <button class="btn secondary-btn">View All Inventory</button>
+                    <button class="btn primary-btn" style="margin-left: var(--spacing-md);">Add New Item</button>
+                </div>
+            </section>
+            
+            <section class="sustainability-section" id="sustainability">
+                <div class="sustainability-header">
+                    <h3>Sustainability Metrics</h3>
+                    <p>Track the environmental impact and sustainability of the TechServ Community Garden.</p>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <div class="metric-value">35%</div>
+                        <div class="metric-label">Water Usage Reduction</div>
+                        <p class="metric-description">Compared to traditional gardening methods, our drip irrigation system has reduced water usage by 35%.</p>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-recycle"></i>
+                        </div>
+                        <div class="metric-value">450 lbs</div>
+                        <div class="metric-label">Compost Generated</div>
+                        <p class="metric-description">We've diverted 450 pounds of organic waste from landfills by composting garden and office waste.</p>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="metric-value">85%</div>
+                        <div class="metric-label">Organic Practices</div>
+                        <p class="metric-description">85% of our garden is maintained using organic practices, without synthetic pesticides or fertilizers.</p>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-carrot"></i>
+                        </div>
+                        <div class="metric-value">156 lbs</div>
+                        <div class="metric-label">Food Produced</div>
+                        <p class="metric-description">We've harvested 156 pounds of fresh produce this year, reducing food miles and carbon footprint.</p>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-cloud-rain"></i>
+                        </div>
+                        <div class="metric-value">250 gal</div>
+                        <div class="metric-label">Rainwater Harvested</div>
+                        <p class="metric-description">Our rainwater collection system has harvested 250 gallons of water for garden use.</p>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="metric-value">12</div>
+                        <div class="metric-label">Native Species</div>
+                        <p class="metric-description">We've incorporated 12 native plant species, supporting local biodiversity and pollinators.</p>
+                    </div>
+                </div>
+                
+                <div class="sustainability-chart">
+                    <div class="chart-placeholder">
+                        <i class="fas fa-chart-line"></i>
+                        <p>Sustainability Trends Over Time</p>
+                        <p class="text-muted">This chart would show trends in water usage, compost generation, and food production over the past year.</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center;">
+                    <button class="btn secondary-btn">Download Sustainability Report</button>
+                </div>
+            </section>
+            
+            <section class="donations-section" id="donations">
+                <div class="donations-header">
+                    <h3 class="donations-title">Donations & Sponsorships</h3>
+                    <button class="btn primary-btn">Record Donation</button>
+                </div>
+                
+                <table class="donations-table">
+                    <thead>
+                        <tr>
+                            <th>Organization/Individual</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Amount/Value</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="donation-organization">
+                                    <div class="organization-icon" style="background-color: #4CAF50;">
+                                        <i class="fas fa-building"></i>
+                                    </div>
+                                    <span>TechServ HR Department</span>
+                                </div>
+                            </td>
+                            <td>Financial</td>
+                            <td>Mar 1, 2025</td>
+                            <td class="donation-amount">$200.00</td>
+                            <td>Annual department contribution</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div class="donation-organization">
+                                    <div class="organization-icon" style="background-color: #2196F3;">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <span>John Smith</span>
+                                </div>
+                            </td>
+                            <td>Supplies</td>
+                            <td>Feb 20, 2025</td>
+                            <td class="donation-amount">$75.00</td>
+                            <td>Donated garden tools</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div class="donation-organization">
+                                    <div class="organization-icon" style="background-color: #FF9800;">
+                                        <i class="fas fa-store"></i>
+                                    </div>
+                                    <span>Local Garden Center</span>
+                                </div>
+                            </td>
+                            <td>Supplies</td>
+                            <td>Feb 15, 2025</td>
+                            <td class="donation-amount">$150.00</td>
+                            <td>Donated seeds and seedlings</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div class="donation-organization">
+                                    <div class="organization-icon" style="background-color: #9C27B0;">
+                                        <i class="fas fa-building"></i>
+                                    </div>
+                                    <span>TechServ Engineering</span>
+                                </div>
+                            </td>
+                            <td>Financial</td>
+                            <td>Feb 10, 2025</td>
+                            <td class="donation-amount">$150.00</td>
+                            <td>Department contribution</td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <div class="donation-organization">
+                                    <div class="organization-icon" style="background-color: #F44336;">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <span>Sarah Johnson</span>
+                                </div>
+                            </td>
+                            <td>Financial</td>
+                            <td>Jan 25, 2025</td>
+                            <td class="donation-amount">$50.00</td>
+                            <td>Personal donation</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="text-align: center;">
+                    <button class="btn secondary-btn">View All Donations</button>
+                </div>
+            </section>
+            
+            <section class="wishlist-section" id="wishlist">
+                <div class="wishlist-header">
+                    <h3 class="wishlist-title">Garden Wishlist</h3>
+                    <button class="btn primary-btn">Add Wishlist Item</button>
+                </div>
+                
+                <div class="wishlist-grid">
+                    <div class="wishlist-item">
+                        <div class="wishlist-item-header">
+                            <h4 class="wishlist-item-name">Wheelbarrow</h4>
+                            <span class="wishlist-item-priority priority-high">High Priority</span>
+                        </div>
+                        <p class="wishlist-item-description">Heavy-duty garden wheelbarrow for transporting soil, compost, and harvested produce.</p>
+                        <div class="wishlist-item-meta">
+                            <span>Estimated Cost: $75-100</span>
+                            <span>Added: Feb 28, 2025</span>
+                        </div>
+                        <div class="wishlist-item-actions">
+                            <button class="btn small-btn secondary-btn">Edit</button>
+                            <button class="btn small-btn primary-btn">Fulfill</button>
+                        </div>
+                    </div>
+                    
+                    <div class="wishlist-item">
+                        <div class="wishlist-item-header">
+                            <h4 class="wishlist-item-name">Rain Barrel</h4>
+                            <span class="wishlist-item-priority priority-medium">Medium Priority</span>
+                        </div>
+                        <p class="wishlist-item-description">50-gallon rain barrel to collect rainwater for garden irrigation.</p>
+                        <div class="wishlist-item-meta">
+                            <span>Estimated Cost: $80-120</span>
+                            <span>Added: Feb 25, 2025</span>
+                        </div>
+                        <div class="wishlist-item-actions">
+                            <button class="btn small-btn secondary-btn">Edit</button>
+                            <button class="btn small-btn primary-btn">Fulfill</button>
+                        </div>
+                    </div>
+                    
+                    <div class="wishlist-item">
+                        <div class="wishlist-item-header">
+                            <h4 class="wishlist-item-name">Garden Bench</h4>
+                            <span class="wishlist-item-priority priority-low">Low Priority</span>
+                        </div>
+                        <p class="wishlist-item-description">Weather-resistant garden bench for seating in the garden area.</p>
+                        <div class="wishlist-item-meta">
+                            <span>Estimated Cost: $150-200</span>
+                            <span>Added: Feb 20, 2025</span>
+                        </div>
+                        <div class="wishlist-item-actions">
+                            <button class="btn small-btn secondary-btn">Edit</button>
+                            <button class="btn small-btn primary-btn">Fulfill</button>
+                        </div>
+                    </div>
+                    
+                    <div class="wishlist-item">
+                        <div class="wishlist-item-header">
+                            <h4 class="wishlist-item-name">Compost Thermometer</h4>
+                            <span class="wishlist-item-priority priority-medium">Medium Priority</span>
+                        </div>
+                        <p class="wishlist-item-description">Long-stem compost thermometer to monitor compost pile temperature.</p>
+                        <div class="wishlist-item-meta">
+                            <span>Estimated Cost: $20-30</span>
+                            <span>Added: Feb 18, 2025</span>
+                        </div>
+                        <div class="wishlist-item-actions">
+                            <button class="btn small-btn secondary-btn">Edit</button>
+                            <button class="btn small-btn primary-btn">Fulfill</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <aside class="sidebar">
+            <section class="quick-actions">
+                <h3>Quick Actions</h3>
+                <div class="action-buttons">
+                    <button class="btn secondary-btn" style="width: 100%; margin-bottom: var(--spacing-sm);"><i class="fas fa-plus-circle"></i> Add Expense</button>
+                    <button class="btn secondary-btn" style="width: 100%; margin-bottom: var(--spacing-sm);"><i class="fas fa-box"></i> Add Inventory Item</button>
+                    <button class="btn secondary-btn" style="width: 100%; margin-bottom: var(--spacing-sm);"><i class="fas fa-hand-holding-usd"></i> Record Donation</button>
+                    <button class="btn secondary-btn" style="width: 100%;"><i class="fas fa-file-export"></i> Export Reports</button>
+                </div>
+            </section>
+            
+            <section class="budget-summary">
+                <h3>Budget Summary</h3>
+                <div class="summary-item">
+                    <div class="summary-label">Total Budget</div>
+                    <div class="summary-value">$2,500.00</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Total Spent</div>
+                    <div class="summary-value">$1,875.00</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Remaining</div>
+                    <div class="summary-value">$625.00</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Donations</div>
+                    <div class="summary-value">$350.00</div>
+                </div>
+                <div class="summary-progress">
+                    <div class="progress-label">Budget Used: 75%</div>
+                    <div class="budget-progress">
+                        <div class="progress-bar" style="width: 75%;"></div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="low-stock-alert">
+                <h3>Low Stock Alerts</h3>
+                <ul class="alert-list">
+                    <li class="alert-item">
+                        <div class="alert-icon" style="background-color: #F44336;">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Tomato Cages</div>
+                            <div class="alert-description">Out of stock</div>
+                        </div>
+                        <button class="btn small-btn secondary-btn">Order</button>
+                    </li>
+                    <li class="alert-item">
+                        <div class="alert-icon" style="background-color: #FFC107;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Organic Compost</div>
+                            <div class="alert-description">Low stock: 3 bags</div>
+                        </div>
+                        <button class="btn small-btn secondary-btn">Order</button>
+                    </li>
+                    <li class="alert-item">
+                        <div class="alert-icon" style="background-color: #FFC107;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="alert-content">
+                            <div class="alert-title">Garden Gloves</div>
+                            <div class="alert-description">Low stock: 2 pairs</div>
+                        </div>
+                        <button class="btn small-btn secondary-btn">Order</button>
+                    </li>
+                </ul>
+            </section>
+            
+            <section class="recent-activity">
+                <h3>Recent Activity</h3>
+                <ul class="activity-list">
+                    <li class="activity-item">
+                        <div class="activity-icon"><i class="fas fa-dollar-sign"></i></div>
+                        <div class="activity-content">
+                            <div class="activity-title">Expense Added: Spring vegetable seeds</div>
+                            <div class="activity-meta">Today, 10:30 AM by John D.</div>
+                        </div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon"><i class="fas fa-box"></i></div>
+                        <div class="activity-content">
+                            <div class="activity-title">Inventory Updated: Garden Shears</div>
+                            <div class="activity-meta">Yesterday by Maria L.</div>
+                        </div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                        <div class="activity-content">
+                            <div class="activity-title">Donation Recorded: TechServ HR Department</div>
+                            <div class="activity-meta">Mar 1, 2025 by Alex K.</div>
+                        </div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon"><i class="fas fa-list"></i></div>
+                        <div class="activity-content">
+                            <div class="activity-title">Wishlist Item Added: Wheelbarrow</div>
+                            <div class="activity-meta">Feb 28, 2025 by Sarah M.</div>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </aside>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="garden-planning.html">Garden Planning</a></li>
+                    <li><a href="tasks.html">Tasks</a></li>
+                    <li><a href="garden-map.html">Garden Map</a></li>
+                    <li><a href="knowledge.html">Knowledge Base</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p><i class="fas fa-envelope"></i> garden@techserv.com</p>
+                <p><i class="fas fa-phone"></i> Ext. 4567</p>
+                <p><i class="fas fa-map-marker-alt"></i> East Campus, Building C</p>
+            </div>
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-slack"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-microsoft"></i></a>
+                    <a href="#" class="social-link"><i class="fas fa-comment-dots"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Garden Stats</h3>
+                <div class="garden-stats">
+                    <div class="stat">
+                        <span class="stat-number">42</span>
+                        <span class="stat-label">Plant Varieties</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">87</span>
+                        <span class="stat-label">Active Gardeners</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">156</span>
+                        <span class="stat-label">Lbs Harvested</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2025 TechServ Community Garden. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

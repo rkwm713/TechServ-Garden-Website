@@ -1,0 +1,629 @@
+/**
+ * TechServ Community Garden Website
+ * Responsive CSS file for handling different screen sizes
+ */
+
+/* Large Desktops (1200px and up) */
+@media (min-width: 1200px) {
+    /* No specific styles needed, base styles apply */
+}
+
+/* Desktops and Laptops (992px to 1199px) */
+@media (max-width: 1199px) {
+    .container {
+        max-width: 960px;
+    }
+    
+    .sidebar {
+        width: 280px;
+    }
+}
+
+/* Tablets and Small Desktops (768px to 991px) */
+@media (max-width: 991px) {
+    .container {
+        max-width: 720px;
+    }
+    
+    .main-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        margin-top: var(--spacing-xl);
+    }
+    
+    .footer-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-lg);
+    }
+    
+    /* Header adjustments */
+    .header-container {
+        flex-wrap: wrap;
+    }
+    
+    .logo-container {
+        flex: 1;
+    }
+    
+    .main-nav {
+        order: 3;
+        width: 100%;
+        margin-top: var(--spacing-md);
+    }
+    
+    .nav-list {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: var(--spacing-xs);
+    }
+    
+    /* Weather widget adjustments */
+    .weather-details {
+        flex-wrap: wrap;
+    }
+    
+    .weather-detail {
+        width: 50%;
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    /* Forecast adjustments */
+    .forecast-days {
+        overflow-x: auto;
+        padding-bottom: var(--spacing-xs);
+    }
+    
+    .forecast-day {
+        min-width: 60px;
+    }
+    
+    /* Garden planning adjustments */
+    .garden-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Task board adjustments */
+    .task-board {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Garden map adjustments */
+    .garden-map-container {
+        height: 400px;
+    }
+    
+    /* Knowledge base adjustments */
+    .featured-grid,
+    .videos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Community adjustments */
+    .event-list,
+    .workshop-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    /* Resources adjustments */
+    .budget-overview,
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Profile adjustments */
+    .profile-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile Devices (576px to 767px) */
+@media (max-width: 767px) {
+    .container {
+        max-width: 540px;
+    }
+    
+    /* Header adjustments */
+    .header-container {
+        position: relative;
+    }
+    
+    .mobile-menu-toggle {
+        display: block;
+        order: 1;
+    }
+    
+    .logo-container {
+        order: 2;
+        margin: 0 auto;
+    }
+    
+    .header-actions {
+        order: 3;
+    }
+    
+    .main-nav {
+        order: 4;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--white);
+        box-shadow: var(--shadow-md);
+        padding: 0;
+        z-index: 100;
+        display: none;
+    }
+    
+    .main-nav.active {
+        display: block;
+    }
+    
+    .nav-list {
+        flex-direction: column;
+        padding: var(--spacing-md);
+    }
+    
+    .nav-list li {
+        width: 100%;
+    }
+    
+    .nav-list li a {
+        padding: var(--spacing-sm) 0;
+        width: 100%;
+        display: block;
+    }
+    
+    .nav-list li a.active::after {
+        display: none;
+    }
+    
+    .nav-list li a.active {
+        background-color: var(--primary-light);
+        padding-left: var(--spacing-sm);
+        border-radius: var(--border-radius-sm);
+    }
+    
+    /* Search adjustments */
+    .search-container {
+        display: none;
+    }
+    
+    /* Footer adjustments */
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+    
+    /* Garden planning adjustments */
+    .garden-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .plant-database-filters {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    /* Task board adjustments */
+    .task-board {
+        grid-template-columns: 1fr;
+    }
+    
+    .task-column {
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    /* Garden map adjustments */
+    .garden-map-container {
+        height: 300px;
+    }
+    
+    .map-controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    /* Knowledge base adjustments */
+    .featured-grid,
+    .videos-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .article-item {
+        flex-direction: column;
+    }
+    
+    .article-image {
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    /* Community adjustments */
+    .event-list,
+    .workshop-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .forum-categories {
+        flex-direction: column;
+    }
+    
+    .forum-category {
+        width: 100%;
+    }
+    
+    /* Resources adjustments */
+    .budget-overview,
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .expenses-table,
+    .inventory-table,
+    .donations-table {
+        font-size: var(--font-size-sm);
+    }
+    
+    .expense-actions,
+    .item-actions {
+        flex-direction: column;
+    }
+    
+    /* Profile adjustments */
+    .profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .profile-avatar {
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .profile-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: var(--spacing-xs);
+    }
+    
+    /* Form adjustments */
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .form-actions .btn {
+        width: 100%;
+        margin-bottom: var(--spacing-xs);
+    }
+}
+
+/* Small Mobile Devices (up to 575px) */
+@media (max-width: 575px) {
+    .container {
+        padding: 0 var(--spacing-sm);
+    }
+    
+    h1 {
+        font-size: var(--font-size-xl);
+    }
+    
+    h2 {
+        font-size: var(--font-size-lg);
+    }
+    
+    h3 {
+        font-size: var(--font-size-md);
+    }
+    
+    /* Logo adjustments */
+    .logo-container h1 {
+        font-size: var(--font-size-md);
+    }
+    
+    .logo {
+        width: 40px;
+        height: 40px;
+    }
+    
+    /* Button adjustments */
+    .btn {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: var(--font-size-sm);
+    }
+    
+    /* Card adjustments */
+    .card {
+        padding: var(--spacing-md);
+    }
+    
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .card-header .btn {
+        margin-top: var(--spacing-xs);
+    }
+    
+    /* Weather widget adjustments */
+    .current-weather {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .weather-icon {
+        margin-right: 0;
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .weather-detail {
+        width: 100%;
+    }
+    
+    /* Gallery adjustments */
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Table adjustments */
+    .expenses-table th:nth-child(3),
+    .expenses-table td:nth-child(3),
+    .inventory-table th:nth-child(4),
+    .inventory-table td:nth-child(4) {
+        display: none;
+    }
+    
+    /* Modal adjustments */
+    .modal-content {
+        width: 95%;
+    }
+    
+    /* Notification adjustments */
+    .notifications-container {
+        right: var(--spacing-sm);
+        left: var(--spacing-sm);
+        max-width: none;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background-color: white;
+        color: black;
+        font-size: 12pt;
+    }
+    
+    .main-header,
+    .main-footer,
+    .sidebar,
+    .btn,
+    .mobile-menu-toggle {
+        display: none;
+    }
+    
+    .container {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .main-container {
+        display: block;
+        padding: 0;
+    }
+    
+    .main-content {
+        width: 100%;
+    }
+    
+    a {
+        color: black;
+        text-decoration: underline;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        page-break-after: avoid;
+        page-break-inside: avoid;
+    }
+    
+    img {
+        max-width: 100% !important;
+        page-break-inside: avoid;
+    }
+    
+    p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+    }
+    
+    .card,
+    .section {
+        page-break-inside: avoid;
+    }
+    
+    .no-print {
+        display: none;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-color: #006400;
+        --primary-light: #E0FFE0;
+        --primary-dark: #004D00;
+        
+        --accent-color: #B35900;
+        --accent-light: #FFE0B3;
+        --accent-dark: #803F00;
+        
+        --neutral-light: #F0F0F0;
+        --neutral-medium: #707070;
+        --neutral-dark: #202020;
+        
+        --white: #FFFFFF;
+        --black: #000000;
+    }
+    
+    body {
+        color: var(--black);
+    }
+    
+    a {
+        text-decoration: underline;
+    }
+    
+    .btn {
+        border: 2px solid currentColor;
+    }
+    
+    .primary-btn {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border-color: var(--black);
+    }
+    
+    .secondary-btn {
+        background-color: var(--white);
+        color: var(--black);
+        border-color: var(--black);
+    }
+    
+    input, select, textarea {
+        border: 2px solid var(--black);
+    }
+    
+    .card, .section {
+        border: 1px solid var(--black);
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-color: #66BB6A;
+        --primary-light: #1B5E20;
+        --primary-dark: #A5D6A7;
+        
+        --accent-color: #FFA726;
+        --accent-light: #E65100;
+        --accent-dark: #FFCC80;
+        
+        --neutral-light: #424242;
+        --neutral-medium: #9E9E9E;
+        --neutral-dark: #E0E0E0;
+        
+        --white: #212121;
+        --black: #F5F5F5;
+        
+        --success-color: #66BB6A;
+        --warning-color: #FFA726;
+        --error-color: #EF5350;
+        --info-color: #42A5F5;
+    }
+    
+    body {
+        background-color: #121212;
+        color: var(--neutral-dark);
+    }
+    
+    .card, 
+    .main-header,
+    .sidebar section,
+    .weather-widget,
+    .modal-content {
+        background-color: #1E1E1E;
+    }
+    
+    .nav-list li a {
+        color: var(--neutral-dark);
+    }
+    
+    .nav-list li a.active {
+        color: var(--primary-color);
+    }
+    
+    .nav-list li a.active::after {
+        background-color: var(--primary-color);
+    }
+    
+    .search-input {
+        background-color: #333;
+        color: var(--neutral-dark);
+        border-color: #555;
+    }
+    
+    .search-input::placeholder {
+        color: var(--neutral-medium);
+    }
+    
+    .form-input,
+    .form-select,
+    .form-textarea {
+        background-color: #333;
+        color: var(--neutral-dark);
+        border-color: #555;
+    }
+    
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+        color: var(--neutral-medium);
+    }
+    
+    .secondary-btn {
+        background-color: #333;
+        color: var(--neutral-dark);
+        border-color: #555;
+    }
+    
+    .secondary-btn:hover {
+        background-color: #444;
+    }
+    
+    .modal {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+    
+    .tooltip {
+        background-color: #333;
+    }
+    
+    .tooltip::after {
+        border-color: #333 transparent transparent;
+    }
+    
+    .notification {
+        background-color: #1E1E1E;
+    }
+    
+    /* Invert some icons for better visibility */
+    .weather-icon,
+    .day-condition i {
+        filter: brightness(1.2);
+    }
+}

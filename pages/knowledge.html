@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Base - TechServ Community Garden</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Additional CSS for Knowledge Base page -->
+    <style>
+        /* Knowledge Base Styles */
+        .knowledge-header {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .knowledge-search {
+            margin-top: var(--spacing-md);
+        }
+        
+        .search-form {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .search-input-large {
+            flex: 1;
+            padding: var(--spacing-md);
+            border: 1px solid var(--neutral-light);
+            border-radius: var(--border-radius-sm);
+            font-size: var(--font-size-md);
+        }
+        
+        .search-input-large:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        /* Categories Section */
+        .categories-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+        }
+        
+        .category-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto var(--spacing-md);
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .category-title {
+            font-size: var(--font-size-md);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .category-description {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-medium);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .category-count {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
+        }
+        
+        /* Featured Articles */
+        .featured-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .section-title {
+            margin-bottom: 0;
+        }
+        
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-lg);
+        }
+        
+        .article-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .article-image {
+            height: 180px;
+            background-color: var(--neutral-light);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .article-category {
+            position: absolute;
+            top: var(--spacing-sm);
+            left: var(--spacing-sm);
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 4px var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+        }
+        
+        .article-content {
+            padding: var(--spacing-md);
+        }
+        
+        .article-title {
+            font-size: var(--font-size-md);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .article-excerpt {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.5;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: var(--font-size-xs);
+            color: var(--neutral-medium);
+        }
+        
+        .article-author {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .author-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        /* Video Tutorials */
+        .videos-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-lg);
+        }
+        
+        .video-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .video-thumbnail {
+            height: 240px;
+            background-color: var(--neutral-light);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .video-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background-color var(--transition-fast);
+        }
+        
+        .video-play:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .video-duration {
+            position: absolute;
+            bottom: var(--spacing-sm);
+            right: var(--spacing-sm);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--white);
+            padding: 2px var(--spacing-xs);
+            border-radius: var(--border-radius-xs);
+            font-size: var(--font-size-xs);
+        }
+        
+        .video-content {
+            padding: var(--spacing-md);
+        }
+        
+        .video-title {
+            font-size: var(--font-size-md);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .video-description {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.5;
+        }
+        
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: var(--font-size-xs);
+            color: var(--neutral-medium);
+        }
+        
+        /* Seasonal Guides */
+        .guides-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .guides-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--neutral-light);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .guide-tab {
+            padding: var(--spacing-sm) var(--spacing-md);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+            transition: border-color var(--transition-fast);
+        }
+        
+        .guide-tab.active {
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .guide-content {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .guide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .guide-title-group h3 {
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .guide-subtitle {
+            color: var(--neutral-medium);
+            font-size: var(--font-size-sm);
+        }
+        
+        .guide-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .guide-section {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .guide-section-title {
+            font-size: var(--font-size-md);
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .guide-section-icon {
+            color: var(--primary-color);
+        }
+        
+        .guide-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .guide-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid var(--neutral-light);
+        }
+        
+        .guide-item:last-child {
+            border-bottom: none;
+        }
+        
+        .guide-item-icon {
+            color: var(--primary-color);
+            margin-top: 4px;
+        }
+        
+        .guide-item-content {
+            flex: 1;
+        }
+        
+        .guide-item-title {
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .guide-item-description {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
+        }
+        
+        /* Community Tips */
+        .tips-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+        }
+        
+        .tip-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .tip-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .tip-author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+        }
+        
+        .tip-author-info {
+            flex: 1;
+        }
+        
+        .tip-author-name {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .tip-date {
+            font-size: var(--font-size-xs);
+            color: var(--neutral-medium);
+        }
+        
+        .tip-content {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.5;
+        }
+        
+        .tip-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: var(--font-size-xs);
+            color: var(--neutral-medium);
+        }
+        
+        .tip-category {
+            background-color: var(--neutral-light);
+            padding: 2px var(--spacing-xs);
+            border-radius: var(--border-radius-xs);
+        }
+        
+        .tip-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .tip-action {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+        
+        .tip-action:hover {
+            color: var(--primary-color);
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .accordion {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .accordion-item {
+            border-bottom: 1px solid var(--neutral-light);
+        }
+        
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .accordion-header {
+            padding: var(--spacing-md);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background-color var(--transition-fast);
+        }
+        
+        .accordion-header:hover {
+            background-color: var(--neutral-light);
+        }
+        
+        .accordion-icon {
+            transition: transform var(--transition-fast);
+        }
+        
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        
+        .accordion-content {
+            padding: 0 var(--spacing-md);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-fast), padding var(--transition-fast);
+        }
+        
+        .accordion-item.active .accordion-content {
+            padding: 0 var(--spacing-md) var(--spacing-md);
+            max-height: 500px;
+        }
+        
+        .accordion-body {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
+            line-height: 1.5;
+        }
+        
+        /* Contribute Section */
+        .contribute-section {
+            background-color: var(--primary-light);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            text-align: center;
+        }
+        
+        .contribute-title {
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary-dark);
+        }
+        
+        .contribute-description {
+            max-width: 600px;
+            margin: 0 auto var(--spacing-md);
+            color: var(--primary-dark);
+        }
+        
+        /* Responsive adjustments for knowledge base page */
+        @media (max-width: 991px) {
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .featured-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tips-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .search-form {
+                flex-direction: column;
+            }
+            
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .guides-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .guide-tab {
+                flex: 1;
+                text-align: center;
+                min-width: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-container">
+                <iframe src="../assets/images/logo.html" title="TechServ Garden Logo" class="logo" style="border: none; overflow: hidden;"></iframe>
+                <h1>TechServ Community Garden</h1>
+            </div>
+            
+            <nav class="main-nav">
+                <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                    <span class="hamburger"></span>
+                </button>
+                <ul class="nav-list">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="garden-planning.html">Garden Planning</a></li>
+                    <li><a href="tasks.html">Tasks</a></li>
+                    <li><a href="garden-map.html">Garden Map</a></li>
+                    <li><a href="profile.html">My Profile</a></li>
+                    <li><a href="knowledge.html" class="active">Knowledge Base</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-container">
+                    <input type="text" placeholder="Search..." class="search-input">
+                    <button class="search-button"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-account">
+                    <a href="profile.html" class="user-icon"><i class="fas fa-user-circle"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container main-container">
+        <main class="main-content">
+            <section class="page-header">
+                <h2>Knowledge Base</h2>
+                <p>Explore gardening resources, tutorials, and community tips specific to East Texas.</p>
+            </section>
+            
+            <section class="knowledge-header">
+                <h3>Find Gardening Knowledge</h3>
+                <p>Search our comprehensive collection of gardening resources, tutorials, and community tips.</p>
+                
+                <div class="knowledge-search">
+                    <form class="search-form">
+                        <input type="text" class="search-input-large" placeholder="Search for gardening topics, plants, techniques...">
+                        <button type="submit" class="btn primary-btn">Search</button>
+                    </form>
+                </div>
+            </section>
+            
+            <section class="categories-section">
+                <h3>Browse by Category</h3>
+                
+                <div class="categories-grid">
+                    <a href="#" class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h4 class="category-title">Plants & Growing</h4>
+                        <p class="category-description">Learn about plant varieties, growing techniques, and care.</p>
+                        <div class="category-count">42 Articles</div>
+                    </a>
+                    
+                    <a href="#" class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-bug"></i>
+                        </div>
+                        <h4 class="category-title">Pest & Disease</h4>
+                        <p class="category-description">Identify and manage common garden pests and diseases.</p>
+                        <div class="category-count">28 Articles</div>
+                    </a>
+                    
+                    <a href="#" class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <h4 class="category-title">Irrigation</h4>
+                        <p class="category-description">Watering techniques, systems, and conservation methods.</p>
+                        <div class="category-count">15 Articles</div>
+                    </a>
+                    
+                    <a href="#" class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-recycle"></i>
+                        </div>
+                        <h4 class="category-title">Soil & Composting</h4>
+                        <p class="category-description">Soil health, amendments, and composting techniques.</p>
+                        <div class="category-count">23 Articles</div>
+                    </a>
+                </div>
+            </section>
+            
+            <section class="featured-section">
+                <div class="section-header">
+                    <h3 class="section-title">Featured Articles</h3>
+                    <a href="#" class="btn secondary-btn">View All</a>
+                </div>
+                
+                <div class="featured-grid">
+                    <article class="article-card">
+                        <div class="article-image">
+                            <img src="https://via.placeholder.com/400x250" alt="East Texas Vegetable Planting Guide">
+                            <div class="article-category">Plants & Growing</div>
+                        </div>
+                        <div class="article-content">
+                            <h4 class="article-title">East Texas Vegetable Planting Guide</h4>
+                            <p class="article-excerpt">Learn the best times to plant vegetables in East Texas, with month-by-month recommendations for optimal growth and harvest.</p>
+                            <div class="article-meta">
+                                <div class="article-author">
+                                    <div class="author-avatar">JS</div>
+                                    <span>John Smith</span>
+                                </div>
+                                <div class="article-date">March 1, 2025</div>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="article-card">
+                        <div class="article-image">
+                            <img src="https://via.placeholder.com/400x250" alt="Organic Pest Control Methods">
+                            <div class="article-category">Pest & Disease</div>
+                        </div>
+                        <div class="article-content">
+                            <h4 class="article-title">Organic Pest Control Methods</h4>
+                            <p class="article-excerpt">Discover effective organic methods to control common garden pests in East Texas without harmful chemicals.</p>
+                            <div class="article-meta">
+                                <div class="article-author">
+                                    <div class="author-avatar">AL</div>
+                                    <span>Amy Lee</span>
+                                </div>
+                                <div class="article-date">February 15, 2025</div>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="article-card">
+                        <div class="article-image">
+                            <img src="https://via.placeholder.com/400x250" alt="Water Conservation Techniques">
+                            <div class="article-category">Irrigation</div>
+                        </div>
+                        <div class="article-content">
+                            <h4 class="article-title">Water Conservation Techniques</h4>
+                            <p class="article-excerpt">Learn how to conserve water in your garden with efficient irrigation systems and smart watering practices.</p>
+                            <div class="article-meta">
+                                <div class="article-author">
+                                    <div class="author-avatar">MT</div>
+                                    <span>Mike Thompson</span>
+                                </div>
+                                <div class="article-date">February 10, 2025</div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+            
+            <section class="videos-section">
+                <div class="section-header">
+                    <h3 class="section-title">Video Tutorials</h3>
+                    <a href="#" class="btn secondary-btn">View All</a>
+                </div>
+                
+                <div class="video-grid">
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <img src="https://via.placeholder.com/600x400" alt="Tomato Growing Guide">
+                            <div class="video-play">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <div class="video-duration">12:45</div>
+                        </div>
+                        <div class="video-content">
+                            <h4 class="video-title">Tomato Growing Guide for East Texas</h4>
+                            <p class="video-description">Learn how to grow tomatoes successfully in East Texas, from seed starting to harvest.</p>
+                            <div class="video-meta">
+                                <div class="video-author">John Smith</div>
+                                <div class="video-date">March 5, 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <img src="https://via.placeholder.com/600x400" alt="Drip Irrigation Setup">
+                            <div class="video-play">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <div class="video-duration">18:30</div>
+                        </div>
+                        <div class="video-content">
+                            <h4 class="video-title">Setting Up a Drip Irrigation System</h4>
+                            <p class="video-description">Step-by-step guide to installing a water-efficient drip irrigation system in your garden.</p>
+                            <div class="video-meta">
+                                <div class="video-author">Mike Thompson</div>
+                                <div class="video-date">February 28, 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="guides-section">
+                <h3 class="section-title">Seasonal Gardening Guides</h3>
+                
+                <div class="guides-tabs">
+                    <div class="guide-tab active" data-season="spring">Spring</div>
+                    <div class="guide-tab" data-season="summer">Summer</div>
+                    <div class="guide-tab" data-season="fall">Fall</div>
+                    <div class="guide-tab" data-season="winter">Winter</div>
+                </div>
+                
+                <div class="guide-content" id="spring-guide">
+                    <div class="guide-header">
+                        <div class="guide-title-group">
+                            <h3>Spring Gardening Guide</h3>
+                            <p class="guide-subtitle">March - May</p>
+                        </div>
+                        <div class="guide-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="guide-section">
+                        <h4 class="guide-section-title">
+                            <i class="fas fa-leaf guide-section-icon"></i>
+                            <span>What to Plant</span>
+                        </h4>
+                        
+                        <ul class="guide-list">
+                            <li class="guide-item">
+                                <i class="fas fa-check guide-item-icon"></i>
+                                <div class="guide-item-content">
+                                    <div class="guide-item-title">Warm-Season Vegetables</div>
+                                    <div class="guide-item-description">Tomatoes, peppers, eggplant, squash, cucumbers, beans, corn, okra</div>
+                                </div>
+                            </li>
+                            <li class="guide-item">
+                                <i class="fas fa-check guide-item-icon"></i>
+                                <div class="guide-item-content">
+                                    <div class="guide-item-title">Herbs</div>
+                                    <div class="guide-item-description">Basil, cilantro, dill, parsley, oregano, thyme</div>
+                                </div>
+                            </li>
+                            <li class="guide-item">
+                                <i class="fas fa-check guide-item-icon"></i>
+                                <div class="guide-item-content">
+                                    <div class="guide-item-title">Summer Flowers</div>
+                                    <div class="guide-item-description">Zinnias, marigolds, sunflowers, cosmos, petunias</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="guide-section">
+                        <h4 class="guide-section-title">
+                            <i class="fas fa-tasks guide-section-icon"></i>
+                            <span>Garden Tasks</span>
+                        </h4>
+                        
+                        <ul class="guide-list">
+                            <li class="guide-item">
+                                <i class="fas fa-check guide-item-icon"></i>
+                                <div class="guide-item-content">
+                                    <div class="guide-item-title">Prepare Garden Beds</div>
+                                    <div class="guide-item-description">Clean up winter debris, add compost, and prepare soil for spring planting.</div>
+                                </div>
+                            </li>
+                            <li class="guide-item">
+                                <i class="fas fa-check guide-item-icon"></i>
+                                <div class="guide-item-content">
+                                    <div class="guide-item-title">Set Up Irrigation</div>
+                                    <div class="guide-item-description">Install or repair irrigation systems before summer heat arrives.</div>
+                                </div>
+                            </li>
+                            <li class="guide-item">
+                                <i class="fas fa-check guide-item-icon"></i>
+                                <div class="guide-item-content">
+                                    <div class="guide-item-title">Mulch Garden Beds</div>
+                                    <div class="guide-item-description">Apply 2-3 inches of mulch to conserve moisture and suppress weeds.</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="guide-section">
+                        <h4 class="guide-section-title">
+                            <i class="fas fa-exclamation-triangle guide-section-icon"></i>
+                            <span>Watch Out For</span>
+                        </h4>
+                        
+                        <ul class="guide-list">
+                            <li class="guide-item">
+                                <i class="fas fa-check guide-item-icon"></i>
+                                <div class="guide-item-content">
+                                    <div class="guide-item-title">Late Frosts</div>
+                                    <div class="guide-item-description">Be prepared to protect tender plants from unexpected late frosts in March and early April.</div>
+                                </div>
+                            </li>
+                            <li class="guide-item">
+                                <i class="fas fa-check guide-item-icon"></i>
+                                <div class="guide-item-content">
+                                    <div class="guide-item-title">Early Pests</div>
+                                    <div class="guide-item-description">Monitor for aphids, cutworms, and other early-season pests as temperatures warm.</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="tips-section">
+                <div class="section-header">
+                    <h3 class="section-title">Community Tips</h3>
+                    <a href="#" class="btn secondary-btn">View All</a>
+                </div>
+                
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <div class="tip-header">
+                            <div class="tip-author-avatar">JS</div>
+                            <div class="tip-author-info">
+                                <div class="tip-author-name">John Smith</div>
+                                <div class="tip-date">March 5, 2025</div>
+                            </div>
+                        </div>
+                        <div class="tip-content">
+                            <p>For tomatoes in East Texas, I've found that adding a tablespoon of Epsom salt to the planting hole helps prevent blossom end rot and produces healthier plants. Works every time!</p>
+                        </div>
+                        <div class="tip-footer">
+                            <div class="tip-category">Plants & Growing</div>
+                            <div class="tip-actions">
+                                <div class="tip-action">
+                                    <i class="far fa-thumbs-up"></i>
+                                    <span>24</span>
+                                </div>
+                                <div class="tip-action">
+                                    <i class="far fa-comment"></i>
+                                    <span>8</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-header">
+                            <div class="tip-author-avatar">AL</div>
+                            <div class="tip-author-info">
+                                <div class="tip-author-name">Amy Lee</div>
+                                <div class="tip-date">March 3, 2025</div>
+                            </div>
+                        </div>
+                        <div class="tip-content">
+                            <p>To keep squash bugs away naturally, I plant radishes around my squash plants. The strong scent seems to confuse and repel them. Haven't had a squash bug problem in two years!</p>
+                        </div>
+                        <div class="tip-footer">
+                            <div class="tip-category">Pest & Disease</div>
+                            <div class="tip-actions">
+                                <div class="tip-action">
+                                    <i class="far fa-thumbs-up"></i>
+                                    <span>18</span>
+                                </div>
+                                <div class="tip-action">
+                                    <i class="far fa-comment"></i>
+                                    <span>5</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-header">
+                            <div class="tip-author-avatar">MT</div>
+                            <div class="tip-author-info">
+                                <div class="tip-author-name">Mike Thompson</div>
+                                <div class="tip-date">February 28, 2025</div>
+                            </div>
+                        </div>
+                        <div class="tip-content">
+                            <p>For better water retention in our sandy East Texas soil, I mix in coconut coir with my compost. It holds moisture much better than peat moss and is more sustainable too.</p>
+                        </div>
+                        <div class="tip-footer">
+                            <div class="tip-category">Soil & Composting</div>
+                            <div class="tip-actions">
+                                <div class="tip-action">
+                                    <i class="far fa-thumbs-up"></i>
+                                    <span>32</span>
+                                </div>
+                                <div class="tip-action">
+                                    <i class="far fa-comment"></i>
+                                    <span>12</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="faq-section">
+                <div class="section-header">
+                    <h3 class="section-title">Frequently Asked Questions</h3>
+                </div>
+                
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <div class="accordion-header">
+                            <span>When is the best time to plant tomatoes in East Texas?</span>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <p>The best time to plant tomatoes in East Texas is after the danger of frost has passed, typically mid-March to early April. Soil temperatures should be at least 60°F for optimal growth. For fall tomatoes, plant in late July to early August for a harvest before the first frost.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>How do I deal with the clay soil common in parts of East Texas?</span>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <p>To improve clay soil in East Texas, add plenty of organic matter like compost, aged manure, or leaf mold. Work it into the top 6-8 inches of soil. Adding expanded shale can also help break up clay and improve drainage. Avoid working clay soil when it's too wet or too dry. Building raised beds is another effective solution for gardening in heavy clay areas.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>What are the best drought-tolerant plants for East Texas?</span>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <p>Some excellent drought-tolerant plants for East Texas include: Black-eyed Susan, Purple Coneflower, Lantana, Salvia, Rosemary, Sage, Yucca, Texas Sage, Agave, and Ornamental grasses like Muhly grass. For vegetables, okra, cowpeas, peppers, and sweet potatoes are relatively drought-tolerant once established.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>How do I protect my garden from East Texas summer heat?</span>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <p>To protect your garden from the intense East Texas summer heat: 1) Apply 2-3 inches of mulch to retain moisture and keep soil cooler, 2) Install shade cloth (30-50%) over sensitive plants during the hottest part of the day, 3) Water deeply in the early morning rather than frequent shallow watering, 4) Use drip irrigation to deliver water directly to plant roots, 5) Plant heat-tolerant varieties appropriate for our region, and 6) Consider creating microclimates by planting taller plants to shade more sensitive ones.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="contribute-section">
+                <h3 class="contribute-title">Share Your Knowledge</h3>
+                <p class="contribute-description">Have gardening tips, tricks, or experiences specific to East Texas? Share them with our community to help fellow gardeners succeed.</p>
+                <button class="btn primary-btn">Contribute to Knowledge Base</button>
+            </section>
+        </main>
+
+        <aside class="sidebar">
+            <section class="weather-widget">
+                <div class="weather-header">
+                    <div class="weather-location">East Texas</div>
+                    <div class="weather-date">March 6, 2025</div>
+                </div>
+                
+                <div class="current-weather">
+                    <div class="weather-icon">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <div class="weather-info">
+                        <div class="current-temperature">78°F</div>
+                        <div class="current-condition">Partly Cloudy</div>
+                    </div>
+                </div>
+                
+                <div class="weather-details">
+                    <div class="weather-detail">
+                        <div class="detail-label">Humidity</div>
+                        <div class="detail-value humidity-value">65%</div>
+                    </div>
+                    <div class="weather-detail">
+                        <div class="detail-label">Wind</div>
+                        <div class="detail-value wind-value">8 mph</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section>
+                <h3>Popular Articles</h3>
+                <ul class="article-list-small">
+                    <li class="article-item-small">
+                        <a href="#">
+                            <div class="article-item-title">Top 10 Vegetables for East Texas Gardens</div>
+                            <div class="article-item-meta">
+                                <span><i class="far fa-eye"></i> 1,245 views</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="article-item-small">
+                        <a href="#">
+                            <div class="article-item-title">Managing Fire Ants in Your Garden</div>
+                            <div class="article-item-meta">
+                                <span><i class="far fa-eye"></i> 982 views</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="article-item-small">
+                        <a href="#">
+                            <div class="article-item-title">Composting Basics for Beginners</div>
+                            <div class="article-item-meta">
+                                <span><i class="far fa-eye"></i> 876 views</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="article-item-small">
+                        <a href="#">
+                            <div class="article-item-title">Native Plants for East Texas Gardens</div>
+                            <div class="article-item-meta">
+                                <span><i class="far fa-eye"></i> 754 views</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+            
+            <section>
+                <h3>Upcoming Workshops</h3>
+                <ul class="event-list-small">
+                    <li class="event-item-small">
+                        <div class="event-date">
+                            <span class="month">Mar</span>
+                            <span class="day">15</span>
+                        </div>
+                        <div class="event-details">
+                            <div class="event-title-small">Spring Planting Workshop</div>
+                            <div class="event-time">12:00 PM - 1:30 PM</div>
+                            <div class="event-location">Garden Shed</div>
+                        </div>
+                    </li>
+                    <li class="event-item-small">
+                        <div class="event-date">
+                            <span class="month">Mar</span>
+                            <span class="day">22</span>
+                        </div>
+                        <div class="event-details">
+                            <div class="event-title-small">Composting 101</div>
+                            <div class="event-time">10:00 AM - 11:30 AM</div>
+                            <div class="event-location">Compost Area</div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="text-center mt-md">
+                    <a href="community.html#events" class="btn small-btn secondary-btn">View All Events</a>
+                </div>
+            </section>
+        </aside>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>About Our Garden</h3>
+                <p>The TechServ Community Garden is a collaborative space for employees to grow fresh produce, learn gardening skills, and build community on our East Texas corporate campus.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="garden-planning.html">Garden Planning</a></li>
+                    <li><a href="tasks.html">Tasks</a></li>
+                    <li><a href="garden-map.html">Garden Map</a></li>
+                    <li><a href="profile.html">My Profile</a></li>
+                    <li><a href="knowledge.html">Knowledge Base</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-envelope"></i> garden@techserv.com</li>
+                    <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                    <li><i class="fas fa-map-marker-alt"></i> TechServ Campus, East Texas</li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Garden Stats</h3>
+                <div class="garden-stats">
+                    <div class="stat">
+                        <span class="stat-number">42</span>
+                        <span class="stat-label">Plant Varieties</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">87</span>
+                        <span class="stat-label">Gardeners</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">156</span>
+                        <span class="stat-label">Pounds Harvested</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom container">
+            <p>&copy; 2025 TechServ Community Garden. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // Knowledge Base page specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Seasonal Guides Tabs
+            const guideTabs = document.querySelectorAll('.guide-tab');
+            
+            guideTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    guideTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // In a real implementation, this would load the specific season guide
+                    // For demo purposes, we'll just show a message
+                    const season = this.dataset.season;
+                    console.log(`Loading ${season} guide...`);
+                    
+                    // You would typically update the guide content here
+                    // For demo, we'll keep showing the spring guide
+                });
+            });
+            
+            // FAQ Accordion
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                
+                header.addEventListener('click', function() {
+                    // Toggle active class on clicked item
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Tip Actions
+            const tipActions = document.querySelectorAll('.tip-action');
+            
+            tipActions.forEach(action => {
+                action.addEventListener('click', function() {
+                    // In a real implementation, this would send an API request
+                    // For demo, we'll just toggle the color
+                    this.classList.toggle('active');
+                    
+                    // If it's a like button, update the count
+                    if (this.querySelector('.fa-thumbs-up')) {
+                        const countSpan = this.querySelector('span');
+                        let count = parseInt(countSpan.textContent);
+                        
+                        if (this.classList.contains('active')) {
+                            countSpan.textContent = count + 1;
+                        } else {
+                            countSpan.textContent = count - 1;
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
