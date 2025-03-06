@@ -6,6 +6,7 @@
     <title>Tasks & Volunteering - TechServ Community Garden</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/tasks.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -69,7 +70,7 @@
                             <span class="column-count">5</span>
                         </div>
                         
-                        <div class="task-card">
+                        <div class="task-card" id="task-1">
                             <div class="task-card-header">
                                 <h4 class="task-card-title">Water Section A plants</h4>
                                 <span class="task-card-priority priority-high"></span>
@@ -81,7 +82,7 @@
                             </div>
                         </div>
                         
-                        <div class="task-card">
+                        <div class="task-card" id="task-2">
                             <div class="task-card-header">
                                 <h4 class="task-card-title">Apply compost to tomato beds</h4>
                                 <span class="task-card-priority priority-medium"></span>
@@ -101,7 +102,7 @@
                             <span class="column-count">3</span>
                         </div>
                         
-                        <div class="task-card">
+                        <div class="task-card" id="task-3">
                             <div class="task-card-header">
                                 <h4 class="task-card-title">Plant tomato seedlings</h4>
                                 <span class="task-card-priority priority-high"></span>
@@ -121,7 +122,7 @@
                             <span class="column-count">4</span>
                         </div>
                         
-                        <div class="task-card">
+                        <div class="task-card" id="task-4">
                             <div class="task-card-header">
                                 <h4 class="task-card-title">Harvest winter vegetables</h4>
                                 <span class="task-card-priority priority-high"></span>
@@ -415,24 +416,6 @@
     </footer>
 
     <script src="../js/main.js"></script>
-    <script>
-        // Tasks page specific JavaScript
-        document.addEventListener('DOMContentLoaded', function() {
-            // Task checkbox functionality
-            const taskCheckboxes = document.querySelectorAll('.task-checkbox');
-            
-            taskCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const taskItem = this.closest('.task-item');
-                    
-                    if (this.checked) {
-                        taskItem.classList.add('completed');
-                    } else {
-                        taskItem.classList.remove('completed');
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="../js/tasks.js"></script>
 </body>
 </html>

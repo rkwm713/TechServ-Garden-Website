@@ -1,0 +1,471 @@
+/**
+ * TechServ Community Garden Website
+ * Tasks Page CSS
+ * Styles for task management, volunteer sign-ups, and department progress tracking
+ */
+
+/* Task Board */
+.task-board-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.section-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.task-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+}
+
+.task-column {
+    background-color: var(--neutral-light);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    min-height: 300px;
+    transition: background-color var(--transition-fast);
+}
+
+.task-column.drag-over {
+    background-color: var(--primary-light);
+}
+
+.column-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 2px solid var(--white);
+}
+
+.column-title {
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.column-count {
+    background-color: var(--white);
+    color: var(--neutral-dark);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+}
+
+.task-card {
+    background-color: var(--white);
+    border-radius: var(--border-radius-sm);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    box-shadow: var(--shadow-sm);
+    cursor: grab;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    position: relative;
+}
+
+.task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.task-card.dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+}
+
+.task-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-xs);
+}
+
+.task-card-title {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    margin-bottom: 0;
+    flex: 1;
+}
+
+.task-card-priority {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-left: var(--spacing-xs);
+    flex-shrink: 0;
+}
+
+.task-card-details {
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-sm);
+    color: var(--neutral-medium);
+}
+
+.task-card-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--font-size-xs);
+    color: var(--neutral-medium);
+}
+
+.task-card.completed {
+    opacity: 0.8;
+}
+
+.task-card.completed .task-card-title {
+    text-decoration: line-through;
+}
+
+/* Task Card Actions */
+.task-card-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.task-card:hover .task-card-actions {
+    opacity: 1;
+}
+
+.task-action-btn {
+    background: none;
+    border: none;
+    color: var(--neutral-medium);
+    cursor: pointer;
+    padding: 2px;
+    transition: color var(--transition-fast);
+}
+
+.edit-btn:hover {
+    color: var(--primary-color);
+}
+
+.delete-btn:hover {
+    color: var(--error-color);
+}
+
+/* Task Details Modal */
+.task-details-priority {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-sm);
+}
+
+.task-details-description {
+    background-color: var(--neutral-light);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.task-details-meta {
+    display: flex;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+}
+
+.task-details-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    color: var(--neutral-medium);
+}
+
+/* Priority Options */
+.priority-options {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xs);
+}
+
+.priority-option {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    cursor: pointer;
+}
+
+.priority-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Volunteer Section */
+.volunteer-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.volunteer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.volunteer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+}
+
+.volunteer-card {
+    background-color: var(--white);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.volunteer-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.volunteer-header-bg {
+    background-color: var(--primary-light);
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.volunteer-icon {
+    width: 60px;
+    height: 60px;
+    background-color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    font-size: var(--font-size-xl);
+}
+
+.volunteer-body {
+    padding: var(--spacing-md);
+}
+
+.volunteer-role {
+    font-size: var(--font-size-md);
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+}
+
+.volunteer-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    color: var(--neutral-medium);
+}
+
+.volunteer-spots {
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+}
+
+.spots-available {
+    color: var(--success-color);
+}
+
+.spots-limited {
+    color: var(--warning-color);
+}
+
+.spots-filled {
+    color: var(--error-color);
+}
+
+.volunteer-details-text {
+    background-color: var(--neutral-light);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-sm);
+}
+
+/* Department Section */
+.department-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.department-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.department-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+}
+
+.department-card {
+    background-color: var(--white);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    cursor: pointer;
+}
+
+.department-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.department-card.active {
+    border: 2px solid var(--primary-color);
+}
+
+.department-name {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+}
+
+.department-icon {
+    color: var(--primary-color);
+}
+
+.department-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-md);
+}
+
+.department-stat {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+.stat-label {
+    font-size: var(--font-size-xs);
+    color: var(--neutral-medium);
+}
+
+.department-progress {
+    margin-top: var(--spacing-md);
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+/* Date Range Inputs */
+.date-range-inputs {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.date-range-inputs span {
+    color: var(--neutral-medium);
+}
+
+/* Responsive Styles */
+@media (max-width: 991px) {
+    .task-board {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .volunteer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .task-board {
+        grid-template-columns: 1fr;
+    }
+    
+    .volunteer-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .department-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .section-header,
+    .volunteer-header,
+    .department-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+    }
+    
+    .section-actions {
+        width: 100%;
+    }
+    
+    .section-actions .btn {
+        flex: 1;
+    }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .task-column {
+        background-color: #333;
+    }
+    
+    .task-card {
+        background-color: #1E1E1E;
+    }
+    
+    .column-count {
+        background-color: #444;
+        color: var(--neutral-light);
+    }
+    
+    .volunteer-card,
+    .department-card {
+        background-color: #1E1E1E;
+    }
+    
+    .volunteer-header-bg {
+        background-color: var(--primary-dark);
+    }
+    
+    .volunteer-icon {
+        background-color: #333;
+    }
+    
+    .task-details-description,
+    .volunteer-details-text {
+        background-color: #333;
+    }
+}
