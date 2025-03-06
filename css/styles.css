@@ -5,26 +5,26 @@
 
 /* CSS Variables */
 :root {
-    /* Colors */
-    --primary-color: #4CAF50;
-    --primary-light: #E8F5E9;
-    --primary-dark: #2E7D32;
+    /* Colors - TechServ Branding */
+    --primary-color: #04458D; /* TechServ Blue */
+    --primary-light: #D9E8F7; /* Sky Blue */
+    --primary-dark: #0A3251; /* Storm Blue */
     
-    --accent-color: #FF9800;
-    --accent-light: #FFF3E0;
-    --accent-dark: #E65100;
+    --accent-color: #FFFF00; /* Safety Yellow */
+    --accent-light: #FFFFCC; /* Lighter Safety Yellow */
+    --accent-dark: #CCCC00; /* Darker Safety Yellow */
     
-    --neutral-light: #F5F5F5;
-    --neutral-medium: #9E9E9E;
-    --neutral-dark: #424242;
+    --neutral-light: #E6E7E8; /* Conduit Gray */
+    --neutral-medium: #4E525B; /* TechServ Gray */
+    --neutral-dark: #282A30; /* TechServ Black */
     
     --white: #FFFFFF;
-    --black: #212121;
+    --black: #282A30; /* TechServ Black */
     
-    --success-color: #4CAF50;
-    --warning-color: #FFC107;
-    --error-color: #F44336;
-    --info-color: #2196F3;
+    --success-color: #04458D; /* TechServ Blue */
+    --warning-color: #FFFF00; /* Safety Yellow */
+    --error-color: #FF3B30; /* Standard Red */
+    --info-color: #0A3251; /* Storm Blue */
     
     /* Spacing */
     --spacing-xs: 0.25rem;
@@ -75,8 +75,11 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Import Saira and Neuton fonts */
+@import url('https://fonts.googleapis.com/css2?family=Saira:wght@700&family=Neuton:wght@400;700&display=swap');
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Neuton', serif;
     line-height: var(--line-height-normal);
     color: var(--neutral-dark);
     background-color: var(--neutral-light);
@@ -86,10 +89,13 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
+    font-family: 'Saira', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em; /* 50pt tracking */
     line-height: var(--line-height-tight);
     margin-bottom: var(--spacing-md);
-    color: var(--neutral-dark);
+    color: var(--primary-color);
 }
 
 h1 {

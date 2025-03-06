@@ -526,25 +526,25 @@
 /* Dark Mode */
 @media (prefers-color-scheme: dark) {
     :root {
-        --primary-color: #66BB6A;
-        --primary-light: #1B5E20;
-        --primary-dark: #A5D6A7;
+        --primary-color: #0A6DD5; /* Lighter TechServ Blue for dark mode */
+        --primary-light: #0A3251; /* Storm Blue */
+        --primary-dark: #D9E8F7; /* Sky Blue */
         
-        --accent-color: #FFA726;
-        --accent-light: #E65100;
-        --accent-dark: #FFCC80;
+        --accent-color: #FFFF33; /* Brighter Safety Yellow for dark mode */
+        --accent-light: #0A3251; /* Storm Blue */
+        --accent-dark: #FFFFCC; /* Lighter Safety Yellow */
         
-        --neutral-light: #424242;
-        --neutral-medium: #9E9E9E;
-        --neutral-dark: #E0E0E0;
+        --neutral-light: #4E525B; /* TechServ Gray */
+        --neutral-medium: #9E9E9E; /* Standard Medium Gray */
+        --neutral-dark: #E6E7E8; /* Conduit Gray */
         
-        --white: #212121;
-        --black: #F5F5F5;
+        --white: #282A30; /* TechServ Black */
+        --black: #F5F5F5; /* Off-White */
         
-        --success-color: #66BB6A;
-        --warning-color: #FFA726;
-        --error-color: #EF5350;
-        --info-color: #42A5F5;
+        --success-color: #0A6DD5; /* Lighter TechServ Blue */
+        --warning-color: #FFFF33; /* Brighter Safety Yellow */
+        --error-color: #FF3B30; /* Standard Red */
+        --info-color: #0A6DD5; /* Lighter TechServ Blue */
     }
     
     body {

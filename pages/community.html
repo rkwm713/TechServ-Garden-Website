@@ -10,57 +10,223 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Additional CSS for Community page -->
     <style>
-        /* Community specific styles */
+        /* Community Page Styles */
         .community-header {
             background-color: var(--white);
             border-radius: var(--border-radius-md);
             padding: var(--spacing-lg);
             margin-bottom: var(--spacing-xl);
             box-shadow: var(--shadow-sm);
+            text-align: center;
         }
         
-        .community-tabs {
+        .community-stats {
             display: flex;
-            border-bottom: 1px solid var(--neutral-light);
+            justify-content: center;
+            gap: var(--spacing-xl);
             margin-top: var(--spacing-md);
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
         }
         
-        .community-tab {
-            padding: var(--spacing-sm) var(--spacing-lg);
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            font-weight: 500;
-            white-space: nowrap;
+        .community-stat {
+            text-align: center;
         }
         
-        .community-tab.active {
-            border-bottom-color: var(--primary-color);
-            color: var(--primary-color);
+        .stat-number {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: var(--spacing-xs);
         }
         
+        .stat-label {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
+        }
+        
+        /* Events Section */
         .events-section {
-            background-color: var(--white);
-            border-radius: var(--border-radius-md);
-            padding: var(--spacing-lg);
             margin-bottom: var(--spacing-xl);
-            box-shadow: var(--shadow-sm);
         }
         
-        .events-header {
+        .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: var(--spacing-md);
         }
         
-        .events-title {
+        .section-title {
             margin-bottom: 0;
         }
         
-        .events-calendar {
-            margin-bottom: var(--spacing-lg);
+        .events-filter {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .filter-button {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            background-color: var(--neutral-light);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            transition: background-color var(--transition-fast), color var(--transition-fast);
+        }
+        
+        .filter-button.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-lg);
+        }
+        
+        .event-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .event-image {
+            height: 180px;
+            background-color: var(--neutral-light);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .event-category {
+            position: absolute;
+            top: var(--spacing-sm);
+            left: var(--spacing-sm);
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 4px var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+        }
+        
+        .event-date-badge {
+            position: absolute;
+            top: var(--spacing-sm);
+            right: var(--spacing-sm);
+            width: 50px;
+            height: 60px;
+            background-color: var(--white);
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .event-month {
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            color: var(--primary-color);
+            text-transform: uppercase;
+        }
+        
+        .event-day {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            color: var(--neutral-dark);
+        }
+        
+        .event-content {
+            padding: var(--spacing-md);
+        }
+        
+        .event-title {
+            font-size: var(--font-size-md);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .event-details {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .event-detail {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .event-detail-icon {
+            color: var(--primary-color);
+            width: 16px;
+            text-align: center;
+        }
+        
+        .event-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .event-attendees {
+            display: flex;
+            align-items: center;
+        }
+        
+        .attendee-avatars {
+            display: flex;
+            margin-right: var(--spacing-xs);
+        }
+        
+        .attendee-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+            border: 2px solid var(--white);
+            margin-left: -8px;
+        }
+        
+        .attendee-avatar:first-child {
+            margin-left: 0;
+        }
+        
+        .attendee-count {
+            font-size: var(--font-size-xs);
+            color: var(--neutral-medium);
+        }
+        
+        /* Calendar View */
+        .calendar-view {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
         }
         
         .calendar-header {
@@ -71,305 +237,95 @@
         }
         
         .calendar-title {
-            font-size: 1.2rem;
+            font-size: var(--font-size-lg);
             font-weight: 600;
         }
         
-        .calendar-nav {
+        .calendar-navigation {
             display: flex;
             gap: var(--spacing-sm);
-        }
-        
-        .calendar-nav button {
-            background: none;
-            border: none;
-            color: var(--primary-color);
-            cursor: pointer;
-            font-size: 1.2rem;
         }
         
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 1px;
-            background-color: var(--neutral-light);
-            border: 1px solid var(--neutral-light);
-            border-radius: var(--border-radius-sm);
-            overflow: hidden;
+            gap: var(--spacing-xs);
         }
         
         .calendar-day-header {
-            background-color: var(--primary-light);
-            color: var(--primary-dark);
-            padding: var(--spacing-xs);
             text-align: center;
             font-weight: 600;
-            font-size: 0.875rem;
+            padding: var(--spacing-xs);
+            color: var(--neutral-dark);
         }
         
         .calendar-day {
-            background-color: var(--white);
             min-height: 100px;
+            border: 1px solid var(--neutral-light);
+            border-radius: var(--border-radius-xs);
             padding: var(--spacing-xs);
             position: relative;
         }
         
         .calendar-day.other-month {
             background-color: var(--neutral-light);
-            color: var(--neutral-medium);
+            opacity: 0.5;
         }
         
         .calendar-day.today {
-            background-color: #E8F5E9;
+            background-color: var(--primary-light);
+            border-color: var(--primary-color);
         }
         
         .day-number {
-            font-size: 0.875rem;
+            font-size: var(--font-size-sm);
             font-weight: 600;
             margin-bottom: var(--spacing-xs);
         }
         
+        .day-events {
+            font-size: var(--font-size-xs);
+        }
+        
         .day-event {
-            background-color: var(--primary-light);
-            color: var(--primary-dark);
-            border-radius: var(--border-radius-sm);
-            padding: 2px 4px;
-            font-size: 0.75rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 2px var(--spacing-xs);
+            border-radius: var(--border-radius-xs);
             margin-bottom: 2px;
+            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
             cursor: pointer;
         }
         
         .day-event.workshop {
-            background-color: #E1F5FE;
-            color: #0277BD;
-        }
-        
-        .day-event.workday {
-            background-color: #FFF3E0;
-            color: #E65100;
-        }
-        
-        .day-event.social {
-            background-color: #F3E5F5;
-            color: #7B1FA2;
-        }
-        
-        .upcoming-events {
-            margin-top: var(--spacing-lg);
-        }
-        
-        .event-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: var(--spacing-lg);
-        }
-        
-        .event-card {
-            background-color: var(--neutral-light);
-            border-radius: var(--border-radius-sm);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .event-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .event-image {
-            height: 160px;
-            background-color: var(--primary-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-dark);
-            font-size: 3rem;
-        }
-        
-        .event-content {
-            padding: var(--spacing-md);
-        }
-        
-        .event-title {
-            font-size: 1.2rem;
-            margin-bottom: var(--spacing-xs);
-        }
-        
-        .event-meta {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-xs);
-            margin-bottom: var(--spacing-sm);
-            color: var(--neutral-medium);
-            font-size: 0.875rem;
-        }
-        
-        .event-meta span {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-        }
-        
-        .event-description {
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .event-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .event-attendance {
-            font-size: 0.875rem;
-            color: var(--neutral-medium);
-        }
-        
-        .workshops-section {
-            background-color: var(--white);
-            border-radius: var(--border-radius-md);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .workshops-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .workshops-title {
-            margin-bottom: 0;
-        }
-        
-        .workshop-filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .filter-button {
-            background-color: var(--neutral-light);
-            border: none;
-            border-radius: var(--border-radius-sm);
-            padding: var(--spacing-xs) var(--spacing-md);
-            color: var(--neutral-dark);
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .filter-button.active {
             background-color: var(--primary-color);
-            color: var(--white);
         }
         
-        .filter-button:hover:not(.active) {
-            background-color: var(--primary-light);
+        .day-event.volunteer {
+            background-color: var(--success-color);
         }
         
-        .workshop-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: var(--spacing-lg);
+        .day-event.meeting {
+            background-color: var(--info-color);
         }
         
-        .workshop-card {
-            background-color: var(--neutral-light);
-            border-radius: var(--border-radius-sm);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .workshop-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .workshop-image {
-            height: 160px;
-            background-color: #E1F5FE;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #0277BD;
-            font-size: 3rem;
-        }
-        
-        .workshop-content {
-            padding: var(--spacing-md);
-        }
-        
-        .workshop-title {
-            font-size: 1.2rem;
-            margin-bottom: var(--spacing-xs);
-        }
-        
-        .workshop-meta {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-xs);
-            margin-bottom: var(--spacing-sm);
-            color: var(--neutral-medium);
-            font-size: 0.875rem;
-        }
-        
-        .workshop-meta span {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-        }
-        
-        .workshop-description {
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .workshop-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .workshop-spots {
-            font-size: 0.875rem;
-            color: var(--neutral-medium);
-        }
-        
-        .photo-gallery {
-            background-color: var(--white);
-            border-radius: var(--border-radius-md);
-            padding: var(--spacing-lg);
+        /* Photo Gallery */
+        .gallery-section {
             margin-bottom: var(--spacing-xl);
-            box-shadow: var(--shadow-sm);
         }
         
-        .gallery-header {
+        .gallery-filter {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            gap: var(--spacing-sm);
             margin-bottom: var(--spacing-md);
-        }
-        
-        .gallery-title {
-            margin-bottom: 0;
-        }
-        
-        .gallery-filters {
-            display: flex;
             flex-wrap: wrap;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-md);
         }
         
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: var(--spacing-md);
         }
         
@@ -377,124 +333,142 @@
             position: relative;
             border-radius: var(--border-radius-sm);
             overflow: hidden;
-            aspect-ratio: 1;
+            aspect-ratio: 1 / 1;
             cursor: pointer;
         }
         
         .gallery-image {
             width: 100%;
             height: 100%;
-            background-color: var(--primary-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-dark);
-            font-size: 2rem;
-            transition: transform 0.3s ease;
+            object-fit: cover;
+            transition: transform var(--transition-fast);
         }
         
         .gallery-item:hover .gallery-image {
             transform: scale(1.05);
         }
         
-        .gallery-caption {
+        .gallery-overlay {
             position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
             right: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: var(--white);
-            padding: var(--spacing-xs) var(--spacing-sm);
-            font-size: 0.875rem;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--spacing-sm);
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity var(--transition-fast);
         }
         
-        .gallery-item:hover .gallery-caption {
+        .gallery-item:hover .gallery-overlay {
             opacity: 1;
         }
         
-        .forum-section {
-            background-color: var(--white);
-            border-radius: var(--border-radius-md);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .forum-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .forum-title {
-            margin-bottom: 0;
-        }
-        
-        .forum-search {
-            display: flex;
-            gap: var(--spacing-xs);
-            width: 300px;
-        }
-        
-        .forum-search input {
-            flex-grow: 1;
-            padding: var(--spacing-xs) var(--spacing-sm);
-            border: 1px solid var(--neutral-medium);
-            border-radius: var(--border-radius-sm);
-        }
-        
-        .forum-categories {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-lg);
-        }
-        
-        .forum-category {
-            background-color: var(--neutral-light);
-            border-radius: var(--border-radius-sm);
-            padding: var(--spacing-md);
-            flex: 1;
-            min-width: 200px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .forum-category:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .category-icon {
-            font-size: 2rem;
-            color: var(--primary-color);
-            margin-bottom: var(--spacing-sm);
-        }
-        
-        .category-name {
+        .gallery-title {
+            color: var(--white);
             font-weight: 600;
             margin-bottom: var(--spacing-xs);
         }
         
-        .category-stats {
+        .gallery-meta {
             display: flex;
             justify-content: space-between;
-            font-size: 0.875rem;
+            color: var(--white);
+            font-size: var(--font-size-xs);
+        }
+        
+        /* Discussion Forums */
+        .forums-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .forum-categories {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .forum-category {
+            border-bottom: 1px solid var(--neutral-light);
+        }
+        
+        .forum-category:last-child {
+            border-bottom: none;
+        }
+        
+        .category-header {
+            padding: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            cursor: pointer;
+            transition: background-color var(--transition-fast);
+        }
+        
+        .category-header:hover {
+            background-color: var(--neutral-light);
+        }
+        
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .category-info {
+            flex: 1;
+        }
+        
+        .category-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .category-description {
+            font-size: var(--font-size-sm);
             color: var(--neutral-medium);
         }
         
+        .category-stats {
+            display: flex;
+            gap: var(--spacing-md);
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
+        }
+        
+        .category-stat {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .category-stat-icon {
+            color: var(--primary-color);
+        }
+        
         .recent-discussions {
-            margin-top: var(--spacing-lg);
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
         }
         
         .discussion-item {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-light);
             display: flex;
             gap: var(--spacing-md);
-            padding: var(--spacing-md) 0;
-            border-bottom: 1px solid var(--neutral-light);
         }
         
         .discussion-item:last-child {
@@ -502,20 +476,20 @@
         }
         
         .discussion-avatar {
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             background-color: var(--primary-light);
+            color: var(--primary-dark);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--primary-dark);
+            font-size: var(--font-size-md);
             font-weight: 600;
-            flex-shrink: 0;
         }
         
         .discussion-content {
-            flex-grow: 1;
+            flex: 1;
         }
         
         .discussion-header {
@@ -526,149 +500,204 @@
         
         .discussion-title {
             font-weight: 600;
-            color: var(--neutral-dark);
         }
         
         .discussion-category {
-            font-size: 0.75rem;
+            font-size: var(--font-size-xs);
             background-color: var(--primary-light);
             color: var(--primary-dark);
-            padding: 2px 8px;
-            border-radius: 12px;
+            padding: 2px var(--spacing-xs);
+            border-radius: var(--border-radius-xs);
+        }
+        
+        .discussion-excerpt {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
+            margin-bottom: var(--spacing-xs);
         }
         
         .discussion-meta {
             display: flex;
-            gap: var(--spacing-md);
+            justify-content: space-between;
+            font-size: var(--font-size-xs);
             color: var(--neutral-medium);
-            font-size: 0.875rem;
-            margin-bottom: var(--spacing-xs);
         }
         
-        .discussion-preview {
-            color: var(--neutral-dark);
-            margin-bottom: var(--spacing-xs);
-        }
-        
-        .discussion-stats {
-            display: flex;
-            gap: var(--spacing-md);
-            color: var(--neutral-medium);
-            font-size: 0.875rem;
-        }
-        
-        .discussion-stats span {
+        .discussion-author {
             display: flex;
             align-items: center;
             gap: var(--spacing-xs);
         }
         
+        .discussion-stats {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .discussion-stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        /* Volunteer Opportunities */
         .volunteer-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .volunteer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-lg);
+        }
+        
+        .volunteer-card {
             background-color: var(--white);
             border-radius: var(--border-radius-md);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
+            overflow: hidden;
             box-shadow: var(--shadow-sm);
         }
         
-        .volunteer-header {
-            margin-bottom: var(--spacing-md);
+        .volunteer-header-bg {
+            height: 80px;
+            background-color: var(--primary-color);
+            position: relative;
         }
         
-        .volunteer-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-lg);
-        }
-        
-        .stat-card {
-            background-color: var(--neutral-light);
-            border-radius: var(--border-radius-sm);
-            padding: var(--spacing-md);
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-            margin-bottom: var(--spacing-xs);
-        }
-        
-        .stat-label {
-            color: var(--neutral-dark);
-            font-weight: 500;
-        }
-        
-        .volunteer-opportunities {
-            margin-top: var(--spacing-lg);
-        }
-        
-        .opportunity-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: var(--spacing-md);
-        }
-        
-        .opportunity-card {
-            background-color: var(--neutral-light);
-            border-radius: var(--border-radius-sm);
-            padding: var(--spacing-md);
-            text-align: center;
-        }
-        
-        .opportunity-icon {
-            font-size: 2rem;
+        .volunteer-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
             color: var(--primary-color);
+            position: absolute;
+            bottom: -30px;
+            left: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .volunteer-body {
+            padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
+        }
+        
+        .volunteer-role {
+            font-size: var(--font-size-md);
             margin-bottom: var(--spacing-sm);
         }
         
-        .opportunity-title {
-            font-weight: 600;
-            margin-bottom: var(--spacing-xs);
-        }
-        
-        .opportunity-details {
-            font-size: 0.875rem;
-            color: var(--neutral-medium);
+        .volunteer-details {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
             margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
         }
         
+        .volunteer-details span {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .volunteer-details i {
+            color: var(--primary-color);
+            width: 16px;
+            text-align: center;
+        }
+        
+        .volunteer-spots {
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-sm);
+        }
+        
+        .spots-available {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+        
+        .spots-limited {
+            color: var(--warning-color);
+            font-weight: 600;
+        }
+        
+        .spots-filled {
+            color: var(--error-color);
+            font-weight: 600;
+        }
+        
+        /* Responsive adjustments for community page */
         @media (max-width: 991px) {
-            .volunteer-stats {
+            .events-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
             
-            .calendar-grid {
-                font-size: 0.875rem;
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
             
-            .calendar-day {
-                min-height: 80px;
+            .volunteer-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
         
         @media (max-width: 767px) {
-            .events-header,
-            .workshops-header,
-            .gallery-header,
-            .forum-header {
+            .community-stats {
                 flex-direction: column;
-                gap: var(--spacing-sm);
-                align-items: flex-start;
+                gap: var(--spacing-md);
             }
             
-            .forum-search {
-                width: 100%;
+            .events-grid {
+                grid-template-columns: 1fr;
             }
             
             .calendar-grid {
                 display: none;
             }
             
-            .volunteer-stats {
+            .calendar-list {
+                display: block;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .volunteer-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .category-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .category-stats {
+                justify-content: center;
+            }
+            
+            .discussion-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .discussion-header {
+                flex-direction: column;
+                gap: var(--spacing-xs);
+            }
+            
+            .discussion-meta {
+                flex-direction: column;
+                gap: var(--spacing-xs);
+            }
+            
+            .discussion-author, .discussion-stats {
+                justify-content: center;
             }
         }
     </style>
@@ -711,767 +740,816 @@
 
     <div class="container main-container">
         <main class="main-content">
-            <section class="community-header">
+            <section class="page-header">
                 <h2>Community & Events</h2>
-                <p>Connect with fellow gardeners, participate in workshops, share photos, and join discussions about gardening at TechServ.</p>
+                <p>Connect with fellow gardeners, join events, and share your garden experiences.</p>
+            </section>
+            
+            <section class="community-header">
+                <h3>Join Our Growing Community</h3>
+                <p>The TechServ Community Garden brings together employees from all departments to share knowledge, skills, and the joy of gardening.</p>
                 
-                <div class="community-tabs">
-                    <div class="community-tab active">Events Calendar</div>
-                    <div class="community-tab">Workshops</div>
-                    <div class="community-tab">Photo Gallery</div>
-                    <div class="community-tab">Discussion Forum</div>
-                    <div class="community-tab">Volunteer Opportunities</div>
+                <div class="community-stats">
+                    <div class="community-stat">
+                        <div class="stat-number">87</div>
+                        <div class="stat-label">Active Gardeners</div>
+                    </div>
+                    <div class="community-stat">
+                        <div class="stat-number">24</div>
+                        <div class="stat-label">Upcoming Events</div>
+                    </div>
+                    <div class="community-stat">
+                        <div class="stat-number">156</div>
+                        <div class="stat-label">Forum Posts</div>
+                    </div>
+                    <div class="community-stat">
+                        <div class="stat-number">42</div>
+                        <div class="stat-label">Photo Galleries</div>
+                    </div>
                 </div>
             </section>
             
             <section class="events-section" id="events">
-                <div class="events-header">
-                    <h3 class="events-title">Events Calendar</h3>
-                    <button class="btn primary-btn">Add New Event</button>
+                <div class="section-header">
+                    <h3 class="section-title">Upcoming Events</h3>
+                    <a href="#" class="btn primary-btn"><i class="fas fa-plus"></i> Create Event</a>
                 </div>
                 
-                <div class="events-calendar">
-                    <div class="calendar-header">
-                        <div class="calendar-title">March 2025</div>
-                        <div class="calendar-nav">
-                            <button><i class="fas fa-chevron-left"></i></button>
-                            <button><i class="fas fa-chevron-right"></i></button>
+                <div class="events-filter">
+                    <button class="filter-button active">All Events</button>
+                    <button class="filter-button">Workshops</button>
+                    <button class="filter-button">Volunteer Days</button>
+                    <button class="filter-button">Meetings</button>
+                    <button class="filter-button">Social</button>
+                </div>
+                
+                <div class="events-grid">
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="https://via.placeholder.com/400x250" alt="Spring Planting Workshop">
+                            <div class="event-category">Workshop</div>
+                            <div class="event-date-badge">
+                                <div class="event-month">Mar</div>
+                                <div class="event-day">15</div>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <h4 class="event-title">Spring Planting Workshop</h4>
+                            <div class="event-details">
+                                <div class="event-detail">
+                                    <i class="far fa-clock event-detail-icon"></i>
+                                    <span>12:00 PM - 1:30 PM</span>
+                                </div>
+                                <div class="event-detail">
+                                    <i class="fas fa-map-marker-alt event-detail-icon"></i>
+                                    <span>Garden Shed</span>
+                                </div>
+                                <div class="event-detail">
+                                    <i class="fas fa-user event-detail-icon"></i>
+                                    <span>Hosted by John Smith</span>
+                                </div>
+                            </div>
+                            <div class="event-actions">
+                                <div class="event-attendees">
+                                    <div class="attendee-avatars">
+                                        <div class="attendee-avatar">JS</div>
+                                        <div class="attendee-avatar">AL</div>
+                                        <div class="attendee-avatar">MT</div>
+                                    </div>
+                                    <div class="attendee-count">+12 attending</div>
+                                </div>
+                                <button class="btn primary-btn small-btn">RSVP</button>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="calendar-grid">
-                        <!-- Day headers -->
-                        <div class="calendar-day-header">Sun</div>
-                        <div class="calendar-day-header">Mon</div>
-                        <div class="calendar-day-header">Tue</div>
-                        <div class="calendar-day-header">Wed</div>
-                        <div class="calendar-day-header">Thu</div>
-                        <div class="calendar-day-header">Fri</div>
-                        <div class="calendar-day-header">Sat</div>
-                        
-                        <!-- Week 1 -->
-                        <div class="calendar-day other-month">
-                            <div class="day-number">23</div>
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="https://via.placeholder.com/400x250" alt="Composting 101">
+                            <div class="event-category">Workshop</div>
+                            <div class="event-date-badge">
+                                <div class="event-month">Mar</div>
+                                <div class="event-day">22</div>
+                            </div>
                         </div>
-                        <div class="calendar-day other-month">
-                            <div class="day-number">24</div>
+                        <div class="event-content">
+                            <h4 class="event-title">Composting 101</h4>
+                            <div class="event-details">
+                                <div class="event-detail">
+                                    <i class="far fa-clock event-detail-icon"></i>
+                                    <span>10:00 AM - 11:30 AM</span>
+                                </div>
+                                <div class="event-detail">
+                                    <i class="fas fa-map-marker-alt event-detail-icon"></i>
+                                    <span>Compost Area</span>
+                                </div>
+                                <div class="event-detail">
+                                    <i class="fas fa-user event-detail-icon"></i>
+                                    <span>Hosted by Mike Thompson</span>
+                                </div>
+                            </div>
+                            <div class="event-actions">
+                                <div class="event-attendees">
+                                    <div class="attendee-avatars">
+                                        <div class="attendee-avatar">MT</div>
+                                        <div class="attendee-avatar">JS</div>
+                                    </div>
+                                    <div class="attendee-count">+8 attending</div>
+                                </div>
+                                <button class="btn primary-btn small-btn">RSVP</button>
+                            </div>
                         </div>
-                        <div class="calendar-day other-month">
-                            <div class="day-number">25</div>
+                    </div>
+                    
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="https://via.placeholder.com/400x250" alt="Garden Cleanup Day">
+                            <div class="event-category">Volunteer</div>
+                            <div class="event-date-badge">
+                                <div class="event-month">Mar</div>
+                                <div class="event-day">25</div>
+                            </div>
                         </div>
-                        <div class="calendar-day other-month">
-                            <div class="day-number">26</div>
-                        </div>
-                        <div class="calendar-day other-month">
-                            <div class="day-number">27</div>
-                        </div>
-                        <div class="calendar-day other-month">
-                            <div class="day-number">28</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">1</div>
-                        </div>
-                        
-                        <!-- Week 2 -->
-                        <div class="calendar-day">
-                            <div class="day-number">2</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">3</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">4</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">5</div>
-                            <div class="day-event workday">Garden Maintenance</div>
-                        </div>
-                        <div class="calendar-day today">
-                            <div class="day-number">6</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">7</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">8</div>
-                            <div class="day-event social">Garden Social</div>
-                        </div>
-                        
-                        <!-- Week 3 -->
-                        <div class="calendar-day">
-                            <div class="day-number">9</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">10</div>
-                            <div class="day-event">Tomato Planting</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">11</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">12</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">13</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">14</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">15</div>
-                            <div class="day-event workshop">Spring Planting Workshop</div>
-                            <div class="day-event workday">Garden Maintenance</div>
-                        </div>
-                        
-                        <!-- Week 4 -->
-                        <div class="calendar-day">
-                            <div class="day-number">16</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">17</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">18</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">19</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">20</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">21</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">22</div>
-                            <div class="day-event workshop">Composting Workshop</div>
-                        </div>
-                        
-                        <!-- Week 5 -->
-                        <div class="calendar-day">
-                            <div class="day-number">23</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">24</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">25</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">26</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">27</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">28</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">29</div>
-                            <div class="day-event">Harvest Day</div>
-                        </div>
-                        
-                        <!-- Week 6 -->
-                        <div class="calendar-day">
-                            <div class="day-number">30</div>
-                        </div>
-                        <div class="calendar-day">
-                            <div class="day-number">31</div>
-                        </div>
-                        <div class="calendar-day other-month">
-                            <div class="day-number">1</div>
-                        </div>
-                        <div class="calendar-day other-month">
-                            <div class="day-number">2</div>
-                        </div>
-                        <div class="calendar-day other-month">
-                            <div class="day-number">3</div>
-                        </div>
-                        <div class="calendar-day other-month">
-                            <div class="day-number">4</div>
-                        </div>
-                        <div class="calendar-day other-month">
-                            <div class="day-number">5</div>
+                        <div class="event-content">
+                            <h4 class="event-title">Garden Cleanup Day</h4>
+                            <div class="event-details">
+                                <div class="event-detail">
+                                    <i class="far fa-clock event-detail-icon"></i>
+                                    <span>9:00 AM - 12:00 PM</span>
+                                </div>
+                                <div class="event-detail">
+                                    <i class="fas fa-map-marker-alt event-detail-icon"></i>
+                                    <span>All Garden Areas</span>
+                                </div>
+                                <div class="event-detail">
+                                    <i class="fas fa-user event-detail-icon"></i>
+                                    <span>Hosted by Garden Committee</span>
+                                </div>
+                            </div>
+                            <div class="event-actions">
+                                <div class="event-attendees">
+                                    <div class="attendee-avatars">
+                                        <div class="attendee-avatar">JS</div>
+                                        <div class="attendee-avatar">AL</div>
+                                        <div class="attendee-avatar">MT</div>
+                                    </div>
+                                    <div class="attendee-count">+15 attending</div>
+                                </div>
+                                <button class="btn primary-btn small-btn">RSVP</button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="upcoming-events">
-                    <h4>Upcoming Events</h4>
-                    <div class="event-list">
-                        <div class="event-card">
-                            <div class="event-image">
-                                <i class="fas fa-seedling"></i>
-                            </div>
-                            <div class="event-content">
-                                <h4 class="event-title">Tomato Planting Day</h4>
-                                <div class="event-meta">
-                                    <span><i class="far fa-calendar"></i> March 10, 2025</span>
-                                    <span><i class="far fa-clock"></i> 12:00 PM - 2:00 PM</span>
-                                    <span><i class="fas fa-map-marker-alt"></i> Section B</span>
-                                </div>
-                                <p class="event-description">Join us for our annual tomato planting day! We'll be planting several varieties of tomatoes in Section B. All experience levels welcome.</p>
-                                <div class="event-footer">
-                                    <div class="event-attendance">12 people attending</div>
-                                    <button class="btn small-btn primary-btn">RSVP</button>
-                                </div>
-                            </div>
+                <div class="text-center mt-lg">
+                    <button class="btn secondary-btn">Load More Events</button>
+                </div>
+            </section>
+            
+            <section class="calendar-view">
+                <div class="calendar-header">
+                    <div class="calendar-title">March 2025</div>
+                    <div class="calendar-navigation">
+                        <button class="btn small-btn secondary-btn"><i class="fas fa-chevron-left"></i></button>
+                        <button class="btn small-btn secondary-btn">Today</button>
+                        <button class="btn small-btn secondary-btn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                
+                <div class="calendar-grid">
+                    <!-- Day headers -->
+                    <div class="calendar-day-header">Sun</div>
+                    <div class="calendar-day-header">Mon</div>
+                    <div class="calendar-day-header">Tue</div>
+                    <div class="calendar-day-header">Wed</div>
+                    <div class="calendar-day-header">Thu</div>
+                    <div class="calendar-day-header">Fri</div>
+                    <div class="calendar-day-header">Sat</div>
+                    
+                    <!-- Week 1 -->
+                    <div class="calendar-day other-month">
+                        <div class="day-number">23</div>
+                    </div>
+                    <div class="calendar-day other-month">
+                        <div class="day-number">24</div>
+                    </div>
+                    <div class="calendar-day other-month">
+                        <div class="day-number">25</div>
+                    </div>
+                    <div class="calendar-day other-month">
+                        <div class="day-number">26</div>
+                    </div>
+                    <div class="calendar-day other-month">
+                        <div class="day-number">27</div>
+                    </div>
+                    <div class="calendar-day other-month">
+                        <div class="day-number">28</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">1</div>
+                    </div>
+                    
+                    <!-- Week 2 -->
+                    <div class="calendar-day">
+                        <div class="day-number">2</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">3</div>
+                        <div class="day-events">
+                            <div class="day-event meeting">Garden Committee</div>
                         </div>
-                        
-                        <div class="event-card">
-                            <div class="event-image">
-                                <i class="fas fa-chalkboard-teacher"></i>
-                            </div>
-                            <div class="event-content">
-                                <h4 class="event-title">Spring Planting Workshop</h4>
-                                <div class="event-meta">
-                                    <span><i class="far fa-calendar"></i> March 15, 2025</span>
-                                    <span><i class="far fa-clock"></i> 12:00 PM - 1:30 PM</span>
-                                    <span><i class="fas fa-map-marker-alt"></i> Garden Shed</span>
-                                </div>
-                                <p class="event-description">Learn the best practices for spring planting in East Texas. This workshop will cover soil preparation, plant selection, and care techniques.</p>
-                                <div class="event-footer">
-                                    <div class="event-attendance">8 people attending</div>
-                                    <button class="btn small-btn primary-btn">RSVP</button>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">4</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">5</div>
+                    </div>
+                    <div class="calendar-day today">
+                        <div class="day-number">6</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">7</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">8</div>
+                    </div>
+                    
+                    <!-- Week 3 -->
+                    <div class="calendar-day">
+                        <div class="day-number">9</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">10</div>
+                        <div class="day-events">
+                            <div class="day-event volunteer">Tomato Planting</div>
                         </div>
-                        
-                        <div class="event-card">
-                            <div class="event-image">
-                                <i class="fas fa-recycle"></i>
-                            </div>
-                            <div class="event-content">
-                                <h4 class="event-title">Composting Workshop</h4>
-                                <div class="event-meta">
-                                    <span><i class="far fa-calendar"></i> March 22, 2025</span>
-                                    <span><i class="far fa-clock"></i> 3:00 PM - 4:00 PM</span>
-                                    <span><i class="fas fa-map-marker-alt"></i> Compost Area</span>
-                                </div>
-                                <p class="event-description">Learn how to create and maintain a compost system for your garden. This workshop will cover what materials to use, how to layer them, and how to know when your compost is ready.</p>
-                                <div class="event-footer">
-                                    <div class="event-attendance">5 people attending</div>
-                                    <button class="btn small-btn primary-btn">RSVP</button>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">11</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">12</div>
+                        <div class="day-events">
+                            <div class="day-event volunteer">Irrigation Setup</div>
                         </div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">13</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">14</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">15</div>
+                        <div class="day-events">
+                            <div class="day-event workshop">Spring Planting</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Week 4 -->
+                    <div class="calendar-day">
+                        <div class="day-number">16</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">17</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">18</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">19</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">20</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">21</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">22</div>
+                        <div class="day-events">
+                            <div class="day-event workshop">Composting 101</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Week 5 -->
+                    <div class="calendar-day">
+                        <div class="day-number">23</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">24</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">25</div>
+                        <div class="day-events">
+                            <div class="day-event volunteer">Garden Cleanup</div>
+                        </div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">26</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">27</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">28</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">29</div>
+                    </div>
+                    
+                    <!-- Week 6 -->
+                    <div class="calendar-day">
+                        <div class="day-number">30</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="day-number">31</div>
+                    </div>
+                    <div class="calendar-day other-month">
+                        <div class="day-number">1</div>
+                    </div>
+                    <div class="calendar-day other-month">
+                        <div class="day-number">2</div>
+                    </div>
+                    <div class="calendar-day other-month">
+                        <div class="day-number">3</div>
+                    </div>
+                    <div class="calendar-day other-month">
+                        <div class="day-number">4</div>
+                    </div>
+                    <div class="calendar-day other-month">
+                        <div class="day-number">5</div>
                     </div>
                 </div>
             </section>
             
-            <section class="workshops-section" id="workshops">
-                <div class="workshops-header">
-                    <h3 class="workshops-title">Workshops</h3>
-                    <button class="btn primary-btn">Propose a Workshop</button>
+            <section class="gallery-section">
+                <div class="section-header">
+                    <h3 class="section-title">Photo Gallery</h3>
+                    <a href="#" class="btn primary-btn"><i class="fas fa-upload"></i> Upload Photos</a>
                 </div>
                 
-                <div class="workshop-filters">
-                    <button class="filter-button active">All Workshops</button>
-                    <button class="filter-button">Upcoming</button>
-                    <button class="filter-button">Beginner Friendly</button>
-                    <button class="filter-button">Advanced</button>
-                    <button class="filter-button">Recorded</button>
-                </div>
-                
-                <div class="workshop-list">
-                    <div class="workshop-card">
-                        <div class="workshop-image">
-                            <i class="fas fa-seedling"></i>
-                        </div>
-                        <div class="workshop-content">
-                            <h4 class="workshop-title">Spring Planting Basics</h4>
-                            <div class="workshop-meta">
-                                <span><i class="far fa-calendar"></i> March 15, 2025</span>
-                                <span><i class="far fa-clock"></i> 12:00 PM - 1:30 PM</span>
-                                <span><i class="fas fa-map-marker-alt"></i> Garden Shed</span>
-                                <span><i class="fas fa-user"></i> Instructor: John Davis</span>
-                            </div>
-                            <p class="workshop-description">Learn the best practices for spring planting in East Texas. This workshop will cover soil preparation, plant selection, and care techniques.</p>
-                            <div class="workshop-footer">
-                                <div class="workshop-spots">8 spots remaining</div>
-                                <button class="btn small-btn primary-btn">Register</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="workshop-card">
-                        <div class="workshop-image">
-                            <i class="fas fa-recycle"></i>
-                        </div>
-                        <div class="workshop-content">
-                            <h4 class="workshop-title">Composting 101</h4>
-                            <div class="workshop-meta">
-                                <span><i class="far fa-calendar"></i> March 22, 2025</span>
-                                <span><i class="far fa-clock"></i> 3:00 PM - 4:00 PM</span>
-                                <span><i class="fas fa-map-marker-alt"></i> Compost Area</span>
-                                <span><i class="fas fa-user"></i> Instructor: Robert Kim</span>
-                            </div>
-                            <p class="workshop-description">Learn how to create and maintain a compost system for your garden. This workshop will cover what materials to use, how to layer them, and how to know when your compost is ready.</p>
-                            <div class="workshop-footer">
-                                <div class="workshop-spots">5 spots remaining</div>
-                                <button class="btn small-btn primary-btn">Register</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="workshop-card">
-                        <div class="workshop-image">
-                            <i class="fas fa-tint"></i>
-                        </div>
-                        <div class="workshop-content">
-                            <h4 class="workshop-title">Irrigation Systems</h4>
-                            <div class="workshop-meta">
-                                <span><i class="far fa-calendar"></i> April 5, 2025</span>
-                                <span><i class="far fa-clock"></i> 12:00 PM - 1:30 PM</span>
-                                <span><i class="fas fa-map-marker-alt"></i> Garden Shed</span>
-                                <span><i class="fas fa-user"></i> Instructor: Engineering Team</span>
-                            </div>
-                            <p class="workshop-description">Learn how to set up an efficient drip irrigation system for your garden beds. This workshop will cover all the components and installation steps.</p>
-                            <div class="workshop-footer">
-                                <div class="workshop-spots">10 spots remaining</div>
-                                <button class="btn small-btn primary-btn">Register</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="workshop-card">
-                        <div class="workshop-image">
-                            <i class="fas fa-bug"></i>
-                        </div>
-                        <div class="workshop-content">
-                            <h4 class="workshop-title">Organic Pest Control</h4>
-                            <div class="workshop-meta">
-                                <span><i class="far fa-calendar"></i> April 12, 2025</span>
-                                <span><i class="far fa-clock"></i> 2:00 PM - 3:30 PM</span>
-                                <span><i class="fas fa-map-marker-alt"></i> Garden Shed</span>
-                                <span><i class="fas fa-user"></i> Instructor: Maria Perez</span>
-                            </div>
-                            <p class="workshop-description">Discover effective organic methods to control common garden pests without using harmful chemicals. Learn to identify pests and apply natural solutions.</p>
-                            <div class="workshop-footer">
-                                <div class="workshop-spots">12 spots remaining</div>
-                                <button class="btn small-btn primary-btn">Register</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div style="text-align: center; margin-top: var(--spacing-lg);">
-                    <button class="btn secondary-btn">View All Workshops</button>
-                </div>
-            </section>
-            
-            <section class="photo-gallery" id="gallery">
-                <div class="gallery-header">
-                    <h3 class="gallery-title">Photo Gallery</h3>
-                    <button class="btn primary-btn">Upload Photos</button>
-                </div>
-                
-                <div class="gallery-filters">
+                <div class="gallery-filter">
                     <button class="filter-button active">All Photos</button>
                     <button class="filter-button">Garden Progress</button>
-                    <button class="filter-button">Events</button>
+                    <button class="filter-button">Events & Workshops</button>
                     <button class="filter-button">Harvests</button>
-                    <button class="filter-button">Workshops</button>
+                    <button class="filter-button">Garden Projects</button>
                 </div>
                 
                 <div class="gallery-grid">
                     <div class="gallery-item">
-                        <div class="gallery-image">
-                            <i class="fas fa-seedling"></i>
+                        <img src="https://via.placeholder.com/300x300" alt="Spring Planting Day" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">Spring Planting Day</div>
+                            <div class="gallery-meta">
+                                <span>March 1, 2025</span>
+                                <span><i class="far fa-heart"></i> 24</span>
+                            </div>
                         </div>
-                        <div class="gallery-caption">Spring planting in Section A - March 2025</div>
                     </div>
                     
                     <div class="gallery-item">
-                        <div class="gallery-image">
-                            <i class="fas fa-carrot"></i>
+                        <img src="https://via.placeholder.com/300x300" alt="First Tomato Harvest" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">First Tomato Harvest</div>
+                            <div class="gallery-meta">
+                                <span>February 28, 2025</span>
+                                <span><i class="far fa-heart"></i> 18</span>
+                            </div>
                         </div>
-                        <div class="gallery-caption">First harvest of the season - February 2025</div>
                     </div>
                     
                     <div class="gallery-item">
-                        <div class="gallery-image">
-                            <i class="fas fa-users"></i>
+                        <img src="https://via.placeholder.com/300x300" alt="New Irrigation System" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">New Irrigation System</div>
+                            <div class="gallery-meta">
+                                <span>February 20, 2025</span>
+                                <span><i class="far fa-heart"></i> 15</span>
+                            </div>
                         </div>
-                        <div class="gallery-caption">Garden social event - February 2025</div>
                     </div>
                     
                     <div class="gallery-item">
-                        <div class="gallery-image">
-                            <i class="fas fa-leaf"></i>
+                        <img src="https://via.placeholder.com/300x300" alt="Winter Garden Prep" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">Winter Garden Prep</div>
+                            <div class="gallery-meta">
+                                <span>February 15, 2025</span>
+                                <span><i class="far fa-heart"></i> 12</span>
+                            </div>
                         </div>
-                        <div class="gallery-caption">New herb garden section - January 2025</div>
                     </div>
                     
                     <div class="gallery-item">
-                        <div class="gallery-image">
-                            <i class="fas fa-tint"></i>
+                        <img src="https://via.placeholder.com/300x300" alt="Composting Workshop" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">Composting Workshop</div>
+                            <div class="gallery-meta">
+                                <span>February 10, 2025</span>
+                                <span><i class="far fa-heart"></i> 20</span>
+                            </div>
                         </div>
-                        <div class="gallery-caption">Irrigation system installation - January 2025</div>
                     </div>
                     
                     <div class="gallery-item">
-                        <div class="gallery-image">
-                            <i class="fas fa-seedling"></i>
+                        <img src="https://via.placeholder.com/300x300" alt="Garden Planning Meeting" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">Garden Planning Meeting</div>
+                            <div class="gallery-meta">
+                                <span>February 5, 2025</span>
+                                <span><i class="far fa-heart"></i> 8</span>
+                            </div>
                         </div>
-                        <div class="gallery-caption">Tomato seedlings - February 2025</div>
                     </div>
                     
                     <div class="gallery-item">
-                        <div class="gallery-image">
-                            <i class="fas fa-chalkboard-teacher"></i>
+                        <img src="https://via.placeholder.com/300x300" alt="New Garden Shed" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">New Garden Shed</div>
+                            <div class="gallery-meta">
+                                <span>January 28, 2025</span>
+                                <span><i class="far fa-heart"></i> 32</span>
+                            </div>
                         </div>
-                        <div class="gallery-caption">Composting workshop - February 2025</div>
                     </div>
                     
                     <div class="gallery-item">
-                        <div class="gallery-image">
-                            <i class="fas fa-pepper-hot"></i>
+                        <img src="https://via.placeholder.com/300x300" alt="Winter Vegetables" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">Winter Vegetables</div>
+                            <div class="gallery-meta">
+                                <span>January 20, 2025</span>
+                                <span><i class="far fa-heart"></i> 16</span>
+                            </div>
                         </div>
-                        <div class="gallery-caption">Pepper varieties - January 2025</div>
                     </div>
                 </div>
                 
-                <div style="text-align: center; margin-top: var(--spacing-lg);">
+                <div class="text-center mt-lg">
                     <button class="btn secondary-btn">View All Photos</button>
                 </div>
             </section>
             
-            <section class="forum-section" id="forum">
-                <div class="forum-header">
-                    <h3 class="forum-title">Discussion Forum</h3>
-                    <div class="forum-search">
-                        <input type="text" placeholder="Search discussions...">
-                        <button class="btn primary-btn"><i class="fas fa-search"></i></button>
-                    </div>
+            <section class="forums-section">
+                <div class="section-header">
+                    <h3 class="section-title">Discussion Forums</h3>
+                    <a href="#" class="btn primary-btn"><i class="fas fa-plus"></i> New Discussion</a>
                 </div>
                 
                 <div class="forum-categories">
                     <div class="forum-category">
-                        <div class="category-icon">
-                            <i class="fas fa-seedling"></i>
-                        </div>
-                        <div class="category-name">Growing Tips</div>
-                        <div class="category-stats">
-                            <span>24 topics</span>
-                            <span>156 posts</span>
-                        </div>
-                    </div>
-                    
-                    <div class="forum-category">
-                        <div class="category-icon">
-                            <i class="fas fa-bug"></i>
-                        </div>
-                        <div class="category-name">Pest Control</div>
-                        <div class="category-stats">
-                            <span>18 topics</span>
-                            <span>87 posts</span>
-                        </div>
-                    </div>
-                    
-                    <div class="forum-category">
-                        <div class="category-icon">
-                            <i class="fas fa-tint"></i>
-                        </div>
-                        <div class="category-name">Irrigation</div>
-                        <div class="category-stats">
-                            <span>12 topics</span>
-                            <span>45 posts</span>
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <div class="category-info">
+                                <div class="category-title">Growing & Planting</div>
+                                <div class="category-description">Discuss plant varieties, growing techniques, and gardening tips.</div>
+                            </div>
+                            <div class="category-stats">
+                                <div class="category-stat">
+                                    <i class="far fa-comment category-stat-icon"></i>
+                                    <span>42 Topics</span>
+                                </div>
+                                <div class="category-stat">
+                                    <i class="far fa-comments category-stat-icon"></i>
+                                    <span>156 Posts</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="forum-category">
-                        <div class="category-icon">
-                            <i class="fas fa-recycle"></i>
-                        </div>
-                        <div class="category-name">Composting</div>
-                        <div class="category-stats">
-                            <span>15 topics</span>
-                            <span>78 posts</span>
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-bug"></i>
+                            </div>
+                            <div class="category-info">
+                                <div class="category-title">Pest & Disease Control</div>
+                                <div class="category-description">Share strategies for managing garden pests and plant diseases.</div>
+                            </div>
+                            <div class="category-stats">
+                                <div class="category-stat">
+                                    <i class="far fa-comment category-stat-icon"></i>
+                                    <span>28 Topics</span>
+                                </div>
+                                <div class="category-stat">
+                                    <i class="far fa-comments category-stat-icon"></i>
+                                    <span>94 Posts</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    
+                    <div class="forum-category">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div class="category-info">
+                                <div class="category-title">Irrigation & Water Management</div>
+                                <div class="category-description">Discuss watering techniques, irrigation systems, and water conservation.</div>
+                            </div>
+                            <div class="category-stats">
+                                <div class="category-stat">
+                                    <i class="far fa-comment category-stat-icon"></i>
+                                    <span>15 Topics</span>
+                                </div>
+                                <div class="category-stat">
+                                    <i class="far fa-comments category-stat-icon"></i>
+                                    <span>62 Posts</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="forum-category">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="category-info">
+                                <div class="category-title">Events & Activities</div>
+                                <div class="category-description">Discuss upcoming events, workshops, and volunteer opportunities.</div>
+                            </div>
+                            <div class="category-stats">
+                                <div class="category-stat">
+                                    <i class="far fa-comment category-stat-icon"></i>
+                                    <span>24 Topics</span>
+                                </div>
+                                <div class="category-stat">
+                                    <i class="far fa-comments category-stat-icon"></i>
+                                    <span>87 Posts</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-header">
+                    <h3 class="section-title">Recent Discussions</h3>
+                    <a href="#" class="btn secondary-btn">View All</a>
                 </div>
                 
                 <div class="recent-discussions">
-                    <h4>Recent Discussions</h4>
-                    
                     <div class="discussion-item">
-                        <div class="discussion-avatar">
-                            <span>MP</span>
-                        </div>
+                        <div class="discussion-avatar">JS</div>
                         <div class="discussion-content">
                             <div class="discussion-header">
                                 <div class="discussion-title">Best tomato varieties for East Texas?</div>
-                                <div class="discussion-category">Growing Tips</div>
+                                <div class="discussion-category">Growing & Planting</div>
                             </div>
+                            <div class="discussion-excerpt">I'm planning to grow tomatoes this spring and would like recommendations for varieties that do well in our East Texas climate. I've had success with Cherry tomatoes in the past, but I'd like to try some larger varieties this year...</div>
                             <div class="discussion-meta">
-                                <span>Started by Maria Perez</span>
-                                <span>March 5, 2025</span>
-                            </div>
-                            <p class="discussion-preview">I'm planning to grow tomatoes this year and would like recommendations for varieties that do well in our climate. I've heard Cherokee Purple and Better Boy are good options...</p>
-                            <div class="discussion-stats">
-                                <span><i class="far fa-comment"></i> 12 replies</span>
-                                <span><i class="far fa-eye"></i> 45 views</span>
-                                <span><i class="far fa-clock"></i> Last reply: 2 hours ago</span>
+                                <div class="discussion-author">
+                                    <span>John Smith</span>
+                                    <span>March 5, 2025</span>
+                                </div>
+                                <div class="discussion-stats">
+                                    <div class="discussion-stat">
+                                        <i class="far fa-comment"></i>
+                                        <span>12</span>
+                                    </div>
+                                    <div class="discussion-stat">
+                                        <i class="far fa-eye"></i>
+                                        <span>48</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
                     <div class="discussion-item">
-                        <div class="discussion-avatar">
-                            <span>JD</span>
-                        </div>
+                        <div class="discussion-avatar">AL</div>
                         <div class="discussion-content">
                             <div class="discussion-header">
-                                <div class="discussion-title">Dealing with aphids organically</div>
-                                <div class="discussion-category">Pest Control</div>
+                                <div class="discussion-title">Organic solutions for fire ant control</div>
+                                <div class="discussion-category">Pest & Disease Control</div>
                             </div>
+                            <div class="discussion-excerpt">Fire ants have become a problem in Section C. Does anyone have experience with organic methods to control them? I've heard diatomaceous earth can be effective, but I'm concerned about its impact on beneficial insects...</div>
                             <div class="discussion-meta">
-                                <span>Started by John Davis</span>
-                                <span>March 3, 2025</span>
-                            </div>
-                            <p class="discussion-preview">I've noticed aphids on my pepper plants and would like to treat them without using chemical pesticides. Has anyone had success with neem oil or other organic solutions?</p>
-                            <div class="discussion-stats">
-                                <span><i class="far fa-comment"></i> 8 replies</span>
-                                <span><i class="far fa-eye"></i> 32 views</span>
-                                <span><i class="far fa-clock"></i> Last reply: 1 day ago</span>
+                                <div class="discussion-author">
+                                    <span>Amy Lee</span>
+                                    <span>March 3, 2025</span>
+                                </div>
+                                <div class="discussion-stats">
+                                    <div class="discussion-stat">
+                                        <i class="far fa-comment"></i>
+                                        <span>8</span>
+                                    </div>
+                                    <div class="discussion-stat">
+                                        <i class="far fa-eye"></i>
+                                        <span>36</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
                     <div class="discussion-item">
-                        <div class="discussion-avatar">
-                            <span>RK</span>
-                        </div>
+                        <div class="discussion-avatar">MT</div>
                         <div class="discussion-content">
                             <div class="discussion-header">
-                                <div class="discussion-title">Compost troubleshooting - too wet?</div>
-                                <div class="discussion-category">Composting</div>
+                                <div class="discussion-title">Drip irrigation system expansion</div>
+                                <div class="discussion-category">Irrigation & Water Management</div>
                             </div>
+                            <div class="discussion-excerpt">I'm planning to expand our drip irrigation system to cover Sections D and E. If anyone is interested in helping with this project, we'll be working on it next week. I'll be bringing all the necessary supplies...</div>
                             <div class="discussion-meta">
-                                <span>Started by Robert Kim</span>
-                                <span>February 28, 2025</span>
-                            </div>
-                            <p class="discussion-preview">My compost pile seems too wet and has a slight odor. I think I may have added too many green materials. What's the best way to balance it out?</p>
-                            <div class="discussion-stats">
-                                <span><i class="far fa-comment"></i> 15 replies</span>
-                                <span><i class="far fa-eye"></i> 38 views</span>
-                                <span><i class="far fa-clock"></i> Last reply: 3 days ago</span>
+                                <div class="discussion-author">
+                                    <span>Mike Thompson</span>
+                                    <span>February 28, 2025</span>
+                                </div>
+                                <div class="discussion-stats">
+                                    <div class="discussion-stat">
+                                        <i class="far fa-comment"></i>
+                                        <span>15</span>
+                                    </div>
+                                    <div class="discussion-stat">
+                                        <i class="far fa-eye"></i>
+                                        <span>52</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div style="text-align: center; margin-top: var(--spacing-lg);">
-                    <button class="btn primary-btn">Start New Discussion</button>
-                    <button class="btn secondary-btn" style="margin-left: var(--spacing-md);">View All Discussions</button>
                 </div>
             </section>
             
-            <section class="volunteer-section" id="volunteer">
-                <div class="volunteer-header">
-                    <h3>Volunteer Opportunities</h3>
-                    <p>Get involved with the TechServ Community Garden by volunteering your time and skills.</p>
+            <section class="volunteer-section">
+                <div class="section-header">
+                    <h3 class="section-title">Volunteer Opportunities</h3>
+                    <a href="#" class="btn primary-btn"><i class="fas fa-plus"></i> Create Opportunity</a>
                 </div>
                 
-                <div class="volunteer-stats">
-                    <div class="stat-card">
-                        <div class="stat-value">87</div>
-                        <div class="stat-label">Active Volunteers</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">456</div>
-                        <div class="stat-label">Volunteer Hours</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">24</div>
-                        <div class="stat-label">Open Tasks</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">12</div>
-                        <div class="stat-label">Departments</div>
-                    </div>
-                </div>
-                
-                <div class="volunteer-opportunities">
-                    <h4>Current Opportunities</h4>
-                    <div class="opportunity-grid">
-                        <div class="opportunity-card">
-                            <div class="opportunity-icon">
+                <div class="volunteer-grid">
+                    <div class="volunteer-card">
+                        <div class="volunteer-header-bg">
+                            <div class="volunteer-icon">
                                 <i class="fas fa-seedling"></i>
                             </div>
-                            <div class="opportunity-title">Garden Maintenance</div>
-                            <div class="opportunity-details">
-                                <p>Saturday, March 15</p>
-                                <p>9:00 AM - 12:00 PM</p>
-                                <p>3 spots remaining</p>
-                            </div>
-                            <button class="btn primary-btn">Sign Up</button>
                         </div>
-                        
-                        <div class="opportunity-card">
-                            <div class="opportunity-icon">
-                                <i class="fas fa-tint"></i>
+                        <div class="volunteer-body">
+                            <h4 class="volunteer-role">Spring Planting Team</h4>
+                            <div class="volunteer-details">
+                                <span><i class="far fa-calendar"></i> March 10-15, 2025</span>
+                                <span><i class="far fa-clock"></i> 12:00 PM - 2:00 PM</span>
+                                <span><i class="fas fa-map-marker-alt"></i> Sections B & C</span>
                             </div>
-                            <div class="opportunity-title">Irrigation System Installation</div>
-                            <div class="opportunity-details">
-                                <p>Tuesday, March 18</p>
-                                <p>4:00 PM - 5:30 PM</p>
-                                <p>5 spots remaining</p>
-                            </div>
-                            <button class="btn primary-btn">Sign Up</button>
-                        </div>
-                        
-                        <div class="opportunity-card">
-                            <div class="opportunity-icon">
-                                <i class="fas fa-chalkboard-teacher"></i>
-                            </div>
-                            <div class="opportunity-title">Workshop Assistant</div>
-                            <div class="opportunity-details">
-                                <p>Saturday, March 22</p>
-                                <p>2:30 PM - 4:30 PM</p>
-                                <p>2 spots remaining</p>
-                            </div>
-                            <button class="btn primary-btn">Sign Up</button>
-                        </div>
-                        
-                        <div class="opportunity-card">
-                            <div class="opportunity-icon">
-                                <i class="fas fa-camera"></i>
-                            </div>
-                            <div class="opportunity-title">Garden Photographer</div>
-                            <div class="opportunity-details">
-                                <p>Ongoing Opportunity</p>
-                                <p>Flexible Hours</p>
-                                <p>1 spot remaining</p>
+                            <div class="volunteer-spots">
+                                <span class="spots-available">8 spots available</span>
                             </div>
                             <button class="btn primary-btn">Sign Up</button>
                         </div>
                     </div>
-                </div>
-                
-                <div style="text-align: center; margin-top: var(--spacing-lg);">
-                    <button class="btn secondary-btn">View All Opportunities</button>
+                    
+                    <div class="volunteer-card">
+                        <div class="volunteer-header-bg">
+                            <div class="volunteer-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                        </div>
+                        <div class="volunteer-body">
+                            <h4 class="volunteer-role">Irrigation System Setup</h4>
+                            <div class="volunteer-details">
+                                <span><i class="far fa-calendar"></i> March 12, 2025</span>
+                                <span><i class="far fa-clock"></i> 9:00 AM - 12:00 PM</span>
+                                <span><i class="fas fa-map-marker-alt"></i> Section C</span>
+                            </div>
+                            <div class="volunteer-spots">
+                                <span class="spots-limited">3 spots available</span>
+                            </div>
+                            <button class="btn primary-btn">Sign Up</button>
+                        </div>
+                    </div>
+                    
+                    <div class="volunteer-card">
+                        <div class="volunteer-header-bg">
+                            <div class="volunteer-icon">
+                                <i class="fas fa-recycle"></i>
+                            </div>
+                        </div>
+                        <div class="volunteer-body">
+                            <h4 class="volunteer-role">Composting Team</h4>
+                            <div class="volunteer-details">
+                                <span><i class="far fa-calendar"></i> March 15, 2025</span>
+                                <span><i class="far fa-clock"></i> 10:00 AM - 12:00 PM</span>
+                                <span><i class="fas fa-map-marker-alt"></i> Compost Area</span>
+                            </div>
+                            <div class="volunteer-spots">
+                                <span class="spots-available">5 spots available</span>
+                            </div>
+                            <button class="btn primary-btn">Sign Up</button>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>
 
         <aside class="sidebar">
-            <section class="upcoming-events-sidebar">
-                <h3>Upcoming Events</h3>
+            <section class="weather-widget">
+                <div class="weather-header">
+                    <div class="weather-location">East Texas</div>
+                    <div class="weather-date">March 6, 2025</div>
+                </div>
+                
+                <div class="current-weather">
+                    <div class="weather-icon">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <div class="weather-info">
+                        <div class="current-temperature">78°F</div>
+                        <div class="current-condition">Partly Cloudy</div>
+                    </div>
+                </div>
+                
+                <div class="weather-details">
+                    <div class="weather-detail">
+                        <div class="detail-label">Humidity</div>
+                        <div class="detail-value humidity-value">65%</div>
+                    </div>
+                    <div class="weather-detail">
+                        <div class="detail-label">Wind</div>
+                        <div class="detail-value wind-value">8 mph</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section>
+                <h3>My Upcoming Events</h3>
                 <ul class="event-list-small">
                     <li class="event-item-small">
                         <div class="event-date">
-                            <span class="month">MAR</span>
+                            <span class="month">Mar</span>
                             <span class="day">10</span>
                         </div>
                         <div class="event-details">
-                            <h4 class="event-title-small">Tomato Planting Day</h4>
-                            <p class="event-time"><i class="far fa-clock"></i> 12:00 PM - 2:00 PM</p>
-                            <p class="event-location"><i class="fas fa-map-marker-alt"></i> Section B</p>
+                            <div class="event-title-small">Tomato Planting Day</div>
+                            <div class="event-time">12:00 PM - 2:00 PM</div>
+                            <div class="event-location">Section B</div>
                         </div>
                     </li>
-                    
                     <li class="event-item-small">
                         <div class="event-date">
-                            <span class="month">MAR</span>
+                            <span class="month">Mar</span>
                             <span class="day">15</span>
                         </div>
                         <div class="event-details">
-                            <h4 class="event-title-small">Spring Planting Workshop</h4>
-                            <p class="event-time"><i class="far fa-clock"></i> 12:00 PM - 1:30 PM</p>
-                            <p class="event-location"><i class="fas fa-map-marker-alt"></i> Garden Shed</p>
+                            <div class="event-title-small">Spring Planting Workshop</div>
+                            <div class="event-time">12:00 PM - 1:30 PM</div>
+                            <div class="event-location">Garden Shed</div>
                         </div>
                     </li>
-                    
                     <li class="event-item-small">
                         <div class="event-date">
-                            <span class="month">MAR</span>
-                            <span class="day">22</span>
+                            <span class="month">Mar</span>
+                            <span class="day">25</span>
                         </div>
                         <div class="event-details">
-                            <h4 class="event-title-small">Composting Workshop</h4>
-                            <p class="event-time"><i class="far fa-clock"></i> 3:00 PM - 4:00 PM</p>
-                            <p class="event-location"><i class="fas fa-map-marker-alt"></i> Compost Area</p>
+                            <div class="event-title-small">Garden Cleanup Day</div>
+                            <div class="event-time">9:00 AM - 12:00 PM</div>
+                            <div class="event-location">All Garden Areas</div>
                         </div>
                     </li>
                 </ul>
-                <a href="#events" class="btn secondary-btn" style="width: 100%; margin-top: var(--spacing-md);">View All Events</a>
+                <div class="text-center mt-md">
+                    <a href="#events" class="btn small-btn secondary-btn">View All Events</a>
+                </div>
             </section>
             
-            <section class="my-rsvps">
-                <h3>My RSVPs</h3>
-                <ul class="rsvp-list">
-                    <li class="rsvp-item">
-                        <div class="rsvp-event">Spring Planting Workshop</div>
-                        <div class="rsvp-date">March 15, 2025</div>
-                        <button class="btn small-btn secondary-btn">Cancel</button>
+            <section>
+                <h3>Recent Forum Activity</h3>
+                <ul class="discussion-list-small">
+                    <li class="discussion-item-small">
+                        <a href="#">
+                            <div class="discussion-item-title">Best tomato varieties for East Texas?</div>
+                            <div class="discussion-item-meta">
+                                <span>12 replies</span>
+                                <span>2 hours ago</span>
+                            </div>
+                        </a>
                     </li>
-                    <li class="rsvp-item">
-                        <div class="rsvp-event">Garden Maintenance</div>
-                        <div class="rsvp-date">March 15, 2025</div>
-                        <button class="btn small-btn secondary-btn">Cancel</button>
+                    <li class="discussion-item-small">
+                        <a href="#">
+                            <div class="discussion-item-title">Organic solutions for fire ant control</div>
+                            <div class="discussion-item-meta">
+                                <span>8 replies</span>
+                                <span>1 day ago</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="discussion-item-small">
+                        <a href="#">
+                            <div class="discussion-item-title">Drip irrigation system expansion</div>
+                            <div class="discussion-item-meta">
+                                <span>15 replies</span>
+                                <span>3 days ago</span>
+                            </div>
+                        </a>
                     </li>
                 </ul>
-            </section>
-            
-            <section class="community-stats">
-                <h3>Community Stats</h3>
-                <div class="stat-grid">
-                    <div class="stat-item">
-                        <div class="stat-value">87</div>
-                        <div class="stat-label">Active Members</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">24</div>
-                        <div class="stat-label">Events This Month</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">12</div>
-                        <div class="stat-label">Workshops</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">156</div>
-                        <div class="stat-label">Forum Posts</div>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="recent-photos">
-                <h3>Recent Photos</h3>
-                <div class="photo-grid-small">
-                    <div class="photo-item-small">
-                        <div class="photo-thumbnail">
-                            <i class="fas fa-seedling"></i>
-                        </div>
-                    </div>
-                    <div class="photo-item-small">
-                        <div class="photo-thumbnail">
-                            <i class="fas fa-carrot"></i>
-                        </div>
-                    </div>
-                    <div class="photo-item-small">
-                        <div class="photo-thumbnail">
-                            <i class="fas fa-leaf"></i>
-                        </div>
-                    </div>
-                    <div class="photo-item-small">
-                        <div class="photo-thumbnail">
-                            <i class="fas fa-tint"></i>
-                        </div>
-                    </div>
-                    <div class="photo-item-small">
-                        <div class="photo-thumbnail">
-                            <i class="fas fa-users"></i>
-                        </div>
-                    </div>
-                    <div class="photo-item-small">
-                        <div class="photo-thumbnail">
-                            <i class="fas fa-seedling"></i>
-                        </div>
-                    </div>
-                </div>
-                <a href="#gallery" class="btn secondary-btn" style="width: 100%; margin-top: var(--spacing-md);">View Gallery</a>
             </section>
         </aside>
     </div>
@@ -1479,31 +1557,39 @@
     <footer class="main-footer">
         <div class="container footer-container">
             <div class="footer-section">
+                <h3>About Our Garden</h3>
+                <p>The TechServ Community Garden is a collaborative space for employees to grow fresh produce, learn gardening skills, and build community on our East Texas corporate campus.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
                 <h3>Quick Links</h3>
                 <ul class="footer-links">
                     <li><a href="../index.html">Home</a></li>
                     <li><a href="garden-planning.html">Garden Planning</a></li>
                     <li><a href="tasks.html">Tasks</a></li>
                     <li><a href="garden-map.html">Garden Map</a></li>
+                    <li><a href="profile.html">My Profile</a></li>
                     <li><a href="knowledge.html">Knowledge Base</a></li>
                     <li><a href="community.html">Community</a></li>
                     <li><a href="resources.html">Resources</a></li>
                 </ul>
             </div>
+            
             <div class="footer-section">
-                <h3>Contact</h3>
-                <p><i class="fas fa-envelope"></i> garden@techserv.com</p>
-                <p><i class="fas fa-phone"></i> Ext. 4567</p>
-                <p><i class="fas fa-map-marker-alt"></i> East Campus, Building C</p>
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-envelope"></i> garden@techserv.com</li>
+                    <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                    <li><i class="fas fa-map-marker-alt"></i> TechServ Campus, East Texas</li>
+                </ul>
             </div>
-            <div class="footer-section">
-                <h3>Connect</h3>
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-slack"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-microsoft"></i></a>
-                    <a href="#" class="social-link"><i class="fas fa-comment-dots"></i></a>
-                </div>
-            </div>
+            
             <div class="footer-section">
                 <h3>Garden Stats</h3>
                 <div class="garden-stats">
@@ -1513,22 +1599,953 @@
                     </div>
                     <div class="stat">
                         <span class="stat-number">87</span>
-                        <span class="stat-label">Active Gardeners</span>
+                        <span class="stat-label">Gardeners</span>
                     </div>
                     <div class="stat">
                         <span class="stat-number">156</span>
-                        <span class="stat-label">Lbs Harvested</span>
+                        <span class="stat-label">Pounds Harvested</span>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <div class="container">
-                <p>&copy; 2025 TechServ Community Garden. All rights reserved.</p>
-            </div>
+        
+        <div class="footer-bottom container">
+            <p>&copy; 2025 TechServ Community Garden. All rights reserved.</p>
         </div>
     </footer>
 
     <script src="../js/main.js"></script>
-</body>
-</html>
+    <script>
+        // Community page specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filter buttons functionality
+            const filterButtons = document.quer
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community & Events - TechServ Community Garden</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Additional CSS for Community page -->
+    <style>
+        /* Community Page Styles */
+        .community-header {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+        
+        .community-stats {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-md);
+        }
+        
+        .community-stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .stat-label {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
+        }
+        
+        /* Events Section */
+        .events-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .section-title {
+            margin-bottom: 0;
+        }
+        
+        .events-filter {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .filter-button {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            background-color: var(--neutral-light);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-size: var(--font-size-sm);
+            cursor: pointer;
+            transition: background-color var(--transition-fast), color var(--transition-fast);
+        }
+        
+        .filter-button.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-lg);
+        }
+        
+        .event-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .event-image {
+            height: 180px;
+            background-color: var(--neutral-light);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .event-category {
+            position: absolute;
+            top: var(--spacing-sm);
+            left: var(--spacing-sm);
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 4px var(--spacing-sm);
+            border-radius: var(--border-radius-sm);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+        }
+        
+        .event-date-badge {
+            position: absolute;
+            top: var(--spacing-sm);
+            right: var(--spacing-sm);
+            width: 50px;
+            height: 60px;
+            background-color: var(--white);
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .event-month {
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            color: var(--primary-color);
+            text-transform: uppercase;
+        }
+        
+        .event-day {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            color: var(--neutral-dark);
+        }
+        
+        .event-content {
+            padding: var(--spacing-md);
+        }
+        
+        .event-title {
+            font-size: var(--font-size-md);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .event-details {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .event-detail {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .event-detail-icon {
+            color: var(--primary-color);
+            width: 16px;
+            text-align: center;
+        }
+        
+        .event-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .event-attendees {
+            display: flex;
+            align-items: center;
+        }
+        
+        .attendee-avatars {
+            display: flex;
+            margin-right: var(--spacing-xs);
+        }
+        
+        .attendee-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+            border: 2px solid var(--white);
+            margin-left: -8px;
+        }
+        
+        .attendee-avatar:first-child {
+            margin-left: 0;
+        }
+        
+        .attendee-count {
+            font-size: var(--font-size-xs);
+            color: var(--neutral-medium);
+        }
+        
+        /* Calendar View */
+        .calendar-view {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .calendar-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+        }
+        
+        .calendar-navigation {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--spacing-xs);
+        }
+        
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 600;
+            padding: var(--spacing-xs);
+            color: var(--neutral-dark);
+        }
+        
+        .calendar-day {
+            min-height: 100px;
+            border: 1px solid var(--neutral-light);
+            border-radius: var(--border-radius-xs);
+            padding: var(--spacing-xs);
+            position: relative;
+        }
+        
+        .calendar-day.other-month {
+            background-color: var(--neutral-light);
+            opacity: 0.5;
+        }
+        
+        .calendar-day.today {
+            background-color: var(--primary-light);
+            border-color: var(--primary-color);
+        }
+        
+        .day-number {
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .day-events {
+            font-size: var(--font-size-xs);
+        }
+        
+        .day-event {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 2px var(--spacing-xs);
+            border-radius: var(--border-radius-xs);
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+        
+        .day-event.workshop {
+            background-color: var(--primary-color);
+        }
+        
+        .day-event.volunteer {
+            background-color: var(--success-color);
+        }
+        
+        .day-event.meeting {
+            background-color: var(--info-color);
+        }
+        
+        /* Photo Gallery */
+        .gallery-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .gallery-filter {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            cursor: pointer;
+        }
+        
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-fast);
+        }
+        
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.05);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--spacing-sm);
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-title {
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .gallery-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--white);
+            font-size: var(--font-size-xs);
+        }
+        
+        /* Discussion Forums */
+        .forums-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .forum-categories {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .forum-category {
+            border-bottom: 1px solid var(--neutral-light);
+        }
+        
+        .forum-category:last-child {
+            border-bottom: none;
+        }
+        
+        .category-header {
+            padding: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            cursor: pointer;
+            transition: background-color var(--transition-fast);
+        }
+        
+        .category-header:hover {
+            background-color: var(--neutral-light);
+        }
+        
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .category-info {
+            flex: 1;
+        }
+        
+        .category-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .category-description {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-medium);
+        }
+        
+        .category-stats {
+            display: flex;
+            gap: var(--spacing-md);
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
+        }
+        
+        .category-stat {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .category-stat-icon {
+            color: var(--primary-color);
+        }
+        
+        .recent-discussions {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .discussion-item {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-light);
+            display: flex;
+            gap: var(--spacing-md);
+        }
+        
+        .discussion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .discussion-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-md);
+            font-weight: 600;
+        }
+        
+        .discussion-content {
+            flex: 1;
+        }
+        
+        .discussion-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .discussion-title {
+            font-weight: 600;
+        }
+        
+        .discussion-category {
+            font-size: var(--font-size-xs);
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 2px var(--spacing-xs);
+            border-radius: var(--border-radius-xs);
+        }
+        
+        .discussion-excerpt {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .discussion-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: var(--font-size-xs);
+            color: var(--neutral-medium);
+        }
+        
+        .discussion-author {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .discussion-stats {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .discussion-stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        /* Volunteer Opportunities */
+        .volunteer-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .volunteer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-lg);
+        }
+        
+        .volunteer-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .volunteer-header-bg {
+            height: 80px;
+            background-color: var(--primary-color);
+            position: relative;
+        }
+        
+        .volunteer-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            position: absolute;
+            bottom: -30px;
+            left: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .volunteer-body {
+            padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
+        }
+        
+        .volunteer-role {
+            font-size: var(--font-size-md);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .volunteer-details {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
+        }
+        
+        .volunteer-details span {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .volunteer-details i {
+            color: var(--primary-color);
+            width: 16px;
+            text-align: center;
+        }
+        
+        .volunteer-spots {
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-sm);
+        }
+        
+        .spots-available {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+        
+        .spots-limited {
+            color: var(--warning-color);
+            font-weight: 600;
+        }
+        
+        .spots-filled {
+            color: var(--error-color);
+            font-weight: 600;
+        }
+        
+        /* Responsive adjustments for community page */
+        @media (max-width: 991px) {
+            .events-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .volunteer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .community-stats {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+            
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-grid {
+                display: none;
+            }
+            
+            .calendar-list {
+                display: block;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .volunteer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .category-stats {
+                justify-content: center;
+            }
+            
+            .discussion-item {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .discussion-header {
+                flex-direction: column;
+                gap: var(--spacing-xs);
+            }
+            
+            .discussion-meta {
+                flex-direction: column;
+                gap: var(--spacing-xs);
+            }
+            
+            .discussion-author, .discussion-stats {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-container">
+                <iframe src="../assets/images/logo.html" title="TechServ Garden Logo" class="logo" style="border: none; overflow: hidden;"></iframe>
+                <h1>TechServ Community Garden</h1>
+            </div>
+            
+            <nav class="main-nav">
+                <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                    <span class="hamburger"></span>
+                </button>
+                <ul class="nav-list">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="garden-planning.html">Garden Planning</a></li>
+                    <li><a href="tasks.html">Tasks</a></li>
+                    <li><a href="garden-map.html">Garden Map</a></li>
+                    <li><a href="profile.html">My Profile</a></li>
+                    <li><a href="knowledge.html">Knowledge Base</a></li>
+                    <li><a href="community.html" class="active">Community</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-container">
+                    <input type="text" placeholder="Search..." class="search-input">
+                    <button class="search-button"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-account">
+                    <a href="profile.html" class="user-icon"><i class="fas fa-user-circle"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container main-container">
+        <main class="main-content">
+            <section class="page-header">
+                <h2>Community & Events</h2>
+                <p>Connect with fellow gardeners, join events, and share your garden experiences.</p>
+            </section>
+            
+            <section class="community-header">
+                <h3>Join Our Growing Community</h3>
+                <p>The TechServ Community Garden brings together employees from all departments to share knowledge, skills, and the joy of gardening.</p>
+                
+                <div class="community-stats">
+                    <div class="community-stat">
+                        <div class="stat-number">87</div>
+                        <div class="stat-label">Active Gardeners</div>
+                    </div>
+                    <div class="community-stat">
+                        <div class="stat-number">24</div>
+                        <div class="stat-label">Upcoming Events</div>
+                    </div>
+                    <div class="community-stat">
+                        <div class="stat-number">156</div>
+                        <div class="stat-label">Forum Posts</div>
+                    </div>
+                    <div class="community-stat">
+                        <div class="stat-number">42</div>
+                        <div class="stat-label">Photo Galleries</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="events-section" id="events">
+                <div class="section-header">
+                    <h3 class="section-title">Upcoming Events</h3>
+                    <a href="#" class="btn primary-btn"><i class="fas fa-plus"></i> Create Event</a>
+                </div>
+                
+                <div class="events-filter">
+                    <button class="filter-button active">All Events</button>
+                    <button class="filter-button">Workshops</button>
+                    <button class="filter-button">Volunteer Days</button>
+                    <button class="filter-button">Meetings</button>
+                    <button class="filter-button">Social</button>
+                </div>
+                
+                <div class="events-grid">
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="https://via.placeholder.com/400x250" alt="Spring Planting Workshop">
+                            <div class="event-category">Workshop</div>
+                            <div class="event-date-badge">
+                                <div class="event-month">Mar</div>
+                                <div class="event-day">15</div>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <h4 class="event-title">Spring Planting Workshop</h4>
+                            <div class="event-details">
+                                <div class="event-detail">
+                                    <i class="far fa-clock event-detail-icon"></i>
+                                    <span>12:00 PM - 1:30 PM</span>
+                                </div>
+                                <div class="event-detail">
+                                    <i class="fas fa-map-marker-alt event-detail-icon"></i>
+                                    <span>Garden Shed</span>
+                                </div>
+                                <div class="event-detail">
+                                    <i class="fas fa-user event-detail-icon"></i>
+                                    <span>Hosted by John Smith</span>
+                                </div>
+                            </div>
+                            <div class="event-actions">
+                                <div class="event-attendees">
+                                    <div class="attendee-avatars">
+                                        <div class="attendee-avatar">JS</div>
+                                        <div class="attendee-avatar">AL</div>
+                                        <div class="attendee-avatar">MT</div>
+                                    </div>
+                                    <div class="attendee-count">+12 attending</div>
+                                </div>
+                                <button class="btn primary-btn small-btn">RSVP</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="https://via.placeholder.com/400x250" alt="Composting 101">
+                            <div class="event-category">Workshop</div>
+                            <div class="event-date-badge">
+                                <div class="event-month">Mar</div>
+                                <div class="event-day">22</div>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <h4 class="event-title">Composting 101</h4>
+                            <div class="event-details">
+                                <div class="event-detail">
+                                    <i class="far fa-clock event-detail-icon"></i>
+                                    <span>10:00 AM - 11:30 AM</span>
+                                </div>
+                                <div class="event-detail">
+                                    <i class="fas fa-map-marker-alt event-detail-icon"></i>
+                                    <span>Compost Area</span>
+                                </div>
+                                <div class="event-detail">
+                                    <i class="fas fa-user event-detail-icon"></i>
+                                    <span>Hosted by Mike Thompson</span>
+                                </div>
+                            </div>
+                            <div class="event-actions">
+                                <div class="event-attendees">
+                                    <div class="attendee-avatars">
+                                        <div class="attendee-avatar">MT</div>
+                                        <div class="attendee-avatar">JS</div>
+                                    </div>
+                                    <div class="attendee-count">+8 attending</div>
+                                </div>
+                                <button class="btn primary-btn small-btn">RSVP</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-card">
+                        <div class="event-image">
+                            <img src="https://via.placeholder.com/400x250" alt="Garden Cleanup Day">
+                            <div class="event-category">Volunteer</div>
+                            <div class="event-date-badge">
+                                <div class="event-month">Mar</div>
+                                <div class="event-day">25</div>
+                            </div>
+                        </div>
+                        <div class="event-content">
+                            <h4 class="event-title">Garden Cleanup Day</h4>
+                            <div class="event-details">
+                                <div class="event-detail">
+                                    <i class="far fa-clock event-detail-icon"></i>
+                                    <span>9:00 AM - 12:00 PM</span>
+                                </div>
+                                <div class="event-detail">
+                                    <i class="fas fa-map-marker-alt event-detail-icon"></i>
+                                    <span>All Garden Areas</span>
+                                </div>
+                                <div class="event-detail">
+                                    <i class="fas fa-user event-detail-icon"></i>
+                                    <span>Hosted by Garden Committee</span>
+                                </div>
+                            </div>
+                            <div class="event-actions">
+                                <div class="event-attendees">
+                                    <div class="attendee-avatars">
+                                        <div class="attendee-avatar">JS</div>
+                                        <div class="attendee-avatar">AL</div>
+                                        <div class="attendee-avatar">MT</div>
+                                    </div>
+                                    <div class="attendee-count">+15 attending</div>
+                                </div>
+                                <button class="btn primary-btn small-btn">RSVP</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-lg">
+                    <button class="btn secondary-btn">Load More Events</button>
+                </div>
+            </section>
+            
+            <section class="calendar-view">
+                <div class="calendar-header">
+                    <div class="calendar-title">March 2025</div>
+                    <div class="calendar-navigation">
+                        <button class="btn small-btn secondary-btn"><i class="fas fa-chevron-left"></i></button>
+                        <button class="btn small-btn secondary-btn">Today</button>
+                        <button class="btn small-btn secondary-btn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                
+                <div class="calendar-grid">
+                    <!-- Day headers -->
+                    <div class="calendar-day-header">Sun</div>
+                    <div class="calendar-day-header">Mon</div>
+                    <div class="calendar-day-header">Tue</div>
+                    <div class="calendar-day-header">Wed</div>
+                    <div class="calendar-day-header">Thu</div>
+                    <div class="calendar-day-header">Fri</div>
+                    <div class="calendar-day-header">Sat</div>
+                    
+                    <!-- Week 1 -->
