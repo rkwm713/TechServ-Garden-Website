@@ -1,6 +1,6 @@
 specVersion: "v1beta"
 serviceId: "techserv-garden-website"
-location: "us-central1"
+location: "us-south1"
 schema:
   source: "./schema"
   datasource:

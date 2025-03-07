@@ -3,6 +3,9 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
+  "dataconnect": {
+    "source": "dataconnect"
+  },
   "functions": {
     "predeploy": [
       "npm --prefix \"$RESOURCE_DIR\" run lint"
@@ -38,13 +41,16 @@
     },
     "hosting": {
       "site": "techserv-garden25",
-        "public": "public"
+      "public": "public"
     },
     "storage": {
       "port": 9199
     },
     "ui": {
       "enabled": true
+    },
+    "dataconnect": {
+      "dataDir": "dataconnect/.dataconnect/pgliteData"
     }
   }
 }

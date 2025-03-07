@@ -1,78 +1,263 @@
-# # Example queries for a simple movie app.
+# TechServ Community Garden - Queries
 
-# # @auth() directives control who can call each operation.
-# # Anyone should be able to list all movies, so the auth level is set to PUBLIC
-# query ListMovies @auth(level: PUBLIC) {
-#   movies {
-#     id
-#     title
-#     imageUrl
-#     genre
-#   }
-# }
+# Get current user profile and assigned plots
+query GetCurrentUser @auth(level: USER) {
+  currentUser: gardenUser(key: { id_expr: "auth.uid" }) {
+    id
+    displayName
+    email
+    photoURL
+    role
+    joinedDate
+    # Get plots assigned to this user through reverse lookup
+    plots: plots_on_assignedTo {
+      id
+      plotNumber
+      sizeInSqFt
+      location
+      soilType
+      sunExposure
+      isActive
+      lastWatered
+    }
+  }
+}
 
-# # List all users, only admins should be able to list all users, so we use NO_ACCESS
-# query ListUsers @auth(level: NO_ACCESS) {
-#   users {
-#     id
-#     username
-#   }
-# }
+# List all garden plots (with optional filters)
+query ListGardenPlots($isActive: Boolean) @auth(level: USER) {
+  plots(where: { isActive: { eq: $isActive } }) {
+    id
+    plotNumber
+    location
+    sizeInSqFt
+    sunExposure
+    assignedTo {
+      id
+      displayName
+    }
+    isActive
+    lastWatered
+  }
+}
 
-# # Logged in users can list all their reviews and movie titles associated with the review
-# # Since the query uses the uid of the current authenticated user, we set auth level to USER
-# query ListUserReviews @auth(level: USER) {
-#   user(key: { id_expr: "auth.uid" }) {
-#     id
-#     username
-#     # <field>_on_<foreign_key_field> makes it easy to grab info from another table
-#     # Here, we use it to grab all the reviews written by the user.
-#     reviews: reviews_on_user {
-#       rating
-#       reviewDate
-#       reviewText
-#       movie {
-#         id
-#         title
-#       }
-#     }
-#   }
-# }
+# Get detailed plot information with current plants
+query GetPlotDetails($plotId: UUID!) @auth(level: USER) {
+  plot(id: $plotId) {
+    id
+    plotNumber
+    sizeInSqFt
+    location
+    soilType
+    sunExposure
+    isActive
+    lastWatered
+    assignedTo {
+      id
+      displayName
+      email
+    }
+    # Get plant instances in this plot through reverse lookup
+    plants: plantInstances_on_plot {
+      id
+      plantedDate
+      expectedHarvestDate
+      status
+      notes
+      plantType {
+        id
+        name
+        scientificName
+        growingSeason
+        daysToHarvest
+        imageUrl
+      }
+    }
+  }
+}
 
-# # Get movie by id
-# query GetMovieById($id: UUID!) @auth(level: PUBLIC) {
-#   movie(id: $id) {
-#     id
-#     title
-#     imageUrl
-#     genre
-#     metadata: movieMetadata_on_movie {
-#       rating
-#       releaseYear
-#       description
-#     }
-#     reviews: reviews_on_movie {
-#       reviewText
-#       reviewDate
-#       rating
-#       user {
-#         id
-#         username
-#       }
-#     }
-#   }
-# }
+# List all plants in the database
+query ListPlants @auth(level: PUBLIC) {
+  plants {
+    id
+    name
+    scientificName
+    plantType
+    growingSeason
+    sunRequirement
+    waterRequirement
+    daysToHarvest
+    spacingInInches
+    companions
+    imageUrl
+  }
+}
 
-# # Search for movies, actors, and reviews
-# query SearchMovie($titleInput: String, $genre: String) @auth(level: PUBLIC) {
-#   movies(
-#     where: {
-#       _and: [{ genre: { eq: $genre } }, { title: { contains: $titleInput } }]
-#     }
-#   ) {
-#     id
-#     title
-#     genre
-#     imageUrl
-#   }
-# }
+# Search plants by name or type
+query SearchPlants($searchTerm: String!) @auth(level: PUBLIC) {
+  plants(
+    where: {
+      _or: [
+        { name: { contains: $searchTerm } },
+        { scientificName: { contains: $searchTerm } },
+        { plantType: { contains: $searchTerm } }
+      ]
+    }
+  ) {
+    id
+    name
+    scientificName
+    plantType
+    growingSeason
+    imageUrl
+  }
+}
+
+# List tasks with filters
+query ListTasks($status: String, $category: String) @auth(level: USER) {
+  tasks(
+    where: {
+      _and: [
+        { status: { eq: $status } },
+        { category: { eq: $category } }
+      ]
+    },
+    orderBy: { dueDate: ASC }
+  ) {
+    id
+    title
+    description
+    category
+    priority
+    status
+    dueDate
+    createdAt
+    assignedTo {
+      id
+      displayName
+    }
+    relatedPlot {
+      id
+      plotNumber
+    }
+  }
+}
+
+# Get assigned tasks for current user
+query GetMyTasks @auth(level: USER) {
+  tasks(
+    where: { assignedTo: { id: { eq_expr: "auth.uid" } } },
+    orderBy: { dueDate: ASC }
+  ) {
+    id
+    title
+    description
+    category
+    priority
+    status
+    dueDate
+    relatedPlot {
+      id
+      plotNumber
+    }
+  }
+}
+
+# List upcoming events
+query ListUpcomingEvents @auth(level: PUBLIC) {
+  events(
+    where: { startTime: { gt_expr: "request.time" } },
+    orderBy: { startTime: ASC }
+  ) {
+    id
+    title
+    description
+    startTime
+    endTime
+    location
+    eventType
+    maxAttendees
+    organizer {
+      id
+      displayName
+    }
+  }
+}
+
+# Get event details with attendees
+query GetEventDetails($eventId: UUID!) @auth(level: USER) {
+  event(id: $eventId) {
+    id
+    title
+    description
+    startTime
+    endTime
+    location
+    eventType
+    maxAttendees
+    organizer {
+      id
+      displayName
+    }
+    # Get attendees through reverse lookup
+    attendees: eventAttendees_on_event {
+      user {
+        id
+        displayName
+      }
+      rsvpStatus
+      rsvpDate
+    }
+  }
+}
+
+# List resources/knowledge articles
+query ListResources($category: String) @auth(level: PUBLIC) {
+  resources(
+    where: { category: { eq: $category } },
+    orderBy: { createdAt: DESC }
+  ) {
+    id
+    title
+    category
+    tags
+    createdAt
+    imageUrl
+    author {
+      id
+      displayName
+    }
+  }
+}
+
+# Get resource details
+query GetResourceDetails($resourceId: UUID!) @auth(level: PUBLIC) {
+  resource(id: $resourceId) {
+    id
+    title
+    content
+    category
+    tags
+    createdAt
+    updatedAt
+    imageUrl
+    author {
+      id
+      displayName
+    }
+  }
+}
+
+# Get recent weather data
+query GetRecentWeather($days: Int!) @auth(level: PUBLIC) {
+  weatherRecords(
+    orderBy: { recordDate: DESC },
+    limit: $days
+  ) {
+    id
+    recordDate
+    temperature
+    humidity
+    rainfall
+    notes
+  }
+}

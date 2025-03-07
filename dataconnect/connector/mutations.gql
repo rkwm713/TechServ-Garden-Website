@@ -1,33 +1,414 @@
-# # Example mutations for a simple movie app
+# TechServ Community Garden - Mutations
 
-# # Create a movie based on user input
-# mutation CreateMovie($title: String!, $genre: String!, $imageUrl: String!)
-# @auth(level: USER_EMAIL_VERIFIED) {
-#   movie_insert(data: { title: $title, genre: $genre, imageUrl: $imageUrl })
-# }
+#
+# User Operations
+#
 
-# # Upsert (update or insert) a user's username based on their auth.uid
-# mutation UpsertUser($username: String!) @auth(level: USER) {
-#   # The "auth.uid" server value ensures that users can only register their own user.
-#   user_upsert(data: { id_expr: "auth.uid", username: $username })
-# }
+# Register or update user profile
+mutation UpsertUserProfile(
+  $displayName: String!,
+  $email: String!,
+  $photoURL: String,
+  $role: String
+) @auth(level: USER) {
+  # The "auth.uid" server value ensures users can only modify their own profile
+  gardenUser_upsert(data: {
+    id_expr: "auth.uid",
+    displayName: $displayName,
+    email: $email,
+    photoURL: $photoURL,
+    role: $role
+  })
+}
 
-# # Add a review for a movie
-# mutation AddReview($movieId: UUID!, $rating: Int!, $reviewText: String!)
-# @auth(level: USER) {
-#   review_upsert(
-#     data: {
-#       userId_expr: "auth.uid"
-#       movieId: $movieId
-#       rating: $rating
-#       reviewText: $reviewText
-#       # reviewDate defaults to today in the schema. No need to set it manually.
-#     }
-#   )
-# }
+# Admin can update user role
+mutation UpdateUserRole(
+  $userId: String!,
+  $role: String!
+) @auth(level: USER_EMAIL_VERIFIED) {
+  gardenUser_update(
+    key: { id: $userId },
+    data: { role: $role }
+  )
+}
 
-# # Logged in user can delete their review for a movie
-# mutation DeleteReview($movieId: UUID!) @auth(level: USER) {
-#   # The "auth.uid" server value ensures that users can only delete their own reviews.
-#   review_delete(key: { userId_expr: "auth.uid", movieId: $movieId })
-# }
+#
+# Plot Operations
+#
+
+# Create a new garden plot
+mutation CreatePlot(
+  $plotNumber: String!,
+  $sizeInSqFt: Float,
+  $location: String,
+  $soilType: String,
+  $sunExposure: String
+) @auth(level: USER_EMAIL_VERIFIED) {
+  plot_insert(data: {
+    plotNumber: $plotNumber,
+    sizeInSqFt: $sizeInSqFt,
+    location: $location,
+    soilType: $soilType,
+    sunExposure: $sunExposure,
+    isActive: true
+  })
+}
+
+# Update plot details
+mutation UpdatePlot(
+  $plotId: UUID!,
+  $plotNumber: String,
+  $sizeInSqFt: Float,
+  $location: String,
+  $soilType: String,
+  $sunExposure: String,
+  $isActive: Boolean
+) @auth(level: USER_EMAIL_VERIFIED) {
+  plot_update(
+    key: { id: $plotId },
+    data: {
+      plotNumber: $plotNumber,
+      sizeInSqFt: $sizeInSqFt,
+      location: $location,
+      soilType: $soilType,
+      sunExposure: $sunExposure,
+      isActive: $isActive
+    }
+  )
+}
+
+# Assign plot to user
+mutation AssignPlot(
+  $plotId: UUID!,
+  $userId: String!
+) @auth(level: USER_EMAIL_VERIFIED) {
+  plot_update(
+    key: { id: $plotId },
+    data: { assignedToId: $userId }
+  )
+}
+
+# Record plot watering
+mutation WaterPlot(
+  $plotId: UUID!
+) @auth(level: USER) {
+  plot_update(
+    key: { id: $plotId },
+    data: { lastWatered_expr: "request.time" }
+  )
+}
+
+#
+# Plant Operations
+#
+
+# Add a new plant type
+mutation AddPlant(
+  $name: String!,
+  $scientificName: String,
+  $plantType: String!,
+  $growingSeason: String,
+  $sunRequirement: String,
+  $waterRequirement: String,
+  $daysToHarvest: Int,
+  $spacingInInches: Int,
+  $companions: String,
+  $imageUrl: String
+) @auth(level: USER_EMAIL_VERIFIED) {
+  plant_insert(data: {
+    name: $name,
+    scientificName: $scientificName,
+    plantType: $plantType,
+    growingSeason: $growingSeason,
+    sunRequirement: $sunRequirement,
+    waterRequirement: $waterRequirement,
+    daysToHarvest: $daysToHarvest,
+    spacingInInches: $spacingInInches,
+    companions: $companions,
+    imageUrl: $imageUrl
+  })
+}
+
+# Update plant information
+mutation UpdatePlant(
+  $plantId: UUID!,
+  $name: String,
+  $scientificName: String,
+  $plantType: String,
+  $growingSeason: String,
+  $sunRequirement: String,
+  $waterRequirement: String,
+  $daysToHarvest: Int,
+  $spacingInInches: Int,
+  $companions: String,
+  $imageUrl: String
+) @auth(level: USER_EMAIL_VERIFIED) {
+  plant_update(
+    key: { id: $plantId },
+    data: {
+      name: $name,
+      scientificName: $scientificName,
+      plantType: $plantType,
+      growingSeason: $growingSeason,
+      sunRequirement: $sunRequirement,
+      waterRequirement: $waterRequirement,
+      daysToHarvest: $daysToHarvest,
+      spacingInInches: $spacingInInches,
+      companions: $companions,
+      imageUrl: $imageUrl
+    }
+  )
+}
+
+#
+# Plant Instance Operations
+#
+
+# Plant something in a plot
+mutation PlantInPlot(
+  $plotId: UUID!,
+  $plantId: UUID!,
+  $expectedHarvestDate: Date,
+  $notes: String
+) @auth(level: USER) {
+  plantInstance_insert(data: {
+    plantTypeId: $plantId,
+    plotId: $plotId,
+    status: "growing",
+    expectedHarvestDate: $expectedHarvestDate,
+    notes: $notes
+  })
+}
+
+# Update plant instance status
+mutation UpdatePlantStatus(
+  $instanceId: UUID!,
+  $status: String!,
+  $notes: String
+) @auth(level: USER) {
+  plantInstance_update(
+    key: { id: $instanceId },
+    data: {
+      status: $status,
+      notes: $notes
+    }
+  )
+}
+
+# Remove a plant instance
+mutation RemovePlant(
+  $instanceId: UUID!
+) @auth(level: USER) {
+  plantInstance_delete(key: { id: $instanceId })
+}
+
+#
+# Task Operations
+#
+
+# Create a new garden task
+mutation CreateTask(
+  $title: String!,
+  $description: String,
+  $category: String,
+  $priority: String,
+  $dueDate: Date,
+  $assignedToId: String,
+  $relatedPlotId: UUID
+) @auth(level: USER) {
+  task_insert(data: {
+    title: $title,
+    description: $description,
+    category: $category,
+    priority: $priority,
+    status: "pending",
+    dueDate: $dueDate,
+    createdById_expr: "auth.uid",
+    assignedToId: $assignedToId,
+    relatedPlotId: $relatedPlotId
+  })
+}
+
+# Update a task
+mutation UpdateTask(
+  $taskId: UUID!,
+  $title: String,
+  $description: String,
+  $category: String,
+  $priority: String,
+  $status: String,
+  $dueDate: Date,
+  $assignedToId: String,
+  $relatedPlotId: UUID
+) @auth(level: USER) {
+  task_update(
+    key: { id: $taskId },
+    data: {
+      title: $title,
+      description: $description,
+      category: $category,
+      priority: $priority,
+      status: $status,
+      dueDate: $dueDate,
+      assignedToId: $assignedToId,
+      relatedPlotId: $relatedPlotId
+    }
+  )
+}
+
+# Mark task as complete
+mutation CompleteTask(
+  $taskId: UUID!
+) @auth(level: USER) {
+  task_update(
+    key: { id: $taskId },
+    data: { status: "completed" }
+  )
+}
+
+# Delete a task
+mutation DeleteTask(
+  $taskId: UUID!
+) @auth(level: USER) {
+  task_delete(key: { id: $taskId })
+}
+
+#
+# Event Operations
+#
+
+# Create a garden event
+mutation CreateEvent(
+  $title: String!,
+  $description: String,
+  $startTime: Timestamp!,
+  $endTime: Timestamp!,
+  $location: String,
+  $eventType: String,
+  $maxAttendees: Int
+) @auth(level: USER) {
+  event_insert(data: {
+    title: $title,
+    description: $description,
+    startTime: $startTime,
+    endTime: $endTime,
+    location: $location,
+    eventType: $eventType,
+    organizerId_expr: "auth.uid",
+    maxAttendees: $maxAttendees
+  })
+}
+
+# Update an event
+mutation UpdateEvent(
+  $eventId: UUID!,
+  $title: String,
+  $description: String,
+  $startTime: Timestamp,
+  $endTime: Timestamp,
+  $location: String,
+  $eventType: String,
+  $maxAttendees: Int
+) @auth(level: USER) {
+  event_update(
+    key: { id: $eventId },
+    data: {
+      title: $title,
+      description: $description,
+      startTime: $startTime,
+      endTime: $endTime,
+      location: $location,
+      eventType: $eventType,
+      maxAttendees: $maxAttendees
+    }
+  )
+}
+
+# RSVP to an event
+mutation RsvpToEvent(
+  $eventId: UUID!,
+  $status: String!
+) @auth(level: USER) {
+  eventAttendee_upsert(data: {
+    eventId: $eventId,
+    userId_expr: "auth.uid",
+    rsvpStatus: $status
+  })
+}
+
+# Cancel an event
+mutation CancelEvent(
+  $eventId: UUID!
+) @auth(level: USER) {
+  event_delete(key: { id: $eventId })
+}
+
+#
+# Resource Operations
+#
+
+# Create garden knowledge resource
+mutation CreateResource(
+  $title: String!,
+  $content: String!,
+  $category: String!,
+  $tags: String,
+  $imageUrl: String
+) @auth(level: USER) {
+  resource_insert(data: {
+    title: $title,
+    content: $content,
+    category: $category,
+    tags: $tags,
+    authorId_expr: "auth.uid",
+    imageUrl: $imageUrl
+  })
+}
+
+# Update a resource
+mutation UpdateResource(
+  $resourceId: UUID!,
+  $title: String,
+  $content: String,
+  $category: String,
+  $tags: String,
+  $imageUrl: String
+) @auth(level: USER) {
+  resource_update(
+    key: { id: $resourceId },
+    data: {
+      title: $title,
+      content: $content,
+      category: $category,
+      tags: $tags,
+      updatedAt_expr: "request.time",
+      imageUrl: $imageUrl
+    }
+  )
+}
+
+# Delete a resource
+mutation DeleteResource(
+  $resourceId: UUID!
+) @auth(level: USER) {
+  resource_delete(key: { id: $resourceId })
+}
+
+#
+# Weather Operations
+#
+
+# Record weather data
+mutation RecordWeather(
+  $temperature: Float,
+  $humidity: Float,
+  $rainfall: Float,
+  $notes: String
+) @auth(level: USER) {
+  weatherRecord_insert(data: {
+    temperature: $temperature,
+    humidity: $humidity,
+    rainfall: $rainfall,
+    notes: $notes
+  })
+}

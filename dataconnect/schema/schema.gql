@@ -1,52 +1,116 @@
-# # Example schema for simple movie review app
+# TechServ Community Garden - Data Connect Schema
 
-# # User table is keyed by Firebase Auth UID.
-# type User @table {
-#   # `@default(expr: "auth.uid")` sets it to Firebase Auth UID during insert and upsert.
-#   id: String! @default(expr: "auth.uid")
-#   username: String! @col(dataType: "varchar(50)")
-#   # The `user: User!` field in the Review table generates the following one-to-many query field.
-#   #  reviews_on_user: [Review!]!
-#   # The `Review` join table the following many-to-many query field.
-#   #  movies_via_Review: [Movie!]!
-# }
+# GardenUser table is keyed by Firebase Auth UID
+type GardenUser @table {
+  # `@default(expr: "auth.uid")` sets it to Firebase Auth UID during insert and upsert
+  id: String! @default(expr: "auth.uid")
+  displayName: String! @col(dataType: "varchar(100)")
+  email: String! @col(dataType: "varchar(255)")
+  photoURL: String
+  role: String @col(dataType: "varchar(50)")
+  joinedDate: Date! @default(expr: "request.time")
+  # Relationships are created automatically through foreign keys
+}
 
-# # Movie is keyed by a randomly generated UUID.
-# type Movie @table {
-#   # If you do not pass a 'key' to `@table`, Data Connect automatically adds the following 'id' column.
-#   # Feel free to uncomment and customize it.
-#   #  id: UUID! @default(expr: "uuidV4()")
-#   title: String!
-#   imageUrl: String!
-#   genre: String
-# }
+# Plot represents a garden plot
+type Plot @table {
+  # Auto-generated UUID
+  id: UUID! @default(expr: "uuidV4()")
+  plotNumber: String! @col(dataType: "varchar(20)")
+  sizeInSqFt: Float
+  location: String @col(dataType: "varchar(100)")
+  assignedTo: GardenUser
+  # PlantInstance relationship is handled automatically
+  soilType: String
+  sunExposure: String @col(dataType: "varchar(50)")
+  isActive: Boolean! @default(value: true)
+  lastWatered: Date
+}
 
-# # MovieMetadata is a metadata attached to a Movie.
-# # Movie <-> MovieMetadata is a one-to-one relationship
-# type MovieMetadata @table {
-#   # @unique ensures each Movie can only one MovieMetadata.
-#   movie: Movie! @unique
-#   # The movie field adds the following foreign key field. Feel free to uncomment and customize it.
-#   #  movieId: UUID!
-#   rating: Float
-#   releaseYear: Int
-#   description: String
-# }
+# Plant represents a plant type that can be grown
+type Plant @table {
+  id: UUID! @default(expr: "uuidV4()")
+  name: String! @col(dataType: "varchar(100)")
+  scientificName: String @col(dataType: "varchar(100)")
+  plantType: String @col(dataType: "varchar(50)")  # vegetable, herb, flower, etc.
+  growingSeason: String @col(dataType: "varchar(50)")
+  sunRequirement: String @col(dataType: "varchar(50)")
+  waterRequirement: String @col(dataType: "varchar(50)")
+  daysToHarvest: Int
+  spacingInInches: Int
+  companions: String
+  imageUrl: String
+  # PlantInstance relationship is handled automatically
+}
 
-# # Reviews is a join table between User and Movie.
-# # It has a composite primary keys `userUid` and `movieId`.
-# # A user can leave reviews for many movies. A movie can have reviews from many users.
-# # User  <-> Review is a one-to-many relationship
-# # Movie <-> Review is a one-to-many relationship
-# # Movie <-> User is a many-to-many relationship
-# type Review @table(name: "Reviews", key: ["movie", "user"]) {
-#   user: User!
-#   # The user field adds the following foreign key field. Feel free to uncomment and customize it.
-#   #  userUid: String!
-#   movie: Movie!
-#   # The movie field adds the following foreign key field. Feel free to uncomment and customize it.
-#   #  movieId: UUID!
-#   rating: Int
-#   reviewText: String
-#   reviewDate: Date! @default(expr: "request.time")
-# }
+# PlantInstance is a specific plant in a specific plot
+type PlantInstance @table {
+  id: UUID! @default(expr: "uuidV4()")
+  plantType: Plant!
+  plot: Plot!
+  plantedDate: Date! @default(expr: "request.time")
+  expectedHarvestDate: Date
+  status: String @col(dataType: "varchar(50)")  # growing, harvested, removed
+  notes: String
+}
+
+# Task represents garden tasks
+type Task @table {
+  id: UUID! @default(expr: "uuidV4()")
+  title: String! @col(dataType: "varchar(100)")
+  description: String
+  category: String @col(dataType: "varchar(50)")  # watering, weeding, planting, etc.
+  priority: String @col(dataType: "varchar(20)")  # high, medium, low
+  status: String @col(dataType: "varchar(20)")  # pending, in progress, completed
+  dueDate: Date
+  createdAt: Date! @default(expr: "request.time")
+  createdBy: GardenUser
+  assignedTo: GardenUser
+  relatedPlot: Plot
+}
+
+# Events for garden activities
+type Event @table {
+  id: UUID! @default(expr: "uuidV4()")
+  title: String! @col(dataType: "varchar(100)")
+  description: String
+  startTime: Timestamp!
+  endTime: Timestamp!
+  location: String @col(dataType: "varchar(100)")
+  eventType: String @col(dataType: "varchar(50)")  # workshop, work day, celebration
+  organizer: GardenUser
+  # Event attendees relationship is handled automatically
+  maxAttendees: Int
+  createdAt: Date! @default(expr: "request.time")
+}
+
+# Event Attendees join table
+type EventAttendee @table(key: ["event", "user"]) {
+  event: Event!
+  user: GardenUser!
+  rsvpStatus: String! @col(dataType: "varchar(20)")  # attending, maybe, declined
+  rsvpDate: Timestamp! @default(expr: "request.time")
+}
+
+# Resource for garden knowledge and information
+type Resource @table {
+  id: UUID! @default(expr: "uuidV4()")
+  title: String! @col(dataType: "varchar(100)")
+  content: String!
+  category: String! @col(dataType: "varchar(50)")  # guides, tips, policies
+  tags: String @col(dataType: "varchar(255)")
+  author: GardenUser
+  createdAt: Date! @default(expr: "request.time")
+  updatedAt: Date
+  imageUrl: String
+}
+
+# Weather Data for garden conditions
+type WeatherRecord @table {
+  id: UUID! @default(expr: "uuidV4()")
+  recordDate: Date! @default(expr: "request.time")
+  temperature: Float
+  humidity: Float
+  rainfall: Float
+  notes: String
+}
