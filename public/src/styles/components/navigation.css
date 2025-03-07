@@ -1,0 +1,150 @@
+/**
+ * TechServ Community Garden Website
+ * Navigation Component Styles
+ */
+
+/* Navigation */
+.main-nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: var(--spacing-md);
+}
+
+.nav-list li a {
+    display: block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    color: var(--neutral-dark);
+    font-weight: 500;
+    transition: color var(--transition-fast);
+    position: relative;
+}
+
+.nav-list li a:hover {
+    color: var(--primary-color);
+}
+
+.nav-list li a.active {
+    color: var(--primary-color);
+}
+
+.nav-list li a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--spacing-xs);
+}
+
+.hamburger {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--neutral-dark);
+    position: relative;
+    transition: background-color var(--transition-fast);
+}
+
+.hamburger::before,
+.hamburger::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background-color: var(--neutral-dark);
+    transition: transform var(--transition-fast);
+}
+
+.hamburger::before {
+    top: -6px;
+}
+
+.hamburger::after {
+    bottom: -6px;
+}
+
+.mobile-menu-toggle.active .hamburger {
+    background-color: transparent;
+}
+
+.mobile-menu-toggle.active .hamburger::before {
+    transform: rotate(45deg);
+    top: 0;
+}
+
+.mobile-menu-toggle.active .hamburger::after {
+    transform: rotate(-45deg);
+    bottom: 0;
+}
+
+/* Header Actions */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.search-container {
+    position: relative;
+}
+
+.search-input {
+    padding: var(--spacing-xs) var(--spacing-md);
+    padding-right: 2.5rem;
+    border: 1px solid var(--neutral-medium);
+    border-radius: var(--border-radius-md);
+    transition: border-color var(--transition-fast);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.search-button {
+    position: absolute;
+    right: var(--spacing-xs);
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--neutral-medium);
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.search-button:hover {
+    color: var(--primary-color);
+}
+
+.user-account {
+    display: flex;
+    align-items: center;
+}
+
+.user-icon {
+    font-size: var(--font-size-xl);
+    color: var(--neutral-dark);
+    transition: color var(--transition-fast);
+}
+
+.user-icon:hover {
+    color: var(--primary-color);
+}

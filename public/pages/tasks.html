@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks & Volunteering - TechServ Community Garden</title>
+    <link rel="stylesheet" href="../src/styles/main.css">
+    <link rel="stylesheet" href="../css/pages/tasks.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-container">
+                <iframe src="../assets/images/logo.html" title="TechServ Garden Logo" class="logo" style="border: none; overflow: hidden;"></iframe>
+                <h1>TechServ Community Garden</h1>
+            </div>
+            
+            <nav class="main-nav">
+                <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                    <span class="hamburger"></span>
+                </button>
+                <ul class="nav-list">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="garden-planning.html">Garden Planning</a></li>
+                    <li><a href="tasks.html" class="active">Tasks</a></li>
+                    <li><a href="garden-map.html">Garden Map</a></li>
+                    <li><a href="profile.html">My Profile</a></li>
+                    <li><a href="knowledge.html">Knowledge Base</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-container">
+                    <input type="text" placeholder="Search..." class="search-input">
+                    <button class="search-button"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-account">
+                    <a href="profile.html" class="user-icon"><i class="fas fa-user-circle"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container main-container">
+        <main class="main-content">
+            <section class="page-header">
+                <h2>Garden Tasks & Volunteering</h2>
+                <p>Manage garden tasks, sign up for volunteer opportunities, and track progress across departments.</p>
+            </section>
+            
+            <section class="task-board-section">
+                <div class="section-header">
+                    <h3>Task Board</h3>
+                    <div class="section-actions">
+                        <button class="btn primary-btn"><i class="fas fa-plus"></i> Add Task</button>
+                        <button class="btn secondary-btn"><i class="fas fa-filter"></i> Filter</button>
+                    </div>
+                </div>
+                
+                <div class="task-board">
+                    <!-- To Do Column -->
+                    <div class="task-column">
+                        <div class="column-header">
+                            <h3 class="column-title">To Do</h3>
+                            <span class="column-count">5</span>
+                        </div>
+                        
+                        <div class="task-card" id="task-1">
+                            <div class="task-card-header">
+                                <h4 class="task-card-title">Water Section A plants</h4>
+                                <span class="task-card-priority priority-high"></span>
+                            </div>
+                            <p class="task-card-details">Water all plants in Section A, focusing on newly planted seedlings.</p>
+                            <div class="task-card-meta">
+                                <span class="task-card-date"><i class="far fa-calendar"></i> Mar 7</span>
+                                <span class="task-card-assignee"><i class="far fa-user"></i> Unassigned</span>
+                            </div>
+                        </div>
+                        
+                        <div class="task-card" id="task-2">
+                            <div class="task-card-header">
+                                <h4 class="task-card-title">Apply compost to tomato beds</h4>
+                                <span class="task-card-priority priority-medium"></span>
+                            </div>
+                            <p class="task-card-details">Apply a 2-inch layer of compost around tomato plants in Section B.</p>
+                            <div class="task-card-meta">
+                                <span class="task-card-date"><i class="far fa-calendar"></i> Mar 8</span>
+                                <span class="task-card-assignee"><i class="far fa-user"></i> Unassigned</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- In Progress Column -->
+                    <div class="task-column">
+                        <div class="column-header">
+                            <h3 class="column-title">In Progress</h3>
+                            <span class="column-count">3</span>
+                        </div>
+                        
+                        <div class="task-card" id="task-3">
+                            <div class="task-card-header">
+                                <h4 class="task-card-title">Plant tomato seedlings</h4>
+                                <span class="task-card-priority priority-high"></span>
+                            </div>
+                            <p class="task-card-details">Plant 24 tomato seedlings in Section B, rows 3-5.</p>
+                            <div class="task-card-meta">
+                                <span class="task-card-date"><i class="far fa-calendar"></i> Mar 6</span>
+                                <span class="task-card-assignee"><i class="far fa-user-circle"></i> J.S.</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Completed Column -->
+                    <div class="task-column">
+                        <div class="column-header">
+                            <h3 class="column-title">Completed</h3>
+                            <span class="column-count">4</span>
+                        </div>
+                        
+                        <div class="task-card" id="task-4">
+                            <div class="task-card-header">
+                                <h4 class="task-card-title">Harvest winter vegetables</h4>
+                                <span class="task-card-priority priority-high"></span>
+                            </div>
+                            <p class="task-card-details">Harvest kale, spinach, and winter squash from Sections D and E.</p>
+                            <div class="task-card-meta">
+                                <span class="task-card-date"><i class="far fa-calendar"></i> Feb 28</span>
+                                <span class="task-card-assignee"><i class="far fa-user-circle"></i> A.L.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="volunteer-section">
+                <div class="volunteer-header">
+                    <h3 class="volunteer-title">Volunteer Opportunities</h3>
+                    <button class="btn secondary-btn"><i class="fas fa-filter"></i> Filter</button>
+                </div>
+                
+                <div class="volunteer-grid">
+                    <div class="volunteer-card">
+                        <div class="volunteer-header-bg">
+                            <div class="volunteer-icon">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                        </div>
+                        <div class="volunteer-body">
+                            <h4 class="volunteer-role">Spring Planting Team</h4>
+                            <div class="volunteer-details">
+                                <span><i class="far fa-calendar"></i> March 10-15, 2025</span>
+                                <span><i class="far fa-clock"></i> 12:00 PM - 2:00 PM</span>
+                                <span><i class="fas fa-map-marker-alt"></i> Sections B & C</span>
+                            </div>
+                            <div class="volunteer-spots">
+                                <span class="spots-available">8 spots available</span>
+                            </div>
+                            <button class="btn primary-btn small-btn">Sign Up</button>
+                        </div>
+                    </div>
+                    
+                    <div class="volunteer-card">
+                        <div class="volunteer-header-bg">
+                            <div class="volunteer-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                        </div>
+                        <div class="volunteer-body">
+                            <h4 class="volunteer-role">Irrigation System Setup</h4>
+                            <div class="volunteer-details">
+                                <span><i class="far fa-calendar"></i> March 12, 2025</span>
+                                <span><i class="far fa-clock"></i> 9:00 AM - 12:00 PM</span>
+                                <span><i class="fas fa-map-marker-alt"></i> Section C</span>
+                            </div>
+                            <div class="volunteer-spots">
+                                <span class="spots-limited">3 spots available</span>
+                            </div>
+                            <button class="btn primary-btn small-btn">Sign Up</button>
+                        </div>
+                    </div>
+                    
+                    <div class="volunteer-card">
+                        <div class="volunteer-header-bg">
+                            <div class="volunteer-icon">
+                                <i class="fas fa-recycle"></i>
+                            </div>
+                        </div>
+                        <div class="volunteer-body">
+                            <h4 class="volunteer-role">Composting Team</h4>
+                            <div class="volunteer-details">
+                                <span><i class="far fa-calendar"></i> March 15, 2025</span>
+                                <span><i class="far fa-clock"></i> 10:00 AM - 12:00 PM</span>
+                                <span><i class="fas fa-map-marker-alt"></i> Compost Area</span>
+                            </div>
+                            <div class="volunteer-spots">
+                                <span class="spots-available">5 spots available</span>
+                            </div>
+                            <button class="btn primary-btn small-btn">Sign Up</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="department-section">
+                <div class="department-header">
+                    <h3 class="department-title">Department Progress</h3>
+                    <div class="department-actions">
+                        <button class="btn secondary-btn"><i class="fas fa-calendar-alt"></i> This Month</button>
+                    </div>
+                </div>
+                
+                <div class="department-grid">
+                    <div class="department-card">
+                        <div class="department-name">
+                            <i class="fas fa-seedling department-icon"></i>
+                            Planting Team
+                        </div>
+                        <div class="department-stats">
+                            <div class="department-stat">
+                                <div class="stat-value">24</div>
+                                <div class="stat-label">Tasks</div>
+                            </div>
+                            <div class="department-stat">
+                                <div class="stat-value">18</div>
+                                <div class="stat-label">Completed</div>
+                            </div>
+                            <div class="department-stat">
+                                <div class="stat-value">75%</div>
+                                <div class="stat-label">Progress</div>
+                            </div>
+                        </div>
+                        <div class="department-progress">
+                            <div class="progress-label">
+                                <span>Task Completion</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 75%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="department-card">
+                        <div class="department-name">
+                            <i class="fas fa-tint department-icon"></i>
+                            Irrigation Team
+                        </div>
+                        <div class="department-stats">
+                            <div class="department-stat">
+                                <div class="stat-value">12</div>
+                                <div class="stat-label">Tasks</div>
+                            </div>
+                            <div class="department-stat">
+                                <div class="stat-value">8</div>
+                                <div class="stat-label">Completed</div>
+                            </div>
+                            <div class="department-stat">
+                                <div class="stat-value">67%</div>
+                                <div class="stat-label">Progress</div>
+                            </div>
+                        </div>
+                        <div class="department-progress">
+                            <div class="progress-label">
+                                <span>Task Completion</span>
+                                <span>67%</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 67%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <aside class="sidebar">
+            <section class="weather-widget">
+                <div class="weather-header">
+                    <div class="weather-location">East Texas</div>
+                    <div class="weather-date">March 6, 2025</div>
+                </div>
+                
+                <div class="current-weather">
+                    <div class="weather-icon">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <div class="weather-info">
+                        <div class="current-temperature">78°F</div>
+                        <div class="current-condition">Partly Cloudy</div>
+                    </div>
+                </div>
+                
+                <div class="weather-details">
+                    <div class="weather-detail">
+                        <div class="detail-label">Humidity</div>
+                        <div class="detail-value humidity-value">65%</div>
+                    </div>
+                    <div class="weather-detail">
+                        <div class="detail-label">Wind</div>
+                        <div class="detail-value wind-value">8 mph</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section>
+                <h3>My Tasks</h3>
+                <ul class="task-list">
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" id="mytask1">
+                        <label for="mytask1" class="task-label">Water Section A plants</label>
+                        <span class="task-priority priority-high"></span>
+                    </li>
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" id="mytask2">
+                        <label for="mytask2" class="task-label">Apply compost to tomato beds</label>
+                        <span class="task-priority priority-medium"></span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" id="mytask3" checked>
+                        <label for="mytask3" class="task-label">Harvest winter vegetables</label>
+                        <span class="task-priority priority-low"></span>
+                    </li>
+                </ul>
+                <div class="text-center mt-md">
+                    <a href="#" class="btn small-btn secondary-btn">View All My Tasks</a>
+                </div>
+            </section>
+            
+            <section>
+                <h3>Quick Stats</h3>
+                <div class="stat-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">24</div>
+                        <div class="stat-label">Open Tasks</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">87</div>
+                        <div class="stat-label">Active Gardeners</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Volunteer Spots</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">4</div>
+                        <div class="stat-label">Departments</div>
+                    </div>
+                </div>
+            </section>
+        </aside>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>About Our Garden</h3>
+                <p>The TechServ Community Garden is a collaborative space for employees to grow fresh produce, learn gardening skills, and build community on our East Texas corporate campus.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="garden-planning.html">Garden Planning</a></li>
+                    <li><a href="tasks.html">Tasks</a></li>
+                    <li><a href="garden-map.html">Garden Map</a></li>
+                    <li><a href="profile.html">My Profile</a></li>
+                    <li><a href="knowledge.html">Knowledge Base</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-envelope"></i> garden@techserv.com</li>
+                    <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                    <li><i class="fas fa-map-marker-alt"></i> TechServ Campus, East Texas</li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Garden Stats</h3>
+                <div class="garden-stats">
+                    <div class="stat">
+                        <span class="stat-number">42</span>
+                        <span class="stat-label">Plant Varieties</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">87</span>
+                        <span class="stat-label">Gardeners</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">156</span>
+                        <span class="stat-label">Pounds Harvested</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom container">
+            <p>&copy; 2025 TechServ Community Garden. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="../src/scripts/core/main.js"></script>
+    <script type="module" src="../src/scripts/features/tasks.js"></script>
+    <!-- Include notifications and modals CSS if not already included in main CSS -->
+    <style>
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            border-radius: var(--border-radius-md);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-light);
+        }
+
+        .modal-title {
+            margin: 0;
+            font-size: var(--font-size-lg);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--neutral-medium);
+        }
+
+        .modal-body {
+            padding: var(--spacing-md);
+        }
+
+        .modal-footer {
+            padding: var(--spacing-md);
+            border-top: 1px solid var(--neutral-light);
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--spacing-sm);
+        }
+
+        /* Notification styles */
+        .notifications-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 350px;
+        }
+
+        .notification {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            margin-top: 10px;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.active {
+            transform: translateX(0);
+        }
+
+        .notification-icon {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+
+        .notification-message {
+            flex: 1;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #aaa;
+            margin-left: 12px;
+        }
+
+        .notification.info .notification-icon {
+            color: #2196F3;
+        }
+
+        .notification.success .notification-icon {
+            color: #4CAF50;
+        }
+
+        .notification.warning .notification-icon {
+            color: #FF9800;
+        }
+
+        .notification.error .notification-icon {
+            color: #F44336;
+        }
+
+        .error-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .error-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Screen reader only - for accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .modal-content {
+                background-color: #1E1E1E;
+                color: #f0f0f0;
+            }
+            
+            .modal-header, .modal-footer {
+                border-color: #333;
+            }
+            
+            .notification {
+                background-color: #333;
+                color: #f0f0f0;
+            }
+            
+            .error-btn {
+                background-color: #d32f2f;
+            }
+            
+            .error-btn:hover {
+                background-color: #b71c1c;
+            }
+        }
+    </style>
+</body>
+</html>

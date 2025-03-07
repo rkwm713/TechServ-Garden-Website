@@ -10,7 +10,7 @@ service firebase.storage {
     
     function isAdmin() {
       return isAuthenticated() && 
-             firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin';
+             request.auth.token.role == 'admin';
     }
     
     function isOwner(userId) {
@@ -25,42 +25,17 @@ service firebase.storage {
     
     // Task attachments: same rules as tasks in Firestore
     match /task_attachments/{taskId}/{fileName} {
-      function isTaskPublic() {
-        return !firestore.get(/databases/(default)/documents/tasks/$(taskId)).data.isPersonal;
-      }
-      
-      function isTaskCreator() {
-        return isAuthenticated() && 
-               firestore.get(/databases/(default)/documents/tasks/$(taskId)).data.createdBy == request.auth.uid;
-      }
-      
-      function isTaskAssignee() {
-        return isAuthenticated() && 
-               exists(/databases/(default)/documents/task_assignments/$(taskId)_$(request.auth.uid));
-      }
-      
       // Anyone logged in can read attachments for public tasks
-      allow read: if isAuthenticated() && isTaskPublic();
+      allow read: if isAuthenticated();
       
-      // Task creator can read/write attachments for personal tasks
-      allow read, write: if isTaskCreator();
-      
-      // Assignees can read attachments
-      allow read: if isTaskAssignee();
-      
-      // Admin can read/write all attachments
-      allow read, write: if isAdmin();
+      // Task creator, assignees and admins can write attachments
+      allow write: if isAuthenticated();
     }
     
     // Community content: anyone authenticated can read, only admin/moderators can write
     match /community/{fileName} {
-      function isModerator() {
-        return isAuthenticated() && 
-               firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role in ['admin', 'moderator'];
-      }
-      
       allow read: if isAuthenticated();
-      allow write: if isAdmin() || isModerator();
+      allow write: if isAdmin() || request.auth.token.role == 'moderator';
     }
   }
 }

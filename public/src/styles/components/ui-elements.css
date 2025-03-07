@@ -1,0 +1,142 @@
+/**
+ * TechServ Community Garden Website
+ * UI Elements Component Styles
+ */
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: none;
+    font-size: var(--font-size-md);
+}
+
+.primary-btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.primary-btn:hover {
+    background-color: var(--primary-dark);
+    color: var(--white);
+}
+
+.secondary-btn {
+    background-color: var(--neutral-light);
+    color: var(--neutral-dark);
+    border: 1px solid var(--neutral-medium);
+}
+
+.secondary-btn:hover {
+    background-color: var(--neutral-medium);
+    color: var(--white);
+}
+
+.accent-btn {
+    background-color: var(--accent-color);
+    color: var(--white);
+}
+
+.accent-btn:hover {
+    background-color: var(--accent-dark);
+    color: var(--white);
+}
+
+.small-btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+}
+
+.large-btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: var(--font-size-lg);
+}
+
+/* Cards */
+.card {
+    background-color: var(--white);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.card-title {
+    margin-bottom: 0;
+}
+
+/* Alerts */
+.alert {
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.alert-success {
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+}
+
+.alert-warning {
+    background-color: var(--accent-light);
+    color: var(--accent-dark);
+}
+
+.alert-error {
+    background-color: #FFEBEE;
+    color: #C62828;
+}
+
+.alert-info {
+    background-color: #E3F2FD;
+    color: #0D47A1;
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+}
+
+.badge-primary {
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+}
+
+.badge-accent {
+    background-color: var(--accent-light);
+    color: var(--accent-dark);
+}
+
+.badge-success {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+}
+
+.badge-warning {
+    background-color: #FFF3E0;
+    color: #E65100;
+}
+
+.badge-error {
+    background-color: #FFEBEE;
+    color: #C62828;
+}

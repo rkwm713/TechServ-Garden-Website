@@ -1,0 +1,140 @@
+/**
+ * TechServ Community Garden Website
+ * Get Involved section styles
+ */
+
+.get-involved-section {
+    background-color: var(--primary-light);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.get-involved-section:hover {
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+}
+
+/* Add decorative pattern to background */
+.get-involved-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle at 10% 10%, var(--primary-color) 0, transparent 40px),
+                      radial-gradient(circle at 90% 90%, var(--primary-color) 0, transparent 40px);
+    opacity: 0.04;
+    z-index: 1;
+    transition: opacity 0.3s ease;
+}
+
+.get-involved-section:hover::before {
+    opacity: 0.06;
+}
+
+.get-involved-section > * {
+    position: relative;
+    z-index: 2;
+}
+
+.involved-title {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-md);
+    font-family: 'Saira', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em; /* 50pt tracking */
+    position: relative;
+    display: inline-block;
+}
+
+.involved-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -8px;
+    width: 80px;
+    height: 3px;
+    background-color: var(--primary-color);
+    transform: translateX(-50%);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.get-involved-section:hover .involved-title::after {
+    width: 120px;
+}
+
+.involved-description {
+    max-width: 600px;
+    margin: 0 auto var(--spacing-lg);
+    color: var(--neutral-dark);
+    line-height: 1.6;
+    font-size: var(--font-size-md);
+}
+
+.involved-buttons {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+}
+
+.involved-buttons .btn {
+    min-width: 150px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    transition: transform 0.3s ease, 
+                box-shadow 0.3s ease, 
+                background-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.involved-buttons .btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+.involved-buttons .btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.involved-buttons .btn:active {
+    transform: translateY(-2px);
+}
+
+.involved-buttons .btn:hover::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .involved-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .involved-buttons .btn {
+        min-width: 200px;
+    }
+    
+    .involved-description {
+        font-size: var(--font-size-sm);
+    }
+}

@@ -1,0 +1,118 @@
+/**
+ * TechServ Community Garden Website
+ * Weather Widget Component Styles
+ */
+
+/* Weather Widget */
+.weather-widget {
+    background-color: var(--white);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.weather-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.weather-location {
+    font-weight: 600;
+}
+
+.weather-date {
+    color: var(--neutral-medium);
+    font-size: var(--font-size-sm);
+}
+
+.current-weather {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.weather-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-right: var(--spacing-md);
+}
+
+.weather-info {
+    flex: 1;
+}
+
+.current-temperature {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.current-condition {
+    color: var(--neutral-medium);
+}
+
+.weather-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-md);
+}
+
+.weather-detail {
+    text-align: center;
+}
+
+.detail-label {
+    font-size: var(--font-size-sm);
+    color: var(--neutral-medium);
+}
+
+.detail-value {
+    font-weight: 600;
+}
+
+.forecast {
+    border-top: 1px solid var(--neutral-light);
+    padding-top: var(--spacing-sm);
+}
+
+.forecast-title {
+    font-size: var(--font-size-sm);
+    color: var(--neutral-medium);
+    margin-bottom: var(--spacing-xs);
+}
+
+.forecast-days {
+    display: flex;
+    justify-content: space-between;
+}
+
+.forecast-day {
+    text-align: center;
+    flex: 1;
+}
+
+.day-name {
+    font-size: var(--font-size-xs);
+    color: var(--neutral-medium);
+}
+
+.day-condition {
+    font-size: var(--font-size-md);
+    color: var(--primary-color);
+    margin: var(--spacing-xs) 0;
+}
+
+.day-temp {
+    font-size: var(--font-size-xs);
+}
+
+.day-temp .high {
+    font-weight: 600;
+}
+
+.day-temp .low {
+    color: var(--neutral-medium);
+}

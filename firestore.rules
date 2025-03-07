@@ -9,12 +9,12 @@ service cloud.firestore {
     
     function isAdmin() {
       return isAuthenticated() && 
-             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+             get(/databases/{database}/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
     
     function isModerator() {
       return isAuthenticated() && 
-             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'moderator'];
+             get(/databases/{database}/documents/users/$(request.auth.uid)).data.role in ['admin', 'moderator'];
     }
     
     function isOwner(userId) {
@@ -36,12 +36,6 @@ service cloud.firestore {
         return isAuthenticated() && resource.data.createdBy == request.auth.uid;
       }
       
-      // Helper to check if user is assigned to task
-      function isAssigned() {
-        return isAuthenticated() && 
-               exists(/databases/$(database)/documents/task_assignments/$(taskId)_$(request.auth.uid));
-      }
-      
       // Anyone logged in can read community tasks
       allow read: if isAuthenticated() && !resource.data.isPersonal;
       
@@ -52,8 +46,8 @@ service cloud.firestore {
       allow create: if isAuthenticated() && 
                       request.resource.data.createdBy == request.auth.uid;
       
-      // Updates allowed by admin, moderator, creator, or assignee
-      allow update: if isAdmin() || isModerator() || isCreator() || isAssigned();
+      // Updates allowed by admin, moderator, creator
+      allow update: if isAdmin() || isModerator() || isCreator();
       
       // Only admin, moderator, or creator can delete
       allow delete: if isAdmin() || isModerator() || isCreator();
@@ -61,123 +55,59 @@ service cloud.firestore {
     
     // Task assignments
     match /task_assignments/{assignmentId} {
-      // Helper to check if assignment is for current user
-      function isAssignmentForUser() {
-        return isAuthenticated() && resource.data.userId == request.auth.uid;
-      }
+      // Allow reading any assignment for authenticated users
+      allow read: if isAuthenticated();
       
-      // Helper to check if user is task creator
-      function isTaskCreator() {
-        return isAuthenticated() && 
-               get(/databases/$(database)/documents/tasks/$(resource.data.taskId)).data.createdBy == request.auth.uid;
-      }
+      // Allow creating if user is admin, moderator, or authenticated
+      allow create: if isAuthenticated();
       
-      // Allow reading any assignment for tasks user can read
-      allow read: if isAuthenticated() && (
-                    !get(/databases/$(database)/documents/tasks/$(resource.data.taskId)).data.isPersonal || 
-                    get(/databases/$(database)/documents/tasks/$(resource.data.taskId)).data.createdBy == request.auth.uid
-                  );
+      // Allow updates by admin, moderator
+      allow update: if isAdmin() || isModerator();
       
-      // Allow creating if user is admin, moderator, or task creator
-      allow create: if isAdmin() || isModerator() || 
-                      (isAuthenticated() && request.resource.data.assignedBy == request.auth.uid &&
-                       get(/databases/$(database)/documents/tasks/$(request.resource.data.taskId)).data.createdBy == request.auth.uid);
-      
-      // Allow updates by admin, moderator, task creator or assignee
-      allow update: if isAdmin() || isModerator() || isTaskCreator() || isAssignmentForUser();
-      
-      // Allow deletion by admin, moderator, task creator or the assigned user
-      allow delete: if isAdmin() || isModerator() || isTaskCreator() || isAssignmentForUser();
+      // Allow deletion by admin, moderator
+      allow delete: if isAdmin() || isModerator();
     }
     
     // Comments
     match /comments/{commentId} {
-      // Helper to check if user is comment author
-      function isAuthor() {
-        return isAuthenticated() && resource.data.userId == request.auth.uid;
-      }
-      
-      // Helper to check if user can access the content being commented on
-      function canAccessContent() {
-        let contentType = resource.data.contentType;
-        let contentId = resource.data.contentId;
-        
-        // For tasks, check if user can read the task
-        return contentType == 'task'
-          ? !get(/databases/$(database)/documents/tasks/$(contentId)).data.isPersonal || 
-            get(/databases/$(database)/documents/tasks/$(contentId)).data.createdBy == request.auth.uid
-          : true; // Default case for other content types
-      }
-      
-      // Allow reading if user can access content
-      allow read: if isAuthenticated() && canAccessContent();
+      // Allow reading for authenticated users
+      allow read: if isAuthenticated();
       
       // Allow creating if user is authenticated
       allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
       
       // Allow updating if user is author, admin, or moderator
-      allow update: if isAuthor() || isAdmin() || isModerator();
+      allow update: if isAuthenticated() && 
+                     (resource.data.userId == request.auth.uid || isAdmin() || isModerator());
       
       // Allow deletion if user is author, admin, or moderator
-      allow delete: if isAuthor() || isAdmin() || isModerator();
+      allow delete: if isAuthenticated() && 
+                     (resource.data.userId == request.auth.uid || isAdmin() || isModerator());
     }
     
     // Likes
     match /likes/{likeId} {
-      // Helper to check if user is liker
-      function isLiker() {
-        return isAuthenticated() && resource.data.userId == request.auth.uid;
-      }
-      
-      // Helper to check if user can access the content being liked
-      function canAccessContent() {
-        let contentType = resource.data.contentType;
-        let contentId = resource.data.contentId;
-        
-        // For tasks, check if user can read the task
-        return contentType == 'task'
-          ? !get(/databases/$(database)/documents/tasks/$(contentId)).data.isPersonal || 
-            get(/databases/$(database)/documents/tasks/$(contentId)).data.createdBy == request.auth.uid
-          : true; // Default case for other content types
-      }
-      
-      // Allow reading if user can access content
-      allow read: if isAuthenticated() && canAccessContent();
+      // Allow reading for authenticated users
+      allow read: if isAuthenticated();
       
       // Allow creating if user is authenticated
       allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
       
       // Only allow user to delete their own likes
-      allow delete: if isLiker();
+      allow delete: if isAuthenticated() && resource.data.userId == request.auth.uid;
     }
     
     // Shares
     match /shares/{shareId} {
-      // Helper to check if user is sharer
-      function isSharer() {
-        return isAuthenticated() && resource.data.userId == request.auth.uid;
-      }
-      
-      // Helper to check if user can access the content being shared
-      function canAccessContent() {
-        let contentType = resource.data.contentType;
-        let contentId = resource.data.contentId;
-        
-        // For tasks, check if user can read the task
-        return contentType == 'task'
-          ? !get(/databases/$(database)/documents/tasks/$(contentId)).data.isPersonal || 
-            get(/databases/$(database)/documents/tasks/$(contentId)).data.createdBy == request.auth.uid
-          : true; // Default case for other content types
-      }
-      
-      // Allow reading if user can access content
-      allow read: if isAuthenticated() && canAccessContent();
+      // Allow reading for authenticated users
+      allow read: if isAuthenticated();
       
       // Allow creating if user is authenticated
       allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
       
       // Allow deletion if user is sharer, admin, or moderator
-      allow delete: if isSharer() || isAdmin() || isModerator();
+      allow delete: if isAuthenticated() && 
+                     (resource.data.userId == request.auth.uid || isAdmin() || isModerator());
     }
     
     // Notifications - users can only access their own notifications

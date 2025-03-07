@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - TechServ Community Garden</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Additional CSS for Profile page -->
+    <style>
+        /* Profile Styles */
+        .profile-header {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-lg);
+        }
+        
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--primary-dark);
+            position: relative;
+        }
+        
+        .profile-avatar-edit {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .profile-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .profile-name {
+            font-size: var(--font-size-xl);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .profile-title {
+            color: var(--neutral-medium);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .profile-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .profile-meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            color: var(--neutral-dark);
+            font-size: var(--font-size-sm);
+        }
+        
+        .profile-meta-icon {
+            color: var(--primary-color);
+        }
+        
+        .profile-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+        
+        .profile-badge {
+            background-color: var(--neutral-light);
+            border-radius: var(--border-radius-sm);
+            padding: 4px var(--spacing-sm);
+            font-size: var(--font-size-xs);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .profile-badge.featured {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+        }
+        
+        .profile-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .stats-title {
+            margin-bottom: 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+        }
+        
+        .stat-card {
+            background-color: var(--neutral-light);
+            border-radius: var(--border-radius-sm);
+            padding: var(--spacing-md);
+            text-align: center;
+        }
+        
+        .stat-card.primary {
+            background-color: var(--primary-light);
+        }
+        
+        .stat-card.success {
+            background-color: var(--success-light);
+        }
+        
+        .stat-card.warning {
+            background-color: var(--warning-light);
+        }
+        
+        .stat-card.info {
+            background-color: var(--info-light);
+        }
+        
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary-color);
+        }
+        
+        .stat-card.primary .stat-icon {
+            color: var(--primary-dark);
+        }
+        
+        .stat-card.success .stat-icon {
+            color: var(--success-dark);
+        }
+        
+        .stat-card.warning .stat-icon {
+            color: var(--warning-dark);
+        }
+        
+        .stat-card.info .stat-icon {
+            color: var(--info-dark);
+        }
+        
+        .stat-value {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .stat-label {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-dark);
+        }
+        
+        /* Contribution History */
+        .contribution-section {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .contribution-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .contribution-title {
+            margin-bottom: 0;
+        }
+        
+        .contribution-filter {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+        
+        .contribution-calendar {
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(53, 1fr);
+            grid-template-rows: repeat(7, 1fr);
+            gap: 3px;
+        }
+        
+        .calendar-day {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            background-color: var(--neutral-light);
+        }
+        
+        .calendar-day.level-0 {
+            background-color: var(--neutral-light);
+        }
+        
+        .calendar-day.level-1 {
+            background-color: #d0f0c0;
+        }
+        
+        .calendar-day.level-2 {
+            background-color: #a0e0a0;
+        }
+        
+        .calendar-day.level-3 {
+            background-color: #70c070;
+        }
+        
+        .calendar-day.level-4 {
+            background-color: var(--success-color);
+        }
+        
+        .calendar-legend {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: var(--spacing-xs);
+            margin-top: var(--spacing-sm);
+            font-size: var(--font-size-xs);
+            color: var(--neutral-medium);
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .legend-color {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+        
+        .contribution-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .contribution-item {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-light);
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+        }
+        
+        .contribution-item:last-child {
+            border-bottom: none;
+        }
+        
+        .contribution-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .contribution-content {
+            flex: 1;
+        }
+        
+        .contribution-title {
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .contribution-description {
+            font-size: var(--font-size-sm);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .contribution-meta {
+            display: flex;
+            gap: var(--spacing-md);
+            font-size: var(--font-size-xs);
+            color: var(--neutral-medium);
+        }
+        
+        /* Skills Section */
+        .skills-section {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .skills-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .skills-title {
+            margin-bottom: 0;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-lg);
+        }
+        
+        .skill-category {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .skill-category-title {
+            font-size: var(--font-size-md);
+            margin-bottom: var(--spacing-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .skill-category-icon {
+            color: var(--primary-color);
+        }
+        
+        .skill-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .skill-item {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-xs);
+            font-size: var(--font-size-sm);
+        }
+        
+        .skill-level {
+            color: var(--neutral-medium);
+        }
+        
+        .skill-progress {
+            height: 8px;
+            background-color: var(--neutral-light);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .skill-progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+        }
+        
+        /* Interests Section */
+        .interests-section {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .interests-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .interests-title {
+            margin-bottom: 0;
+        }
+        
+        .interests-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .interest-tag {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: var(--border-radius-sm);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            font-size: var(--font-size-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .interest-tag i {
+            font-size: var(--font-size-xs);
+        }
+        
+        .interest-tag.removable {
+            padding-right: var(--spacing-xs);
+        }
+        
+        .tag-remove {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            cursor: pointer;
+        }
+        
+        .add-interest {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+        
+        .add-interest-input {
+            flex: 1;
+        }
+        
+        /* Preferences Section */
+        .preferences-section {
+            background-color: var(--white);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .preferences-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .preferences-title {
+            margin-bottom: 0;
+        }
+        
+        .preferences-form {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-lg);
+        }
+        
+        .preference-group {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .preference-label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-weight: 500;
+        }
+        
+        .preference-description {
+            font-size: var(--font-size-sm);
+            color: var(--neutral-medium);
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--neutral-medium);
+            transition: var(--transition-fast);
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: var(--white);
+            transition: var(--transition-fast);
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .preference-select {
+            width: 100%;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--neutral-medium);
+            border-radius: var(--border-radius-sm);
+            background-color: var(--white);
+        }
+        
+        .preferences-actions {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+        
+        /* Responsive adjustments for profile page */
+        @media (max-width: 991px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .preferences-form {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .profile-meta {
+                justify-content: center;
+            }
+            
+            .profile-badges {
+                justify-content: center;
+            }
+            
+            .profile-actions {
+                justify-content: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-grid {
+                grid-template-columns: repeat(26, 1fr);
+                grid-template-rows: repeat(14, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-container">
+                <iframe src="../assets/images/logo.html" title="TechServ Garden Logo" class="logo" style="border: none; overflow: hidden;"></iframe>
+                <h1>TechServ Community Garden</h1>
+            </div>
+            
+            <nav class="main-nav">
+                <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                    <span class="hamburger"></span>
+                </button>
+                <ul class="nav-list">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="garden-planning.html">Garden Planning</a></li>
+                    <li><a href="tasks.html">Tasks</a></li>
+                    <li><a href="garden-map.html">Garden Map</a></li>
+                    <li><a href="profile.html" class="active">My Profile</a></li>
+                    <li><a href="knowledge.html">Knowledge Base</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-container">
+                    <input type="text" placeholder="Search..." class="search-input">
+                    <button class="search-button"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-account">
+                    <a href="profile.html" class="user-icon"><i class="fas fa-user-circle"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container main-container">
+        <main class="main-content">
+            <section class="page-header">
+                <h2>My Profile</h2>
+                <p>Manage your garden profile, track contributions, skills, and interests.</p>
+            </section>
+            
+            <section class="profile-header">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                    <div class="profile-avatar-edit">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+                
+                <div class="profile-info">
+                    <h3 class="profile-name">John Smith</h3>
+                    <p class="profile-title">Software Engineer, TechServ</p>
+                    
+                    <div class="profile-meta">
+                        <div class="profile-meta-item">
+                            <i class="fas fa-envelope profile-meta-icon"></i>
+                            <span>john.smith@techserv.com</span>
+                        </div>
+                        <div class="profile-meta-item">
+                            <i class="fas fa-building profile-meta-icon"></i>
+                            <span>Engineering Department</span>
+                        </div>
+                        <div class="profile-meta-item">
+                            <i class="fas fa-calendar-alt profile-meta-icon"></i>
+                            <span>Member since January 2023</span>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-badges">
+                        <div class="profile-badge featured">
+                            <i class="fas fa-star"></i>
+                            <span>Garden Leader</span>
+                        </div>
+                        <div class="profile-badge featured">
+                            <i class="fas fa-award"></i>
+                            <span>Top Contributor</span>
+                        </div>
+                        <div class="profile-badge">
+                            <i class="fas fa-seedling"></i>
+                            <span>Planting Expert</span>
+                        </div>
+                        <div class="profile-badge">
+                            <i class="fas fa-tint"></i>
+                            <span>Irrigation Team</span>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <button class="btn primary-btn"><i class="fas fa-edit"></i> Edit Profile</button>
+                        <button class="btn secondary-btn"><i class="fas fa-cog"></i> Settings</button>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="stats-section">
+                <div class="stats-header">
+                    <h3 class="stats-title">Contribution Stats</h3>
+                    <div class="stats-filter">
+                        <select class="form-select">
+                            <option value="all-time">All Time</option>
+                            <option value="this-year">This Year</option>
+                            <option value="this-month">This Month</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-value">87</div>
+                        <div class="stat-label">Hours Contributed</div>
+                    </div>
+                    
+                    <div class="stat-card success">
+                        <div class="stat-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="stat-value">124</div>
+                        <div class="stat-label">Plants Grown</div>
+                    </div>
+                    
+                    <div class="stat-card warning">
+                        <div class="stat-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-value">42</div>
+                        <div class="stat-label">Tasks Completed</div>
+                    </div>
+                    
+                    <div class="stat-card info">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-value">15</div>
+                        <div class="stat-label">Events Attended</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="contribution-section">
+                <div class="contribution-header">
+                    <h3 class="contribution-title">Contribution History</h3>
+                    <div class="contribution-filter">
+                        <select class="form-select">
+                            <option value="all">All Activities</option>
+                            <option value="tasks">Tasks</option>
+                            <option value="events">Events</option>
+                            <option value="planting">Planting</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="contribution-calendar">
+                    <div class="calendar-grid">
+                        <!-- This would be dynamically generated in a real implementation -->
+                        <!-- Showing a sample pattern for demonstration -->
+                        <!-- Each div represents a day, with level-0 to level-4 indicating activity level -->
+                        <div class="calendar-day level-0"></div>
+                        <div class="calendar-day level-1"></div>
+                        <div class="calendar-day level-2"></div>
+                        <div class="calendar-day level-3"></div>
+                        <div class="calendar-day level-4"></div>
+                        <!-- Repeat for all days of the year -->
+                        <!-- For brevity, not showing all 365 divs -->
+                    </div>
+                    
+                    <div class="calendar-legend">
+                        <div class="legend-item">
+                            <div class="legend-color level-0"></div>
+                            <span>No activity</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color level-1"></div>
+                            <span>Low</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color level-2"></div>
+                            <span>Medium</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color level-3"></div>
+                            <span>High</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color level-4"></div>
+                            <span>Very high</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <ul class="contribution-list">
+                    <li class="contribution-item">
+                        <div class="contribution-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="contribution-content">
+                            <div class="contribution-title">Planted tomato seedlings in Section B</div>
+                            <div class="contribution-description">Planted 24 Roma and Cherry tomato seedlings in rows 3-5 of Section B.</div>
+                            <div class="contribution-meta">
+                                <span><i class="far fa-calendar"></i> March 6, 2025</span>
+                                <span><i class="far fa-clock"></i> 2 hours</span>
+                                <span><i class="fas fa-map-marker-alt"></i> Section B</span>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="contribution-item">
+                        <div class="contribution-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <div class="contribution-content">
+                            <div class="contribution-title">Installed drip irrigation in Section C</div>
+                            <div class="contribution-description">Set up drip irrigation system for the new planting area in Section C.</div>
+                            <div class="contribution-meta">
+                                <span><i class="far fa-calendar"></i> March 3, 2025</span>
+                                <span><i class="far fa-clock"></i> 3 hours</span>
+                                <span><i class="fas fa-map-marker-alt"></i> Section C</span>
+                            </div>
+                        </div>
+                    </li>
+                    
+                    <li class="contribution-item">
+                        <div class="contribution-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="contribution-content">
+                            <div class="contribution-title">Attended Spring Planting Workshop</div>
+                            <div class="contribution-description">Participated in the workshop on spring planting techniques for East Texas.</div>
+                            <div class="contribution-meta">
+                                <span><i class="far fa-calendar"></i> February 28, 2025</span>
+                                <span><i class="far fa-clock"></i> 1.5 hours</span>
+                                <span><i class="fas fa-map-marker-alt"></i> Garden Shed</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                
+                <div class="text-center mt-md">
+                    <button class="btn secondary-btn">View All Contributions</button>
+                </div>
+            </section>
+            
+            <section class="skills-section">
+                <div class="skills-header">
+                    <h3 class="skills-title">Gardening Skills</h3>
+                    <button class="btn secondary-btn"><i class="fas fa-plus"></i> Add Skill</button>
+                </div>
+                
+                <div class="skills-grid">
+                    <div>
+                        <div class="skill-category">
+                            <h4 class="skill-category-title">
+                                <i class="fas fa-seedling skill-category-icon"></i>
+                                <span>Planting & Growing</span>
+                            </h4>
+                            
+                            <ul class="skill-list">
+                                <li class="skill-item">
+                                    <div class="skill-name">
+                                        <span>Vegetable Gardening</span>
+                                        <span class="skill-level">Advanced</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-bar" style="width: 90%;"></div>
+                                    </div>
+                                </li>
+                                
+                                <li class="skill-item">
+                                    <div class="skill-name">
+                                        <span>Seed Starting</span>
+                                        <span class="skill-level">Expert</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-bar" style="width: 95%;"></div>
+                                    </div>
+                                </li>
+                                
+                                <li class="skill-item">
+                                    <div class="skill-name">
+                                        <span>Companion Planting</span>
+                                        <span class="skill-level">Intermediate</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-bar" style="width: 65%;"></div>
+                                    </div>
+                                </li>
+                                
+                                <li class="skill-item">
+                                    <div class="skill-name">
+                                        <span>Herb Gardening</span>
+                                        <span class="skill-level">Beginner</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-bar" style="width: 30%;"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h4 class="skill-category-title">
+                                <i class="fas fa-tint skill-category-icon"></i>
+                                <span>Irrigation & Maintenance</span>
+                            </h4>
+                            
+                            <ul class="skill-list">
+                                <li class="skill-item">
+                                    <div class="skill-name">
+                                        <span>Drip Irrigation</span>
+                                        <span class="skill-level">Advanced</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-bar" style="width: 85%;"></div>
+                                    </div>
+                                </li>
+                                
+                                <li class="skill-item">
+                                    <div class="skill-name">
+                                        <span>Water Conservation</span>
+                                        <span class="skill-level">Intermediate</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-bar" style="width: 70%;"></div>
+                                    </div>
+                                </li>
+                                
+                                <li class="skill-item">
+                                    <div class="skill-name">
+                                        <span>Tool Maintenance</span>
+                                        <span class="skill-level">Advanced</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-bar" style="width: 80%;"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="skill-category">
+                            <h4 class="skill-category-title">
+                                <i class="fas fa-bug skill-category-icon"></i>
+                                <span>Pest & Disease Management</span>
+                            </h4>
+                            
+                            <ul class="skill-list">
+                                <li class="skill-item">
+                                    <div class="skill-name">
+                                        <span>Organic Pest Control</span>
+                                        <span class="skill-level">Intermediate</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-bar" style="width: 60%;"></div>
+                                    </div>
+                                </li>
+                                
+                                <li class="skill-item">
+                                    <div class="skill-name">
+                                        <span>Disease Identification</span>
+                                        <span class="skill-level">Intermediate</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-bar" style="width: 65%;"></div>
+                                    </div>
+                                </li>
+                                
+                                <li class="skill-item">
+                                    <div class="skill-name">
+                                        <span>Beneficial Insects</span>
+                                        <span class="skill-level">Beginner</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-bar" style="width: 40%;"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h4 class="skill-category-title">
+                                <i class="fas fa-recycle skill-category-icon"></i>
+                                <span>Soil & Composting</span>
+                            </h4>
+                            
+                            <ul class="skill-list">
+                                <li class="skill-item">
+                                    <div class="skill-name">
+                                        <span>Composting</span>
+                                        <span class="skill-level">Expert</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-bar" style="width: 95%;"></div>
+                                    </div>
+                                </li>
+                                
+                                <li class="skill-item">
+                                    <div class="skill-name">
+                                        <span>Soil Testing</span>
+                                        <span class="skill-level">Advanced</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-bar" style="width: 85%;"></div>
+                                    </div>
+                                </li>
+                                
+                                <li class="skill-item">
+                                    <div class="skill-name">
+                                        <span>Soil Amendment</span>
+                                        <span class="skill-level">Advanced</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-bar" style="width: 80%;"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="interests-section">
+                <div class="interests-header">
+                    <h3 class="interests-title">Gardening Interests</h3>
+                    <button class="btn secondary-btn"><i class="fas fa-edit"></i> Edit</button>
+                </div>
+                
+                <div class="interests-tags">
+                    <div class="interest-tag removable">
+                        <i class="fas fa-seedling"></i>
+                        <span>Vegetable Gardening</span>
+                        <div class="tag-remove">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="interest-tag removable">
+                        <i class="fas fa-pepper-hot"></i>
+                        <span>Heirloom Tomatoes</span>
+                        <div class="tag-remove">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="interest-tag removable">
+                        <i class="fas fa-tint"></i>
+                        <span>Drip Irrigation</span>
+                        <div class="tag-remove">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="interest-tag removable">
+                        <i class="fas fa-recycle"></i>
+                        <span>Composting</span>
+                        <div class="tag-remove">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="interest-tag removable">
+                        <i class="fas fa-leaf"></i>
+                        <span>Native Plants</span>
+                        <div class="tag-remove">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="interest-tag removable">
+                        <i class="fas fa-bug"></i>
+                        <span>Organic Pest Control</span>
+                        <div class="tag-remove">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="interest-tag removable">
+                        <i class="fas fa-sun"></i>
+                        <span>Drought-Tolerant Plants</span>
+                        <div class="tag-remove">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="add-interest">
+                    <input type="text" class="form-input add-interest-input" placeholder="Add a new interest...">
+                    <button class="btn primary-btn"><i class="fas fa-plus"></i> Add</button>
+                </div>
+            </section>
+            
+            <section class="preferences-section">
+                <div class="preferences-header">
+                    <h3 class="preferences-title">Notification Preferences</h3>
+                </div>
+                
+                <form class="preferences-form">
+                    <div>
+                        <div class="preference-group">
+                            <label class="preference-label">Email Notifications</label>
+                            <p class="preference-description">Receive email notifications about garden activities and updates.</p>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="preference-group">
+                            <label class="preference-label">Task Reminders</label>
+                            <p class="preference-description">Receive reminders about upcoming and overdue tasks.</p>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="preference-group">
+                            <label class="preference-label">Event Notifications</label>
+                            <p class="preference-description">Receive notifications about upcoming garden events and workshops.</p>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="preference-group">
+                            <label class="preference-label">Weather Alerts</label>
+                            <p class="preference-description">Receive alerts about weather conditions affecting the garden.</p>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="preference-group">
+                            <label class="preference-label">Notification Frequency</label>
+                            <p class="preference-description">How often would you like to receive notifications?</p>
+                            <select class="preference-select">
+                                <option value="immediately">Immediately</option>
+                                <option value="daily" selected>Daily Digest</option>
+                                <option value="weekly">Weekly Digest</option>
+                            </select>
+                        </div>
+                        
+                        <div class="preference-group">
+                            <label class="preference-label">Garden Areas of Interest</label>
+                            <p class="preference-description">Select garden areas you want to receive updates about.</p>
+                            <select class="preference-select" multiple>
+                                <option value="section-a" selected>Section A</option>
+                                <option value="section-b" selected>Section B</option>
+                                <option value="section-c" selected>Section C</option>
+                                <option value="section-d">Section D</option>
+                                <option value="section-e">Section E</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="preferences-actions">
+                        <button type="button" class="btn secondary-btn">Cancel</button>
+                        <button type="submit" class="btn primary-btn">Save Preferences</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+
+        <aside class="sidebar">
+            <section class="weather-widget">
+                <div class="weather-header">
+                    <div class="weather-location">East Texas</div>
+                    <div class="weather-date">March 6, 2025</div>
+                </div>
+                
+                <div class="current-weather">
+                    <div class="weather-icon">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <div class="weather-info">
+                        <div class="current-temperature">78°F</div>
+                        <div class="current-condition">Partly Cloudy</div>
+                    </div>
+                </div>
+                
+                <div class="weather-details">
+                    <div class="weather-detail">
+                        <div class="detail-label">Humidity</div>
+                        <div class="detail-value humidity-value">65%</div>
+                    </div>
+                    <div class="weather-detail">
+                        <div class="detail-label">Wind</div>
+                        <div class="detail-value wind-value">8 mph</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section>
+                <h3>My Tasks</h3>
+                <ul class="task-list">
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" id="mytask1">
+                        <label for="mytask1" class="task-label">Water Section A plants</label>
+                        <span class="task-priority priority-high"></span>
+                    </li>
+                    <li class="task-item">
+                        <input type="checkbox" class="task-checkbox" id="mytask2">
+                        <label for="mytask2" class="task-label">Apply compost to tomato beds</label>
+                        <span class="task-priority priority-medium"></span>
+                    </li>
+                    <li class="task-item completed">
+                        <input type="checkbox" class="task-checkbox" id="mytask3" checked>
+                        <label for="mytask3" class="task-label">Harvest winter vegetables</label>
+                        <span class="task-priority priority-low"></span>
+                    </li>
+                </ul>
+                <div class="text-center mt-md">
+                    <a href="tasks.html" class="btn small-btn secondary-btn">View All My Tasks</a>
+                </div>
+            </section>
+            
+            <section>
+                <h3>Upcoming Events</h3>
+                <ul class="event-list-small">
+                    <li class="event-item-small">
+                        <div class="event-date">
+                            <span class="month">Mar</span>
+                            <span class="day">10</span>
+                        </div>
+                        <div class="event-details">
+                            <div class="event-title-small">Tomato Planting Day</div>
+                            <div class="event-time">12:00 PM - 2:00 PM</div>
+                            <div class="event-location">Section B</div>
+                        </div>
+                    </li>
+                    <li class="event-item-small">
+                        <div class="event-date">
+                            <span class="month">Mar</span>
+                            <span class="day">15</span>
+                        </div>
+                        <div class="event-details">
+                            <div class="event-title-small">Spring Planting Workshop</div>
+                            <div class="event-time">12:00 PM - 1:30 PM</div>
+                            <div class="event-location">Garden Shed</div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="text-center mt-md">
+                    <a href="community.html#events" class="btn small-btn secondary-btn">View All Events</a>
+                </div>
+            </section>
+        </aside>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>About Our Garden</h3>
+                <p>The TechServ Community Garden is a collaborative space for employees to grow fresh produce, learn gardening skills, and build community on our East Texas corporate campus.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="garden-planning.html">Garden Planning</a></li>
+                    <li><a href="tasks.html">Tasks</a></li>
+                    <li><a href="garden-map.html">Garden Map</a></li>
+                    <li><a href="profile.html">My Profile</a></li>
+                    <li><a href="knowledge.html">Knowledge Base</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-envelope"></i> garden@techserv.com</li>
+                    <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                    <li><i class="fas fa-map-marker-alt"></i> TechServ Campus, East Texas</li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Garden Stats</h3>
+                <div class="garden-stats">
+                    <div class="stat">
+                        <span class="stat-number">42</span>
+                        <span class="stat-label">Plant Varieties</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">87</span>
+                        <span class="stat-label">Gardeners</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">156</span>
+                        <span class="stat-label">Pounds Harvested</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom container">
+            <p>&copy; 2025 TechServ Community Garden. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // Profile page specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Calendar grid generation (simplified for demo)
+            const calendarGrid = document.querySelector('.calendar-grid');
+            
+            if (calendarGrid) {
+                // Clear existing content
+                calendarGrid.innerHTML = '';
+                
+                // Generate a year's worth of activity squares
+                const activityLevels = [0, 1, 2, 3, 4]; // 0 = no activity, 4 = highest activity
+                
+                // For a real implementation, this would use actual contribution data
+                // For demo, we'll generate a random pattern
+                for (let i = 0; i < 371; i++) { // 53 weeks * 7 days
+                    const day = document.createElement('div');
+                    day.className = 'calendar-day';
+                    
+                    // Random activity level for demonstration
+                    const randomLevel = activityLevels[Math.floor(Math.random() * activityLevels.length)];
+                    if (randomLevel > 0) {
+                        day.classList.add(`level-${randomLevel}`);
+                    }
+                    
+                    calendarGrid.appendChild(day);
+                }
+            }
+            
+            // Interest tag removal
+            const tagRemoveButtons = document.querySelectorAll('.tag-remove');
+            
+            tagRemoveButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tag = this.closest('.interest-tag');
+                    tag.remove();
+                });
+            });
+            
+            // Add interest functionality
+            const addInterestForm = document.querySelector('.add-interest');
+            const addInterestInput = document.querySelector('.add-interest-input');
+            
+            if (addInterestForm && addInterestInput) {
+                addInterestForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    
+                    const interestValue = addInterestInput.value.trim();
+                    
+                    if (interestValue) {
+                        const interestsTags = document.querySelector('.interests-tags');
+                        
+                        const newTag = document.createElement('div');
+                        newTag.className = 'interest-tag removable';
+                        newTag.innerHTML = `
+                            <i class="fas fa-leaf"></i>
+                            <span>${interestValue}</span>
+                            <div class="tag-remove">
+                                <i class="fas fa-times"></i>
+                            </div>
+                        `;
+                        
+                        interestsTags.appendChild(newTag);
+                        
+                        // Add event listener to new remove button
+                        const newRemoveButton = newTag.querySelector('.tag-remove');
+                        newRemoveButton.addEventListener('click', function() {
+                            newTag.remove();
+                        });
+                        
+                        // Clear input
+                        addInterestInput.value = '';
+                    }
+                });
+                
+                // Allow form submission when clicking the Add button
+                const addButton = addInterestForm.querySelector('button');
+                if (addButton) {
+                    addButton.addEventListener('click', function() {
+                        const event = new Event('submit', {
+                            bubbles: true,
+                            cancelable: true
+                        });
+                        addInterestForm.dispatchEvent(event);
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+/**
+ * TechServ Community Garden Website
+ * Main CSS file that imports all other CSS modules
+ */
+
+/* Base Styles */
+@import 'base/variables.css';
+@import 'base/reset.css';
+@import 'base/typography.css';
+@import 'base/layout.css';
+
+/* Components */
+@import 'components/navigation.css';
+@import 'components/ui-elements.css';
+@import 'components/forms.css';
+@import 'components/weather-widget.css';
+@import 'components/tasks.css';
+@import 'components/garden-map.css';
+
+/* Utilities */
+@import 'utils/utilities.css';
+
+/* Responsive Styles (should be imported last to override other styles) */
+@import '../css/responsive.css';

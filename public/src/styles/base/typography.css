@@ -1,0 +1,34 @@
+/**
+ * TechServ Community Garden Website
+ * Typography Styles
+ */
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Saira', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em; /* 50pt tracking */
+    line-height: var(--line-height-tight);
+    margin-bottom: var(--spacing-md);
+    color: var(--primary-color);
+}
+
+h1 {
+    font-size: var(--font-size-xxl);
+}
+
+h2 {
+    font-size: var(--font-size-xl);
+}
+
+h3 {
+    font-size: var(--font-size-lg);
+}
+
+h4 {
+    font-size: var(--font-size-md);
+}
+
+p {
+    margin-bottom: var(--spacing-md);
+}

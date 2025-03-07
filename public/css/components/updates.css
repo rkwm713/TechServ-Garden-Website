@@ -1,0 +1,130 @@
+/**
+ * TechServ Community Garden Website
+ * Recent Updates section styles
+ */
+
+.updates-section {
+    background-color: var(--white);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
+}
+
+.updates-section:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.updates-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.updates-title {
+    margin-bottom: 0;
+}
+
+.update-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.update-item {
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid var(--neutral-light);
+    transition: 
+        transform 0.3s ease,
+        padding 0.3s ease;
+}
+
+.update-item:last-child {
+    border-bottom: none;
+}
+
+.update-item:hover {
+    transform: translateX(5px);
+    background-color: var(--neutral-lightest);
+    padding-left: var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+}
+
+.update-icon {
+    width: 48px;
+    height: 48px;
+    background-color: var(--primary-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-dark);
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    transition: 
+        transform 0.3s ease,
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+.update-item:hover .update-icon {
+    transform: scale(1.1);
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.update-content {
+    flex: 1;
+}
+
+.update-title {
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    transition: color 0.3s ease;
+}
+
+.update-item:hover .update-title {
+    color: var(--primary-color);
+}
+
+.update-meta {
+    display: flex;
+    gap: var(--spacing-md);
+    color: var(--neutral-medium);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.update-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.update-meta i {
+    opacity: 0.7;
+}
+
+.update-description {
+    margin-bottom: 0;
+    line-height: 1.5;
+}
+
+@media (max-width: 767px) {
+    .update-item {
+        flex-direction: column;
+    }
+    
+    .update-icon {
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .update-meta {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+}

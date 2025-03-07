@@ -1,0 +1,76 @@
+/**
+ * TechServ Community Garden Website
+ * Tasks Page Specific CSS
+ */
+
+/* Import base styles from tasks component */
+@import url('../tasks.css');
+
+/* Volunteer details text style (for modals) */
+.volunteer-details-text {
+    background-color: var(--neutral-light);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+}
+
+/* Task details description style (for modals) */
+.task-details-description {
+    background-color: var(--neutral-light);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.5;
+}
+
+/* Additional styles for accessibility */
+.task-card:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.task-card:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Improve a11y contrast */
+.task-card-meta {
+    color: var(--neutral-dark);
+}
+
+/* Improve task drag feedback */
+.task-card.dragging {
+    box-shadow: var(--shadow-lg);
+    opacity: 0.8;
+    border: 2px dashed var(--primary-color);
+}
+
+.task-column.drag-over {
+    background-color: var(--primary-light);
+    transition: background-color 0.2s ease;
+}
+
+/* Visual focus indicators for all buttons */
+.btn:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+    .volunteer-details-text,
+    .task-details-description {
+        background-color: #333;
+        color: #f0f0f0;
+    }
+    
+    .task-card-meta {
+        color: #ccc;
+    }
+    
+    .task-column.drag-over {
+        background-color: var(--primary-dark);
+    }
+}

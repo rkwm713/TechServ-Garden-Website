@@ -1,0 +1,152 @@
+/**
+ * TechServ Community Garden Website
+ * Tasks Component Styles
+ */
+
+/* Task List */
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xs) 0;
+}
+
+.task-checkbox {
+    width: 18px;
+    height: 18px;
+}
+
+.task-label {
+    flex: 1;
+    font-size: var(--font-size-sm);
+}
+
+.task-priority {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.priority-high {
+    background-color: var(--error-color);
+}
+
+.priority-medium {
+    background-color: var(--warning-color);
+}
+
+.priority-low {
+    background-color: var(--success-color);
+}
+
+.task-item.completed .task-label {
+    text-decoration: line-through;
+    color: var(--neutral-medium);
+}
+
+/* Task Cards */
+.task-card {
+    background-color: var(--white);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.task-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-sm);
+}
+
+.task-card-title {
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+}
+
+.task-card-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--font-size-sm);
+    color: var(--neutral-medium);
+    margin-bottom: var(--spacing-sm);
+}
+
+.task-card-description {
+    margin-bottom: var(--spacing-sm);
+}
+
+.task-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task-card-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.task-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+}
+
+.status-open {
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+}
+
+.status-in-progress {
+    background-color: var(--accent-light);
+    color: var(--accent-dark);
+}
+
+.status-completed {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+}
+
+/* Task Filters */
+.task-filters {
+    background-color: var(--white);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.filter-option {
+    background-color: var(--neutral-light);
+    border-radius: var(--border-radius-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.filter-option:hover {
+    background-color: var(--primary-light);
+}
+
+.filter-option.active {
+    background-color: var(--primary-color);
+    color: var(--white);
+}

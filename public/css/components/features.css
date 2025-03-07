@@ -1,0 +1,139 @@
+/**
+ * TechServ Community Garden Website
+ * Features section styles
+ */
+
+.features-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+}
+
+.feature-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background-color: var(--white);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-lg);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: 
+        transform 0.3s ease, 
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+.feature-card:hover, 
+.feature-card:focus {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    border-color: var(--primary-light);
+    outline: none;
+}
+
+.feature-card:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.feature-card:hover .feature-action, 
+.feature-card:focus .feature-action {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.feature-card:hover .feature-icon, 
+.feature-card:focus .feature-icon {
+    transform: scale(1.1);
+    color: var(--primary-dark);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-md);
+    transition: 
+        transform 0.3s ease,
+        color 0.3s ease;
+}
+
+.feature-title {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-sm);
+    transition: color 0.3s ease;
+}
+
+.feature-card:hover .feature-title {
+    color: var(--primary-color);
+}
+
+.feature-description {
+    color: var(--neutral-dark);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.5;
+}
+
+.feature-action {
+    margin-top: var(--spacing-md);
+    opacity: 0.7;
+    transition: 
+        opacity 0.3s ease,
+        transform 0.3s ease;
+    text-align: right;
+    font-weight: 500;
+    color: var(--primary-color);
+    transform: translateY(5px);
+}
+
+.feature-action i {
+    margin-left: 5px;
+    transition: transform 0.2s ease;
+}
+
+.feature-card:hover .feature-action i {
+    transform: translateX(3px);
+}
+
+/* Add a subtle background pattern on hover */
+.feature-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(
+            circle at 100% 100%, 
+            var(--primary-color) 0, 
+            transparent 15px
+        );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.feature-card:hover::after {
+    opacity: 0.03;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}

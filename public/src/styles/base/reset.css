@@ -1,0 +1,54 @@
+/**
+ * TechServ Community Garden Website
+ * Reset & Base Styles
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+/* Import Saira and Neuton fonts */
+@import url('https://fonts.googleapis.com/css2?family=Saira:wght@700&family=Neuton:wght@400;700&display=swap');
+
+body {
+    font-family: 'Neuton', serif;
+    line-height: var(--line-height-normal);
+    color: var(--neutral-dark);
+    background-color: var(--neutral-light);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+ul, ol {
+    margin-bottom: var(--spacing-md);
+    padding-left: var(--spacing-lg);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
