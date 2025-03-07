@@ -14,15 +14,14 @@ import { getFunctions, connectFunctionsEmulator } from 'firebase/functions';
 import { getAnalytics, isSupported } from 'firebase/analytics';
 
 // Firebase configuration
-// Replace with your actual Firebase project config from Firebase Console
 const firebaseConfig = {
-  apiKey: "AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  apiKey: "AIzaSyDQagclI5EziIh-uEWSE_PBIk466e1b1Qs",
   authDomain: "techserv-garden.firebaseapp.com",
   projectId: "techserv-garden",
-  storageBucket: "techserv-garden.appspot.com",
-  messagingSenderId: "000000000000",
-  appId: "1:000000000000:web:0000000000000000000000",
-  measurementId: "G-XXXXXXXXXX"
+  storageBucket: "techserv-garden.firebasestorage.app",
+  messagingSenderId: "439024324832",
+  appId: "1:439024324832:web:adb63eda1decc04725c085",
+  measurementId: "G-50FFJR1D6W"
 };
 
 // Initialize Firebase
