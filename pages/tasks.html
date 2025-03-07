@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tasks & Volunteering - TechServ Community Garden</title>
     <link rel="stylesheet" href="../src/styles/main.css">
+    <link rel="stylesheet" href="../css/pages/tasks.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -415,5 +416,186 @@
 
     <script type="module" src="../src/scripts/core/main.js"></script>
     <script type="module" src="../src/scripts/features/tasks.js"></script>
+    <!-- Include notifications and modals CSS if not already included in main CSS -->
+    <style>
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            border-radius: var(--border-radius-md);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--neutral-light);
+        }
+
+        .modal-title {
+            margin: 0;
+            font-size: var(--font-size-lg);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--neutral-medium);
+        }
+
+        .modal-body {
+            padding: var(--spacing-md);
+        }
+
+        .modal-footer {
+            padding: var(--spacing-md);
+            border-top: 1px solid var(--neutral-light);
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--spacing-sm);
+        }
+
+        /* Notification styles */
+        .notifications-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 350px;
+        }
+
+        .notification {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            margin-top: 10px;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.active {
+            transform: translateX(0);
+        }
+
+        .notification-icon {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+
+        .notification-message {
+            flex: 1;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #aaa;
+            margin-left: 12px;
+        }
+
+        .notification.info .notification-icon {
+            color: #2196F3;
+        }
+
+        .notification.success .notification-icon {
+            color: #4CAF50;
+        }
+
+        .notification.warning .notification-icon {
+            color: #FF9800;
+        }
+
+        .notification.error .notification-icon {
+            color: #F44336;
+        }
+
+        .error-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .error-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Screen reader only - for accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .modal-content {
+                background-color: #1E1E1E;
+                color: #f0f0f0;
+            }
+            
+            .modal-header, .modal-footer {
+                border-color: #333;
+            }
+            
+            .notification {
+                background-color: #333;
+                color: #f0f0f0;
+            }
+            
+            .error-btn {
+                background-color: #d32f2f;
+            }
+            
+            .error-btn:hover {
+                background-color: #b71c1c;
+            }
+        }
+    </style>
 </body>
 </html>

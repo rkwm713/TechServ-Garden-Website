@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Test</title>
+</head>
+<body>
+    <h1>JavaScript Module Test</h1>
+    <p>Check the browser console for module import results.</p>
+    
+    <script type="module">
+        // Import modules
+        import { initModals, openModal, closeModal, createModal } from './src/scripts/utils/modal.js';
+        import * as tasksFunctions from './src/scripts/features/tasks.js';
+        
+        // Output to console
+        console.log('Modal utils imported successfully:', { initModals, openModal, closeModal, createModal });
+        console.log('Tasks functions imported successfully:', tasksFunctions);
+        
+        // List all exported functions from tasks.js
+        console.log('Tasks exports:');
+        Object.keys(tasksFunctions).forEach(key => {
+            console.log(`- ${key}`);
+        });
+        
+        // Create output in DOM
+        const output = document.createElement('div');
+        output.innerHTML = '<h2>Exported Functions from tasks.js:</h2><ul>';
+        
+        Object.keys(tasksFunctions).forEach(key => {
+            output.innerHTML += `<li>${key}</li>`;
+        });
+        
+        output.innerHTML += '</ul>';
+        document.body.appendChild(output);
+    </script>
+</body>
+</html>
