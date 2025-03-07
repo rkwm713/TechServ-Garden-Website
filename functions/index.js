@@ -6,12 +6,12 @@
  */
 
 // Import all functions from our implementation file
-import * as functionsImpl from './firebase-functions.js';
+const functions = require('./firebase-functions');
 
 // Export all functions for Firebase
-export const updateUserRole = functionsImpl.updateUserRole;
-export const onTaskAssigned = functionsImpl.onTaskAssigned;
-export const onCommentAdded = functionsImpl.onCommentAdded;
-export const onTaskUpdated = functionsImpl.onTaskUpdated;
-export const markNotificationsRead = functionsImpl.markNotificationsRead;
-export const cleanupOldNotifications = functionsImpl.cleanupOldNotifications;
+exports.updateUserRole = functions.updateUserRole;
+exports.onTaskAssigned = functions.onTaskAssigned;
+exports.onCommentAdded = functions.onCommentAdded;
+exports.onTaskUpdated = functions.onTaskUpdated;
+exports.markNotificationsRead = functions.markNotificationsRead;
+exports.cleanupOldNotifications = functions.cleanupOldNotifications;
