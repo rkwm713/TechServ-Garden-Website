@@ -1,10 +1,12 @@
 /**
  * TechServ Community Garden Website
- * Carousel JavaScript File - Optimized with requestAnimationFrame
+ * Carousel JavaScript File - Optimized with requestAnimationFrame and Lazy Loading
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+// Initialize carousels when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
     initializeCarousel();
+    setupIntersectionObserver();
 });
 
 /**
@@ -26,11 +28,15 @@ function initializeCarousel() {
     let lastTransitionTime = 0;
     const intervalDuration = 5000; // 5 seconds between auto-slides
     
-    // Set up initial state
-    updateCarouselDisplay();
-    
-    // Start auto-sliding with requestAnimationFrame
-    startCarouselAnimation();
+    // Set up initial state with performance optimizations
+    // Use setTimeout to ensure this happens after the main rendering priority tasks
+    setTimeout(() => {
+        updateCarouselDisplay();
+        // Start auto-sliding with requestAnimationFrame only if the carousel is in viewport
+        if (isElementInViewport(carouselContainer)) {
+            startCarouselAnimation();
+        }
+    }, 100);
     
     // Add event listeners
     if (prevButton) {
@@ -88,20 +94,22 @@ function initializeCarousel() {
         handleSwipe();
     }, { passive: true });
     
-    // Pause auto-sliding when hovering over carousel
-    carouselContainer.addEventListener('mouseenter', function() {
+    // Pause auto-sliding when hovering over carousel - use event delegation for better performance
+    carouselContainer.addEventListener('mouseenter', () => {
         stopCarouselAnimation();
-    });
+    }, { passive: true });
     
-    carouselContainer.addEventListener('mouseleave', function() {
-        startCarouselAnimation();
-    });
+    carouselContainer.addEventListener('mouseleave', () => {
+        if (isElementInViewport(carouselContainer)) {
+            startCarouselAnimation();
+        }
+    }, { passive: true });
     
-    // Pause when page is not visible
-    document.addEventListener('visibilitychange', function() {
+    // Pause when page is not visible to save resources
+    document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
             stopCarouselAnimation();
-        } else {
+        } else if (isElementInViewport(carouselContainer)) {
             startCarouselAnimation();
         }
     });
@@ -233,18 +241,77 @@ function initializeCarousel() {
 }
 
 /**
+ * Set up IntersectionObserver for lazy loading images and managing carousel animations
+ */
+function setupIntersectionObserver() {
+    // Lazy load carousel images
+    const lazyImages = document.querySelectorAll('.carousel-slide img');
+    
+    // Set up observer for images to be lazy-loaded
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                // Replace placeholder src with the actual src
+                if (img.dataset.src) {
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                }
+                // Stop observing this image once loaded
+                observer.unobserve(img);
+            }
+        });
+    }, {
+        rootMargin: '50px', // Start loading when within 50px of viewport
+        threshold: 0.01 // Trigger with just 1% visible
+    });
+    
+    lazyImages.forEach(img => {
+        if (img.src && !img.dataset.src) {
+            // Store original src in data-src and replace src with a placeholder
+            img.dataset.src = img.src;
+            img.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"%3E%3C/svg%3E';
+        }
+        imageObserver.observe(img);
+    });
+    
+    // Manage carousel animations based on visibility
+    const carouselContainer = document.querySelector('.carousel-container');
+    if (!carouselContainer) return;
+    
+    const carouselObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                startCarouselAnimation();
+            } else {
+                stopCarouselAnimation();
+            }
+        });
+    }, {
+        threshold: 0.1 // When 10% of the carousel is visible
+    });
+    
+    carouselObserver.observe(carouselContainer);
+}
+
+/**
  * Check if an element is in the viewport
  * @param {HTMLElement} element - The element to check
  * @returns {boolean} - Whether the element is in the viewport
  */
 function isElementInViewport(element) {
-    const rect = element.getBoundingClientRect();
+    if (!element) return false;
     
+    const rect = element.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    const windowWidth = window.innerWidth || document.documentElement.clientWidth;
+    
+    // Consider element in viewport if any part of it is visible
     return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        rect.bottom > 0 &&
+        rect.right > 0 &&
+        rect.top < windowHeight &&
+        rect.left < windowWidth
     );
 }
 
@@ -255,14 +322,40 @@ function isElementInViewport(element) {
  * @returns {Function} - Throttled function
  */
 function throttle(func, limit) {
-    let inThrottle;
+    let lastFunc;
+    let lastRan;
+    
     return function() {
-        const args = arguments;
         const context = this;
-        if (!inThrottle) {
+        const args = arguments;
+        
+        if (!lastRan) {
             func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
+            lastRan = Date.now();
+        } else {
+            clearTimeout(lastFunc);
+            lastFunc = setTimeout(() => {
+                if (Date.now() - lastRan >= limit) {
+                    func.apply(context, args);
+                    lastRan = Date.now();
+                }
+            }, limit - (Date.now() - lastRan));
         }
     };
 }
+
+// Optimize resize event handling
+window.addEventListener('resize', throttle(() => {
+    // Update any carousels that are visible
+    const carouselContainers = document.querySelectorAll('.carousel-container');
+    carouselContainers.forEach(container => {
+        if (isElementInViewport(container)) {
+            const carousel = container.closest('.photo-carousel');
+            if (carousel) {
+                // Refresh the carousel layout (if needed)
+                const event = new CustomEvent('carouselResize');
+                carousel.dispatchEvent(event);
+            }
+        }
+    });
+}, 200), { passive: true });

@@ -4,6 +4,7 @@
  */
 
 import { showNotification, closeNotification, debounce } from '../utils/helpers.js';
+import { initWeather } from '../../features/weather/index.js';
 
 // Expose these utility functions globally for other scripts to use
 window.showNotification = showNotification;
@@ -25,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize weather widget if it exists
     if (document.querySelector('.weather-widget')) {
-        initWeatherWidget();
+        initWeather();
     }
     
     // Initialize search functionality
@@ -222,69 +223,6 @@ function closeModal(modal) {
     document.body.classList.remove('modal-open');
 }
 
-/**
- * Weather Widget
- */
-function initWeatherWidget() {
-    const weatherWidget = document.querySelector('.weather-widget');
-    
-    // In a real implementation, this would fetch data from a weather API
-    // For demo purposes, we'll use mock data
-    const mockWeatherData = {
-        location: 'East Texas',
-        temperature: 78,
-        condition: 'Partly Cloudy',
-        humidity: 65,
-        windSpeed: 8,
-        forecast: [
-            { day: 'Today', high: 78, low: 62, condition: 'Partly Cloudy' },
-            { day: 'Tomorrow', high: 82, low: 65, condition: 'Sunny' },
-            { day: 'Friday', high: 85, low: 68, condition: 'Sunny' },
-            { day: 'Saturday', high: 80, low: 64, condition: 'Scattered Showers' },
-            { day: 'Sunday', high: 76, low: 60, condition: 'Partly Cloudy' }
-        ]
-    };
-    
-    updateWeatherWidget(weatherWidget, mockWeatherData);
-}
-
-function updateWeatherWidget(widget, data) {
-    if (!widget) return;
-    
-    // Update current weather
-    const currentTemp = widget.querySelector('.current-temperature');
-    const currentCondition = widget.querySelector('.current-condition');
-    const humidity = widget.querySelector('.humidity-value');
-    const windSpeed = widget.querySelector('.wind-value');
-    
-    if (currentTemp) currentTemp.textContent = `${data.temperature}°F`;
-    if (currentCondition) currentCondition.textContent = data.condition;
-    if (humidity) humidity.textContent = `${data.humidity}%`;
-    if (windSpeed) windSpeed.textContent = `${data.windSpeed} mph`;
-    
-    // Update forecast
-    const forecastContainer = widget.querySelector('.forecast-days');
-    
-    if (forecastContainer && data.forecast) {
-        forecastContainer.innerHTML = '';
-        
-        data.forecast.forEach(day => {
-            const dayElement = document.createElement('div');
-            dayElement.className = 'forecast-day';
-            
-            dayElement.innerHTML = `
-                <div class="day-name">${day.day}</div>
-                <div class="day-condition"><i class="fas fa-cloud-sun"></i></div>
-                <div class="day-temp">
-                    <span class="high">${day.high}°</span>
-                    <span class="low">${day.low}°</span>
-                </div>
-            `;
-            
-            forecastContainer.appendChild(dayElement);
-        });
-    }
-}
 
 /**
  * Search Functionality
@@ -350,8 +288,6 @@ export {
     initModals,
     openModal,
     closeModal,
-    initWeatherWidget,
-    updateWeatherWidget,
     initSearch,
     performSearch,
     initNotifications

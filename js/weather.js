@@ -2,11 +2,11 @@
  * TechServ Community Garden Website
  * Weather Widget JavaScript File
  * 
- * This file integrates with the NWS Weather API service to display
+ * This file integrates with the OpenWeatherMap API to display
  * real-time weather data for the garden location.
  */
 
-import { getGardenWeather, getGardenAdvice } from '../src/firebase/services/weather.js';
+import { getWeatherData, getWeatherIconClass, getGardenAdvice } from '../src/services/weatherAPI.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     initializeWeatherWidget();
@@ -46,35 +46,79 @@ function initializeWeatherWidget() {
  */
 async function fetchAndUpdateWeather() {
     try {
-        const weatherData = await getGardenWeather();
+        const weatherData = await getWeatherData();
         
-        if (!weatherData || !weatherData.currentConditions) {
+        if (!weatherData || !weatherData.current) {
             throw new Error('Invalid weather data received');
         }
         
         // Format the data for the widget
         const formattedData = {
-            current: {
-                condition: weatherData.currentConditions.condition,
-                temperature: weatherData.currentConditions.temperatureValue,
-                humidity: weatherData.currentConditions.humidityValue,
-                windSpeed: weatherData.currentConditions.windSpeedValue
+            location: {
+                name: weatherData.current.location?.name || 'East Texas'
             },
-            forecast: weatherData.forecast.slice(0, 3).map(day => ({
-                day: day.name.slice(0, 3), // Convert "Monday" to "Mon", etc.
+            current: {
+                condition: weatherData.current.condition,
+                temperature: weatherData.current.temperature,
+                humidity: weatherData.current.humidity,
+                windSpeed: weatherData.current.windSpeed,
+                iconCode: weatherData.current.iconCode
+            },
+            forecast: weatherData.forecast.map(day => ({
+                day: day.day.slice(0, 3), // Convert "Monday" to "Mon", etc.
                 condition: day.condition,
-                temperature: day.temperatureValue
+                temperature: day.temperature,
+                iconCode: day.iconCode
             }))
         };
         
         // Update the widget with the formatted data
         updateWeatherWidget(formattedData);
         
+        // If there was an error but we got fallback data, show a warning to the user
+        if (weatherData.error) {
+            console.warn('Using fallback weather data:', weatherData.error);
+            showWeatherWarning(weatherContainer, 'Using cached weather data');
+        }
+        
         return weatherData;
     } catch (error) {
         console.error('Failed to fetch weather data:', error);
+        
+        // Update with simulated data as fallback
+        updateWeatherWidget(getSimulatedWeatherData());
+        
+        // Show warning to the user
+        showWeatherWarning(weatherContainer, 'Unable to fetch weather data');
+        
         throw error;
     }
+}
+
+/**
+ * Show a warning message in the weather widget
+ */
+function showWeatherWarning(container, message) {
+    if (!container) return;
+    
+    // Check if warning already exists
+    let warningElement = container.querySelector('.weather-warning');
+    
+    if (!warningElement) {
+        // Create warning element
+        warningElement = document.createElement('div');
+        warningElement.className = 'weather-warning';
+        container.appendChild(warningElement);
+    }
+    
+    // Set message and make visible
+    warningElement.textContent = message;
+    warningElement.style.display = 'block';
+    
+    // Hide after 5 seconds
+    setTimeout(() => {
+        warningElement.style.display = 'none';
+    }, 5000);
 }
 
 /**
@@ -129,7 +173,14 @@ function updateWeatherWidget(data) {
         const temperature = currentWeather.querySelector('.temperature');
         const conditions = currentWeather.querySelector('.conditions');
         
-        if (weatherIcon) weatherIcon.className = getWeatherIconClass(data.current.condition);
+        if (weatherIcon) {
+            // Use the imported icon class function with the API's icon code
+            const iconClass = data.current.iconCode ? 
+                getWeatherIconClass(data.current.iconCode) : 
+                'fas fa-cloud-sun';
+            weatherIcon.className = iconClass;
+        }
+        
         if (temperature) temperature.textContent = `${data.current.temperature}°F`;
         if (conditions) conditions.textContent = data.current.condition;
     }
@@ -152,7 +203,7 @@ function updateWeatherWidget(data) {
         const forecastDays = forecast.querySelector('.forecast-days');
         
         if (forecastTitle) {
-            forecastTitle.textContent = 'Forecast';
+            forecastTitle.textContent = '5-Day Forecast';
         }
         
         if (forecastDays) {
@@ -164,9 +215,14 @@ function updateWeatherWidget(data) {
                 const dayElement = document.createElement('div');
                 dayElement.className = 'forecast-day';
                 
+                // Use the imported icon class function with the API's icon code
+                const iconClass = day.iconCode ? 
+                    getWeatherIconClass(day.iconCode) : 
+                    'fas fa-cloud-sun';
+                
                 dayElement.innerHTML = `
                     <div class="day-name">${day.day}</div>
-                    <div class="day-icon"><i class="${getWeatherIconClass(day.condition)}"></i></div>
+                    <div class="day-icon"><i class="${iconClass}"></i></div>
                     <div class="day-temp">${day.temperature}°F</div>
                 `;
                 
@@ -179,13 +235,8 @@ function updateWeatherWidget(data) {
     if (gardenAdvice) {
         const advice = gardenAdvice.querySelector('p');
         if (advice) {
-            // Use the imported getGardenAdvice function from weather service if available
-            try {
-                advice.textContent = getGardenAdvice(data.current);
-            } catch (error) {
-                // Fallback to local function if imported one isn't available
-                advice.textContent = getLocalGardenAdvice(data.current);
-            }
+            // Use the imported getGardenAdvice function
+            advice.textContent = getGardenAdvice(data.current);
         }
     }
 }
@@ -277,83 +328,5 @@ function getSimulatedWeatherData() {
     };
 }
 
-/**
- * Get the appropriate Font Awesome icon class for a weather condition
- * @param {string} condition - Weather condition
- * @returns {string} - Font Awesome icon class
- */
-function getWeatherIconClass(condition) {
-    if (!condition) return 'fas fa-cloud';
-    
-    const conditionLower = condition.toLowerCase();
-    
-    // Use the same mapping as our weather service for consistency
-    // Main weather condition checks
-    if (conditionLower.includes('thunderstorm')) return 'fas fa-bolt';
-    if (conditionLower.includes('lightning')) return 'fas fa-bolt';
-    if (conditionLower.includes('rain') && conditionLower.includes('snow')) return 'fas fa-cloud-rain';
-    if (conditionLower.includes('rain') && conditionLower.includes('ice')) return 'fas fa-cloud-rain';
-    if (conditionLower.includes('freezing') && conditionLower.includes('rain')) return 'fas fa-cloud-rain';
-    if (conditionLower.includes('sleet')) return 'fas fa-cloud-rain';
-    if (conditionLower.includes('showers')) return 'fas fa-cloud-showers-heavy';
-    if (conditionLower.includes('rain')) return 'fas fa-cloud-rain';
-    if (conditionLower.includes('drizzle')) return 'fas fa-cloud-rain';
-    if (conditionLower.includes('snow')) return 'fas fa-snowflake';
-    if (conditionLower.includes('blizzard')) return 'fas fa-snowflake';
-    if (conditionLower.includes('ice')) return 'fas fa-icicles';
-    if (conditionLower.includes('hail')) return 'fas fa-cloud-meatball';
-    if (conditionLower.includes('fog')) return 'fas fa-smog';
-    if (conditionLower.includes('haze')) return 'fas fa-smog';
-    if (conditionLower.includes('dust')) return 'fas fa-smog';
-    if (conditionLower.includes('smoke')) return 'fas fa-smog';
-    
-    // Clear and sunny conditions
-    if (conditionLower.includes('clear')) {
-        return conditionLower.includes('night') ? 'fas fa-moon' : 'fas fa-sun';
-    }
-    if (conditionLower.includes('sunny')) return 'fas fa-sun';
-    if (conditionLower.includes('fair')) {
-        return conditionLower.includes('night') ? 'fas fa-moon' : 'fas fa-sun';
-    }
-    
-    // Cloudy conditions
-    if (conditionLower.includes('partly') && conditionLower.includes('cloudy')) {
-        return conditionLower.includes('night') ? 'fas fa-cloud-moon' : 'fas fa-cloud-sun';
-    }
-    if (conditionLower.includes('mostly') && conditionLower.includes('cloudy')) return 'fas fa-cloud';
-    if (conditionLower.includes('cloudy')) return 'fas fa-cloud';
-    if (conditionLower.includes('overcast')) return 'fas fa-cloud';
-    
-    // Default case
-    return 'fas fa-cloud';
-}
-
-/**
- * Local fallback for garden advice if the imported function isn't available
- * @param {Object} current - Current weather data
- * @returns {string} - Garden advice
- */
-function getLocalGardenAdvice(current) {
-    if (!current) return 'Weather data unavailable. Check back later for garden advice.';
-    
-    const condition = (current.condition || '').toLowerCase();
-    const temp = current.temperature;
-    
-    if (temp > 85) {
-        return 'High temperatures today! Make sure to water plants thoroughly and provide shade for sensitive crops.';
-    } else if (temp < 45) {
-        return 'Cold temperatures expected. Consider covering sensitive plants or bringing potted plants indoors.';
-    }
-    
-    if (condition.includes('rain') || condition.includes('thunderstorm')) {
-        return 'Rain in the forecast! Hold off on watering and consider postponing any planting until drier conditions.';
-    } else if (condition.includes('sunny') || condition.includes('partly')) {
-        return 'Perfect day for gardening! Great time for planting, weeding, or harvesting.';
-    } else if (condition.includes('windy')) {
-        return 'Windy conditions today. Secure any loose structures and consider waiting to apply fertilizers or pesticides.';
-    } else if (condition.includes('foggy')) {
-        return 'Foggy conditions can increase disease risk. Avoid working with wet plants and ensure good air circulation.';
-    }
-    
-    return 'Moderate weather conditions. A good day for general garden maintenance.';
-}
+// We no longer need the getWeatherIconClass and getLocalGardenAdvice functions
+// as they have been moved to the weatherAPI.js module and imported

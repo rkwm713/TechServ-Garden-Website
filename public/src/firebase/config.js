@@ -13,15 +13,15 @@ import { getStorage, connectStorageEmulator } from 'firebase/storage';
 import { getFunctions, connectFunctionsEmulator } from 'firebase/functions';
 import { getAnalytics, isSupported } from 'firebase/analytics';
 
-// Firebase configuration
+// Firebase configuration using environment variables for security
 const firebaseConfig = {
-  apiKey: "AIzaSyDQagclI5EziIh-uEWSE_PBIk466e1b1Qs",
-  authDomain: "techserv-garden.firebaseapp.com",
-  projectId: "techserv-garden",
-  storageBucket: "techserv-garden.firebasestorage.app",
-  messagingSenderId: "439024324832",
-  appId: "1:439024324832:web:adb63eda1decc04725c085",
-  measurementId: "G-50FFJR1D6W"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
@@ -44,7 +44,7 @@ isSupported().then(supported => {
 });
 
 // Use Firebase emulators when in development mode
-if (process.env.NODE_ENV === 'development' || window.location.hostname === 'localhost') {
+if (import.meta.env.VITE_APP_ENV === 'development' || window.location.hostname === 'localhost') {
   // Connect to auth emulator
   connectAuthEmulator(auth, 'http://localhost:9099');
   

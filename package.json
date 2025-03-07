@@ -1,0 +1,37 @@
+{
+  "name": "techserv-garden-website",
+  "version": "1.0.0",
+  "description": "TechServ Community Garden Website",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "sync": "prepare-deploy.bat",
+    "prepare-deploy": "npm run sync",
+    "preview": "vite preview",
+    "lint": "eslint 'src/**/*.js'",
+    "test": "jest",
+    "deploy": "npm run sync && firebase deploy"
+  },
+  "dependencies": {
+    "firebase": "^10.7.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "eslint": "^8.54.0",
+    "jest": "^29.7.0",
+    "rollup-plugin-visualizer": "^5.9.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

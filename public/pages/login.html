@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - TechServ Community Garden</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Additional CSS for Login page -->
+    <style>
+        /* Login Page Styles */
+        .login-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+        
+        .form-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--neutral-light);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .form-tab {
+            flex: 1;
+            text-align: center;
+            padding: var(--spacing-md);
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--neutral-medium);
+            transition: color var(--transition-fast);
+        }
+        
+        .form-tab.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .form-tab:hover {
+            color: var(--primary-color);
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .form-divider {
+            text-align: center;
+            margin: var(--spacing-lg) 0;
+            position: relative;
+        }
+        
+        .form-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: var(--neutral-light);
+            z-index: 1;
+        }
+        
+        .form-divider span {
+            position: relative;
+            z-index: 2;
+            background-color: var(--white);
+            padding: 0 var(--spacing-sm);
+            color: var(--neutral-medium);
+        }
+        
+        .social-login-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius-sm);
+            border: 1px solid var(--neutral-light);
+            background-color: var(--white);
+            cursor: pointer;
+            transition: background-color var(--transition-fast);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .social-login-button:hover {
+            background-color: var(--neutral-light);
+        }
+        
+        .social-login-button i {
+            margin-right: var(--spacing-md);
+            font-size: var(--font-size-lg);
+        }
+        
+        .google-button i {
+            color: #DB4437;
+        }
+        
+        .forgot-password {
+            text-align: right;
+            margin-bottom: var(--spacing-md);
+            font-size: var(--font-size-sm);
+        }
+        
+        .auth-error {
+            background-color: #FFEBEE;
+            color: #C62828;
+            border-radius: var(--border-radius-sm);
+            padding: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+            display: none;
+        }
+        
+        .auth-error.active {
+            display: block;
+        }
+        
+        .password-strength {
+            height: 5px;
+            background-color: var(--neutral-light);
+            border-radius: 3px;
+            margin-top: var(--spacing-xs);
+            overflow: hidden;
+        }
+        
+        .password-strength-meter {
+            height: 100%;
+            width: 0;
+            transition: width var(--transition-fast), background-color var(--transition-fast);
+        }
+        
+        .password-feedback {
+            font-size: var(--font-size-xs);
+            color: var(--neutral-medium);
+            margin-top: var(--spacing-xs);
+        }
+        
+        .card-logo {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .card-logo iframe {
+            width: 80px;
+            height: 80px;
+            border: none;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo-container">
+                <iframe src="../assets/images/logo.html" title="TechServ Garden Logo" class="logo" style="border: none; overflow: hidden;"></iframe>
+                <h1>TechServ Community Garden</h1>
+            </div>
+            
+            <nav class="main-nav">
+                <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                    <span class="hamburger"></span>
+                </button>
+                <ul class="nav-list">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="tasks.html">Tasks</a></li>
+                    <li><a href="garden-map.html">Garden Map</a></li>
+                    <li><a href="profile.html">My Profile</a></li>
+                    <li><a href="knowledge.html">Knowledge Base</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-container">
+                    <input type="text" placeholder="Search..." class="search-input">
+                    <button class="search-button"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-account">
+                    <a href="login.html" class="user-icon"><i class="fas fa-user-circle"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container main-container">
+        <main class="main-content">
+            <section class="page-header">
+                <h2>Welcome to the Garden</h2>
+                <p>Sign in or register to access your account and start contributing to our community garden.</p>
+            </section>
+            
+            <div class="card">
+                <div class="login-container">
+                    <div class="card-logo">
+                        <iframe src="../assets/images/logo.html" title="TechServ Garden Logo" style="border: none; overflow: hidden;"></iframe>
+                    </div>
+                    
+                    <div class="form-tabs">
+                        <div class="form-tab active" data-tab="login">Login</div>
+                        <div class="form-tab" data-tab="register">Register</div>
+                    </div>
+                    
+                    <div id="auth-error" class="auth-error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span id="error-message">Invalid email or password. Please try again.</span>
+                    </div>
+                    
+                    <!-- Login Form -->
+                    <form id="login-form" class="auth-form active">
+                        <div class="form-group">
+                            <label for="login-email" class="form-label">Email</label>
+                            <input type="email" id="login-email" class="form-input" placeholder="Enter your email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="login-password" class="form-label">Password</label>
+                            <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required>
+                        </div>
+                        
+                        <div class="forgot-password">
+                            <a href="#" id="forgot-password-link">Forgot Password?</a>
+                        </div>
+                        
+                        <button type="submit" class="btn primary-btn w-100">Sign In</button>
+                        
+                        <div class="form-divider">
+                            <span>or continue with</span>
+                        </div>
+                        
+                        <button type="button" id="google-login" class="social-login-button google-button">
+                            <i class="fab fa-google"></i>
+                            <span>Sign in with Google</span>
+                        </button>
+                    </form>
+                    
+                    <!-- Register Form -->
+                    <form id="register-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="register-name" class="form-label">Full Name</label>
+                            <input type="text" id="register-name" class="form-input" placeholder="Enter your full name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-email" class="form-label">Email</label>
+                            <input type="email" id="register-email" class="form-input" placeholder="Enter your email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-password" class="form-label">Password</label>
+                            <input type="password" id="register-password" class="form-input" placeholder="Create a password" required>
+                            <div class="password-strength">
+                                <div id="password-strength-meter" class="password-strength-meter"></div>
+                            </div>
+                            <div id="password-feedback" class="password-feedback">Password should be at least 8 characters</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-confirm-password" class="form-label">Confirm Password</label>
+                            <input type="password" id="register-confirm-password" class="form-input" placeholder="Confirm your password" required>
+                        </div>
+                        
+                        <button type="submit" class="btn primary-btn w-100">Create Account</button>
+                        
+                        <div class="form-divider">
+                            <span>or register with</span>
+                        </div>
+                        
+                        <button type="button" id="google-register" class="social-login-button google-button">
+                            <i class="fab fa-google"></i>
+                            <span>Sign up with Google</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>About Our Garden</h3>
+                <p>The TechServ Community Garden is a collaborative space for employees to grow fresh produce, learn gardening skills, and build community on our East Texas corporate campus.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="tasks.html">Tasks</a></li>
+                    <li><a href="garden-map.html">Garden Map</a></li>
+                    <li><a href="profile.html">My Profile</a></li>
+                    <li><a href="knowledge.html">Knowledge Base</a></li>
+                    <li><a href="community.html">Community</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-envelope"></i> garden@techserv.com</li>
+                    <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                    <li><i class="fas fa-map-marker-alt"></i> TechServ Campus, East Texas</li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Garden Stats</h3>
+                <div class="garden-stats">
+                    <div class="stat">
+                        <span class="stat-number">42</span>
+                        <span class="stat-label">Plant Varieties</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">87</span>
+                        <span class="stat-label">Gardeners</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">156</span>
+                        <span class="stat-label">Pounds Harvested</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom container">
+            <p>&copy; 2025 TechServ Community Garden. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Import Firebase auth module -->
+    <script type="module">
+        import { 
+            signInWithEmail, 
+            registerWithEmail, 
+            signInWithGoogle, 
+            resetPassword,
+            subscribeToAuthChanges
+        } from '../src/firebase/auth.js';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const formTabs = document.querySelectorAll('.form-tab');
+            const authForms = document.querySelectorAll('.auth-form');
+            
+            formTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Update active tab
+                    formTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding form
+                    const formId = this.getAttribute('data-tab') + '-form';
+                    authForms.forEach(form => {
+                        form.classList.remove('active');
+                        if (form.id === formId) {
+                            form.classList.add('active');
+                        }
+                    });
+                    
+                    // Clear any error messages
+                    hideError();
+                    
+                    // Transfer email between forms if filled
+                    const loginEmail = document.getElementById('login-email').value;
+                    const registerEmail = document.getElementById('register-email').value;
+                    
+                    if (this.getAttribute('data-tab') === 'register' && loginEmail) {
+                        document.getElementById('register-email').value = loginEmail;
+                    } else if (this.getAttribute('data-tab') === 'login' && registerEmail) {
+                        document.getElementById('login-email').value = registerEmail;
+                    }
+                });
+            });
+            
+            // Check if user is already logged in
+            subscribeToAuthChanges(authState => {
+                if (authState.isAuthenticated) {
+                    window.location.href = 'profile.html';
+                }
+            });
+            
+            // Login form submission
+            const loginForm = document.getElementById('login-form');
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                
+                try {
+                    showLoading(loginForm.querySelector('button[type="submit"]'));
+                    await signInWithEmail(email, password);
+                    // Redirect will happen automatically via auth state listener
+                } catch (error) {
+                    console.error('Login error:', error);
+                    showError(getAuthErrorMessage(error));
+                } finally {
+                    hideLoading(loginForm.querySelector('button[type="submit"]'));
+                }
+            });
+            
+            // Register form submission
+            const registerForm = document.getElementById('register-form');
+            registerForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const displayName = document.getElementById('register-name').value;
+                const email = document.getElementById('register-email').value;
+                const password = document.getElementById('register-password').value;
+                const confirmPassword = document.getElementById('register-confirm-password').value;
+                
+                // Validate password match
+                if (password !== confirmPassword) {
+                    showError('Passwords do not match');
+                    return;
+                }
+                
+                // Check password strength
+                if (password.length < 8) {
+                    showError('Password must be at least 8 characters long');
+                    return;
+                }
+                
+                try {
+                    showLoading(registerForm.querySelector('button[type="submit"]'));
+                    await registerWithEmail({ email, password, displayName });
+                    // Redirect will happen automatically via auth state listener
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    showError(getAuthErrorMessage(error));
+                } finally {
+                    hideLoading(registerForm.querySelector('button[type="submit"]'));
+                }
+            });
+            
+            // Google login/register
+            const googleLoginBtn = document.getElementById('google-login');
+            const googleRegisterBtn = document.getElementById('google-register');
+            
+            [googleLoginBtn, googleRegisterBtn].forEach(btn => {
+                btn.addEventListener('click', async function() {
+                    try {
+                        showLoading(btn);
+                        await signInWithGoogle();
+                        // Redirect will happen automatically via auth state listener
+                    } catch (error) {
+                        console.error('Google auth error:', error);
+                        showError(getAuthErrorMessage(error));
+                    } finally {
+                        hideLoading(btn);
+                    }
+                });
+            });
+            
+            // Forgot password
+            const forgotPasswordLink = document.getElementById('forgot-password-link');
+            forgotPasswordLink.addEventListener('click', async function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('login-email').value;
+                
+                if (!email) {
+                    showError('Please enter your email address first');
+                    document.getElementById('login-email').focus();
+                    return;
+                }
+                
+                try {
+                    showLoading(forgotPasswordLink);
+                    await resetPassword(email);
+                    alert(`Password reset email sent to ${email}. Please check your inbox.`);
+                } catch (error) {
+                    console.error('Password reset error:', error);
+                    showError(getAuthErrorMessage(error));
+                } finally {
+                    hideLoading(forgotPasswordLink);
+                }
+            });
+            
+            // Password strength meter
+            const passwordInput = document.getElementById('register-password');
+            const strengthMeter = document.getElementById('password-strength-meter');
+            const passwordFeedback = document.getElementById('password-feedback');
+            
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                const strength = calculatePasswordStrength(password);
+                
+                // Update strength meter
+                strengthMeter.style.width = `${strength.score * 25}%`;
+                
+                // Set color based on score
+                if (strength.score === 0) {
+                    strengthMeter.style.backgroundColor = '#e53935'; // Red
+                } else if (strength.score === 1) {
+                    strengthMeter.style.backgroundColor = '#ffb74d'; // Orange
+                } else if (strength.score === 2) {
+                    strengthMeter.style.backgroundColor = '#ffd54f'; // Yellow
+                } else if (strength.score === 3) {
+                    strengthMeter.style.backgroundColor = '#aed581'; // Light green
+                } else {
+                    strengthMeter.style.backgroundColor = '#66bb6a'; // Green
+                }
+                
+                // Update feedback text
+                passwordFeedback.textContent = strength.feedback;
+            });
+            
+            // Helper functions
+            function showError(message) {
+                const errorBox = document.getElementById('auth-error');
+                const errorMessage = document.getElementById('error-message');
+                
+                errorMessage.textContent = message;
+                errorBox.classList.add('active');
+            }
+            
+            function hideError() {
+                const errorBox = document.getElementById('auth-error');
+                errorBox.classList.remove('active');
+            }
+            
+            function showLoading(button) {
+                const originalText = button.innerHTML;
+                button.setAttribute('data-original-text', originalText);
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                button.disabled = true;
+            }
+            
+            function hideLoading(button) {
+                const originalText = button.getAttribute('data-original-text');
+                if (originalText) {
+                    button.innerHTML = originalText;
+                }
+                button.disabled = false;
+            }
+            
+            function calculatePasswordStrength(password) {
+                // Simple password strength calculation
+                let score = 0;
+                let feedback = '';
+                
+                if (password.length < 1) {
+                    feedback = 'Password is required';
+                } else if (password.length < 8) {
+                    feedback = 'Password should be at least 8 characters';
+                } else {
+                    score++; // At least 8 chars
+                    feedback = 'Password is weak';
+                    
+                    if (/[A-Z]/.test(password)) {
+                        score++; // Has uppercase
+                    }
+                    
+                    if (/[0-9]/.test(password)) {
+                        score++; // Has number
+                    }
+                    
+                    if (/[^A-Za-z0-9]/.test(password)) {
+                        score++; // Has special char
+                    }
+                    
+                    if (score === 2) {
+                        feedback = 'Password is moderate';
+                    } else if (score === 3) {
+                        feedback = 'Password is strong';
+                    } else if (score === 4) {
+                        feedback = 'Password is very strong';
+                    }
+                }
+                
+                return {
+                    score,
+                    feedback
+                };
+            }
+            
+            function getAuthErrorMessage(error) {
+                // Convert Firebase auth error codes to user-friendly messages
+                const errorCode = error.code;
+                
+                switch (errorCode) {
+                    case 'auth/user-not-found':
+                    case 'auth/wrong-password':
+                        return 'Invalid email or password. Please try again.';
+                    case 'auth/email-already-in-use':
+                        return 'This email is already registered. Please use another email or sign in.';
+                    case 'auth/weak-password':
+                        return 'Please choose a stronger password.';
+                    case 'auth/invalid-email':
+                        return 'Please enter a valid email address.';
+                    case 'auth/too-many-requests':
+                        return 'Too many unsuccessful login attempts. Please try again later.';
+                    case 'auth/network-request-failed':
+                        return 'Network error. Please check your internet connection.';
+                    case 'auth/popup-closed-by-user':
+                        return 'Sign-in popup was closed before completing the sign in.';
+                    default:
+                        return error.message || 'An unexpected error occurred. Please try again.';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

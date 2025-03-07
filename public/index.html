@@ -41,7 +41,7 @@
                     <li><a href="index.html" class="active">Home</a></li>
                     <li><a href="pages/tasks.html">Tasks</a></li>
                     <li><a href="pages/garden-map.html">Garden Map</a></li>
-                    <li><a href="pages/profile.html">My Profile</a></li>
+                    <li><a href="pages/login.html">My Profile</a></li>
                     <li><a href="pages/knowledge.html">Knowledge Base</a></li>
                     <li><a href="pages/community.html">Community</a></li>
                     <li><a href="pages/resources.html">Resources</a></li>
@@ -54,7 +54,7 @@
                     <button class="search-button"><i class="fas fa-search"></i></button>
                 </div>
                 <div class="user-account">
-                    <a href="pages/profile.html" class="user-icon"><i class="fas fa-user-circle"></i></a>
+                    <a href="pages/login.html" class="user-icon"><i class="fas fa-user-circle"></i></a>
                 </div>
             </div>
         </div>
@@ -570,7 +570,7 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="pages/tasks.html">Tasks</a></li>
                     <li><a href="pages/garden-map.html">Garden Map</a></li>
-                    <li><a href="pages/profile.html">My Profile</a></li>
+                    <li><a href="pages/login.html">My Profile</a></li>
                     <li><a href="pages/knowledge.html">Knowledge Base</a></li>
                     <li><a href="pages/community.html">Community</a></li>
                     <li><a href="pages/resources.html">Resources</a></li>
@@ -610,9 +610,12 @@
         </div>
     </footer>
 
+    <!-- Core scripts -->
     <script type="module" src="src/scripts/core/main.js"></script>
+    
+    <!-- Feature-specific scripts - will be auto-initialized by the modules -->
+    <script type="module" src="src/features/weather/index.js"></script>
     <script type="module" src="js/carousel.js"></script>
-    <script type="module" src="js/weather.js"></script>
     <script type="module" src="js/tasks.js"></script>
     <script>
         // Home page specific JavaScript
