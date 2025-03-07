@@ -37,7 +37,8 @@
       "port": 8080
     },
     "hosting": {
-      "port": 5000
+      "site": "techserv-garden25",
+        "public": "public"
     },
     "storage": {
       "port": 9199
