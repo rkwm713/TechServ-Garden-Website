@@ -12,510 +12,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Saira:wght@700&family=Neuton:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- Additional CSS for Home page -->
-    <style>
-        /* Hero Section */
-        .hero-section {
-            background-color: var(--primary-light);
-            border-radius: var(--border-radius-md);
-            padding: var(--spacing-xl);
-            margin-bottom: var(--spacing-xl);
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 600px;
-        }
-        
-        .hero-title {
-            font-size: 2.5rem;
-            margin-bottom: var(--spacing-md);
-            color: var(--primary-color);
-            font-family: 'Saira', sans-serif;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em; /* 50pt tracking */
-        }
-        
-        .hero-description {
-            font-size: var(--font-size-lg);
-            margin-bottom: var(--spacing-lg);
-            color: var(--neutral-dark);
-        }
-        
-        .hero-buttons {
-            display: flex;
-            gap: var(--spacing-md);
-        }
-        
-        .hero-image {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 40%;
-            height: 100%;
-            background-image: url('assets/images/garden-hero.jpg');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.8;
-            border-top-right-radius: var(--border-radius-md);
-            border-bottom-right-radius: var(--border-radius-md);
-        }
-        
-        /* For demo purposes, we'll use a colored div instead of an actual image */
-        .hero-image-placeholder {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 40%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
-            opacity: 0.8;
-            border-top-right-radius: var(--border-radius-md);
-            border-bottom-right-radius: var(--border-radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 5rem;
-        }
-        
-        /* Features Section */
-        .features-section {
-            margin-bottom: var(--spacing-xl);
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: var(--spacing-lg);
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--spacing-lg);
-        }
-        
-        .feature-card {
-            background-color: var(--white);
-            border-radius: var(--border-radius-md);
-            padding: var(--spacing-lg);
-            box-shadow: var(--shadow-sm);
-            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .feature-icon {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .feature-title {
-            font-size: var(--font-size-lg);
-            margin-bottom: var(--spacing-sm);
-        }
-        
-        .feature-description {
-            color: var(--neutral-dark);
-        }
-        
-        /* Garden Status Section */
-        .garden-status-section {
-            background-color: var(--white);
-            border-radius: var(--border-radius-md);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .status-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .status-title {
-            margin-bottom: 0;
-        }
-        
-        .status-date {
-            color: var(--neutral-medium);
-            font-size: var(--font-size-sm);
-        }
-        
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--spacing-md);
-            margin-bottom: var(--spacing-lg);
-        }
-        
-        .status-card {
-            background-color: var(--neutral-light);
-            border-radius: var(--border-radius-sm);
-            padding: var(--spacing-md);
-            text-align: center;
-        }
-        
-        .status-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary-dark);
-            margin-bottom: var(--spacing-xs);
-        }
-        
-        .status-label {
-            color: var(--neutral-dark);
-            font-weight: 500;
-        }
-        
-        .status-progress {
-            height: 8px;
-            background-color: var(--neutral-light);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: var(--spacing-sm);
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background-color: var(--primary-color);
-        }
-        
-        .progress-bar.warning {
-            background-color: var(--warning-color);
-        }
-        
-        .progress-bar.danger {
-            background-color: var(--error-color);
-        }
-        
-        /* Recent Updates Section */
-        .updates-section {
-            background-color: var(--white);
-            border-radius: var(--border-radius-md);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .updates-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .updates-title {
-            margin-bottom: 0;
-        }
-        
-        .update-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .update-item {
-            display: flex;
-            gap: var(--spacing-md);
-            padding: var(--spacing-md) 0;
-            border-bottom: 1px solid var(--neutral-light);
-        }
-        
-        .update-item:last-child {
-            border-bottom: none;
-        }
-        
-        .update-icon {
-            width: 48px;
-            height: 48px;
-            background-color: var(--primary-light);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-dark);
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-        
-        .update-content {
-            flex: 1;
-        }
-        
-        .update-title {
-            font-weight: 600;
-            margin-bottom: var(--spacing-xs);
-        }
-        
-        .update-meta {
-            display: flex;
-            gap: var(--spacing-md);
-            color: var(--neutral-medium);
-            font-size: var(--font-size-sm);
-            margin-bottom: var(--spacing-xs);
-        }
-        
-        .update-description {
-            margin-bottom: 0;
-        }
-        
-        /* Upcoming Events Section */
-        .events-section {
-            background-color: var(--white);
-            border-radius: var(--border-radius-md);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .events-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .events-title {
-            margin-bottom: 0;
-        }
-        
-        .event-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--spacing-md);
-        }
-        
-        .event-card {
-            background-color: var(--neutral-light);
-            border-radius: var(--border-radius-sm);
-            overflow: hidden;
-            transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-        }
-        
-        .event-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .event-header {
-            background-color: var(--primary-color);
-            color: var(--white);
-            padding: var(--spacing-sm);
-            text-align: center;
-        }
-        
-        .event-date {
-            font-weight: 600;
-        }
-        
-        .event-body {
-            padding: var(--spacing-md);
-        }
-        
-        .event-title {
-            font-weight: 600;
-            margin-bottom: var(--spacing-xs);
-        }
-        
-        .event-details {
-            font-size: var(--font-size-sm);
-            color: var(--neutral-medium);
-            margin-bottom: var(--spacing-sm);
-        }
-        
-        .event-details span {
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-            margin-bottom: 2px;
-        }
-        
-        /* Photo Carousel */
-        .photo-carousel {
-            background-color: var(--white);
-            border-radius: var(--border-radius-md);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .carousel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--spacing-md);
-        }
-        
-        .carousel-title {
-            margin-bottom: 0;
-        }
-        
-        .carousel-container {
-            position: relative;
-            height: 300px;
-            overflow: hidden;
-            border-radius: var(--border-radius-sm);
-        }
-        
-        .carousel-slides {
-            display: flex;
-            height: 100%;
-            transition: transform var(--transition-normal);
-        }
-        
-        .carousel-slide {
-            flex: 0 0 100%;
-            height: 100%;
-            background-color: var(--primary-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-dark);
-            font-size: 3rem;
-        }
-        
-        .carousel-controls {
-            position: absolute;
-            bottom: var(--spacing-md);
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: var(--spacing-xs);
-        }
-        
-        .carousel-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: background-color var(--transition-fast);
-        }
-        
-        .carousel-dot.active {
-            background-color: var(--white);
-        }
-        
-        .carousel-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: var(--font-size-lg);
-            cursor: pointer;
-            transition: background-color var(--transition-fast);
-        }
-        
-        .carousel-nav:hover {
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        
-        .carousel-prev {
-            left: var(--spacing-md);
-        }
-        
-        .carousel-next {
-            right: var(--spacing-md);
-        }
-        
-        /* Get Involved Section */
-        .get-involved-section {
-            background-color: var(--primary-light);
-            border-radius: var(--border-radius-md);
-            padding: var(--spacing-xl);
-            margin-bottom: var(--spacing-xl);
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-        }
-        
-        .involved-title {
-            color: var(--primary-color);
-            margin-bottom: var(--spacing-md);
-            font-family: 'Saira', sans-serif;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em; /* 50pt tracking */
-        }
-        
-        .involved-description {
-            max-width: 600px;
-            margin: 0 auto var(--spacing-lg);
-            color: var(--neutral-dark);
-        }
-        
-        .involved-buttons {
-            display: flex;
-            justify-content: center;
-            gap: var(--spacing-md);
-        }
-        
-        /* Responsive adjustments for home page */
-        @media (max-width: 991px) {
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .status-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .event-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .hero-image,
-            .hero-image-placeholder {
-                display: none;
-            }
-            
-            .hero-content {
-                max-width: 100%;
-            }
-        }
-        
-        @media (max-width: 767px) {
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .event-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .hero-buttons {
-                flex-direction: column;
-            }
-            
-            .involved-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .carousel-container {
-                height: 200px;
-            }
-        }
-    </style>
+    <!-- Home page CSS files -->
+    <link rel="stylesheet" href="css/pages/home.css">
+    <link rel="stylesheet" href="css/components/hero.css">
+    <link rel="stylesheet" href="css/components/features.css">
+    <link rel="stylesheet" href="css/components/status.css">
+    <link rel="stylesheet" href="css/components/updates.css">
+    <link rel="stylesheet" href="css/components/events.css">
+    <link rel="stylesheet" href="css/components/carousel.css">
+    <link rel="stylesheet" href="css/components/get-involved.css">
+    
+    <!-- Accessibility improvements -->
+    <meta name="description" content="TechServ Community Garden website for managing garden activities, tasks, and community events">
 </head>
 <body>
     <header class="main-header">
@@ -572,53 +80,71 @@
             <section class="features-section">
                 <h2 class="section-title">Garden Features</h2>
                 <div class="features-grid">
-                    <div class="feature-card">
+                    <a href="pages/garden-planning.html" class="feature-card" aria-label="Go to Interactive Planning">
                         <div class="feature-icon">
                             <i class="fas fa-seedling"></i>
                         </div>
                         <h3 class="feature-title">Interactive Planning</h3>
                         <p class="feature-description">Design your garden plot with our drag-and-drop layout editor. Choose from plants suited to East Texas climate and get personalized growing tips.</p>
-                    </div>
+                        <div class="feature-action">
+                            <span class="feature-link">Explore <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </a>
                     
-                    <div class="feature-card">
+                    <a href="pages/tasks.html" class="feature-card" aria-label="Go to Task Management">
                         <div class="feature-icon">
                             <i class="fas fa-tasks"></i>
                         </div>
                         <h3 class="feature-title">Task Management</h3>
                         <p class="feature-description">Track garden tasks, sign up for volunteer opportunities, and coordinate with other gardeners to keep our community garden thriving.</p>
-                    </div>
+                        <div class="feature-action">
+                            <span class="feature-link">Explore <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </a>
                     
-                    <div class="feature-card">
+                    <a href="pages/garden-map.html" class="feature-card" aria-label="Go to Garden Map">
                         <div class="feature-icon">
                             <i class="fas fa-map-marked-alt"></i>
                         </div>
                         <h3 class="feature-title">Real-time Garden Map</h3>
                         <p class="feature-description">View the current state of the garden, including plant inventory, maintenance alerts, and available plots for new plantings.</p>
-                    </div>
+                        <div class="feature-action">
+                            <span class="feature-link">Explore <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </a>
                     
-                    <div class="feature-card">
+                    <a href="pages/knowledge.html" class="feature-card" aria-label="Go to Knowledge Base">
                         <div class="feature-icon">
                             <i class="fas fa-book-open"></i>
                         </div>
                         <h3 class="feature-title">Knowledge Base</h3>
                         <p class="feature-description">Access gardening resources specific to East Texas, including planting guides, pest control tips, and seasonal advice from experienced gardeners.</p>
-                    </div>
+                        <div class="feature-action">
+                            <span class="feature-link">Explore <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </a>
                     
-                    <div class="feature-card">
+                    <a href="pages/community.html" class="feature-card" aria-label="Go to Community Events">
                         <div class="feature-icon">
                             <i class="fas fa-users"></i>
                         </div>
                         <h3 class="feature-title">Community Events</h3>
                         <p class="feature-description">Join workshops, social gatherings, and volunteer days. Share your gardening journey through photos and discussion forums.</p>
-                    </div>
+                        <div class="feature-action">
+                            <span class="feature-link">Explore <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </a>
                     
-                    <div class="feature-card">
+                    <a href="pages/resources.html" class="feature-card" aria-label="Go to Resource Tracking">
                         <div class="feature-icon">
                             <i class="fas fa-chart-line"></i>
                         </div>
                         <h3 class="feature-title">Resource Tracking</h3>
                         <p class="feature-description">Monitor garden expenses, inventory supplies, and track sustainability metrics to ensure efficient use of resources.</p>
-                    </div>
+                        <div class="feature-action">
+                            <span class="feature-link">Explore <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </a>
                 </div>
             </section>
             
@@ -1093,19 +619,21 @@
     <script>
         // Home page specific JavaScript
         document.addEventListener('DOMContentLoaded', function() {
-            // Task checkbox functionality
-            const taskCheckboxes = document.querySelectorAll('.task-checkbox');
+            // Task checkbox functionality - using event delegation
+            const taskList = document.getElementById('user-tasks-list');
             
-            taskCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const taskItem = this.closest('.task-item');
-                    if (this.checked) {
-                        taskItem.classList.add('completed');
-                    } else {
-                        taskItem.classList.remove('completed');
+            if (taskList) {
+                taskList.addEventListener('change', function(event) {
+                    if (event.target.matches('.task-checkbox')) {
+                        const taskItem = event.target.closest('.task-item');
+                        if (event.target.checked) {
+                            taskItem.classList.add('completed');
+                        } else {
+                            taskItem.classList.remove('completed');
+                        }
                     }
                 });
-            });
+            }
             
             // Update date display for weather widget
             const weatherDateElement = document.getElementById('weather-date');
@@ -1118,6 +646,26 @@
                 });
                 weatherDateElement.textContent = formattedDate;
             }
+            
+            // Error handling utility function
+            window.handleError = function(error, message, isCritical = false) {
+                console.error(message, error);
+                
+                // Display visual feedback for critical errors
+                if (isCritical) {
+                    alert(`${message}. Please try again or contact support.`);
+                }
+            };
+            
+            // Safely execute a function with error handling
+            window.safeExecute = function(fn, errorMessage, isCritical = false) {
+                try {
+                    return fn();
+                } catch (error) {
+                    handleError(error, errorMessage, isCritical);
+                    return null;
+                }
+            };
         });
     </script>
 </body>
