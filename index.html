@@ -799,7 +799,7 @@
                 </div>
             </section>
             
-            <section class="photo-carousel">
+<section class="photo-carousel" id="photo-carousel">
                 <div class="carousel-header">
                     <h2 class="carousel-title">Garden Progress</h2>
                     <a href="pages/community.html#gallery" class="btn secondary-btn">View All Photos</a>
@@ -807,29 +807,32 @@
                 
                 <div class="carousel-container">
                     <div class="carousel-slides">
-                        <div class="carousel-slide">
-                            <i class="fas fa-seedling"></i>
+                        <div class="carousel-slide active">
+                            <img src="assets/images/garden-1.html" alt="Garden in spring" class="slide-image">
+                            <div class="slide-caption">Garden in early spring</div>
                         </div>
                         <div class="carousel-slide">
-                            <i class="fas fa-leaf"></i>
+                            <img src="assets/images/garden-2.html" alt="Summer garden" class="slide-image">
+                            <div class="slide-caption">Summer harvest time</div>
                         </div>
                         <div class="carousel-slide">
-                            <i class="fas fa-carrot"></i>
+                            <img src="assets/images/garden-3.html" alt="Fall garden" class="slide-image">
+                            <div class="slide-caption">Fall planting season</div>
                         </div>
                     </div>
                     
-                    <div class="carousel-controls">
-                        <div class="carousel-dot active" data-slide="0"></div>
-                        <div class="carousel-dot" data-slide="1"></div>
-                        <div class="carousel-dot" data-slide="2"></div>
+                    <div class="carousel-controls" id="carousel-indicators">
+                        <button class="indicator active" aria-label="Slide 1">1</button>
+                        <button class="indicator" aria-label="Slide 2">2</button>
+                        <button class="indicator" aria-label="Slide 3">3</button>
                     </div>
                     
-                    <div class="carousel-nav carousel-prev">
+                    <button class="carousel-nav carousel-prev" id="carousel-prev" aria-label="Previous slide">
                         <i class="fas fa-chevron-left"></i>
-                    </div>
-                    <div class="carousel-nav carousel-next">
+                    </button>
+                    <button class="carousel-nav carousel-next" id="carousel-next" aria-label="Next slide">
                         <i class="fas fa-chevron-right"></i>
-                    </div>
+                    </button>
                 </div>
             </section>
             
@@ -845,10 +848,10 @@
         </main>
 
         <aside class="sidebar">
-            <section class="weather-widget">
+<section id="weather-container" class="weather-widget">
                 <div class="weather-header">
                     <div class="weather-location">East Texas</div>
-                    <div class="weather-date">March 6, 2025</div>
+                    <div class="weather-date" id="weather-date">March 6, 2025</div>
                 </div>
                 
                 <div class="current-weather">
@@ -856,8 +859,8 @@
                         <i class="fas fa-cloud-sun"></i>
                     </div>
                     <div class="weather-info">
-                        <div class="current-temperature">78°F</div>
-                        <div class="current-condition">Partly Cloudy</div>
+                        <div class="temperature">78°F</div>
+                        <div class="conditions">Partly Cloudy</div>
                     </div>
                 </div>
                 
@@ -877,6 +880,10 @@
                     <div class="forecast-days">
                         <!-- Forecast days will be populated by JavaScript -->
                     </div>
+                </div>
+                
+                <div class="garden-advice">
+                    <p>Perfect day for gardening! Great time for planting, weeding, or harvesting.</p>
                 </div>
             </section>
             
@@ -922,9 +929,9 @@
                 </div>
             </section>
             
-            <section>
+            <section id="sidebar-tasks">
                 <h3>Garden Tasks</h3>
-                <ul class="task-list">
+                <ul class="task-list" id="user-tasks-list">
                     <li class="task-item">
                         <input type="checkbox" class="task-checkbox" id="task1">
                         <label for="task1" class="task-label">Water Section A plants</label>
@@ -1080,47 +1087,12 @@
     </footer>
 
     <script type="module" src="src/scripts/core/main.js"></script>
+    <script type="module" src="js/carousel.js"></script>
+    <script type="module" src="js/weather.js"></script>
+    <script type="module" src="js/tasks.js"></script>
     <script>
         // Home page specific JavaScript
         document.addEventListener('DOMContentLoaded', function() {
-            // Carousel functionality
-            const slides = document.querySelector('.carousel-slides');
-            const dots = document.querySelectorAll('.carousel-dot');
-            const prevBtn = document.querySelector('.carousel-prev');
-            const nextBtn = document.querySelector('.carousel-next');
-            let currentSlide = 0;
-            const slideCount = dots.length;
-            
-            function goToSlide(index) {
-                if (index < 0) index = slideCount - 1;
-                if (index >= slideCount) index = 0;
-                
-                slides.style.transform = `translateX(-${index * 100}%)`;
-                
-                // Update active dot
-                dots.forEach(dot => dot.classList.remove('active'));
-                dots[index].classList.add('active');
-                
-                currentSlide = index;
-            }
-            
-            // Initialize carousel
-            goToSlide(0);
-            
-            // Event listeners for dots
-            dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => goToSlide(index));
-            });
-            
-            // Event listeners for prev/next buttons
-            prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
-            nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
-            
-            // Auto-advance carousel
-            setInterval(() => {
-                goToSlide(currentSlide + 1);
-            }, 5000);
-            
             // Task checkbox functionality
             const taskCheckboxes = document.querySelectorAll('.task-checkbox');
             
@@ -1134,6 +1106,18 @@
                     }
                 });
             });
+            
+            // Update date display for weather widget
+            const weatherDateElement = document.getElementById('weather-date');
+            if (weatherDateElement) {
+                const today = new Date();
+                const formattedDate = today.toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+                weatherDateElement.textContent = formattedDate;
+            }
         });
     </script>
 </body>
