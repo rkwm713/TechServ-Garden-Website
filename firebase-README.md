@@ -236,3 +236,5 @@ Common issues and solutions:
 For more extensive debugging, enable Firebase debugging:
 ```javascript
 firebase.firestore.setLogLevel('debug');
+// .\prepare-deploy.bat 
+// firebase deploy --only hosting,firestore,storage

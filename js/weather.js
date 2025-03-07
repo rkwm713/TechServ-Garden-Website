@@ -195,41 +195,83 @@ function updateWeatherWidget(data) {
  * @returns {Object} - Simulated weather data
  */
 function getSimulatedWeatherData() {
-    // For demo purposes, we'll use randomized but realistic data
-    const conditions = ['Sunny', 'Partly Cloudy', 'Cloudy', 'Light Rain', 'Rain', 'Thunderstorm', 'Windy', 'Foggy'];
+    // Use a consistent set of data for 3258 Earl Campbell Pkwy, Tyler, TX 75701
+    // to avoid drastically changing weather display when the API fails
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     
     // Get current day index (0-6)
     const today = new Date().getDay();
     
-    // Generate random current weather
-    const currentCondition = conditions[Math.floor(Math.random() * conditions.length)];
-    const currentTemp = Math.floor(Math.random() * 30) + 50; // 50-80°F
+    // Generate seasonal temperature based on current date
+    const now = new Date();
+    const month = now.getMonth(); // 0-11
     
-    // Generate random forecast for next 3 days
+    // Base temperature varies by season (higher in summer, lower in winter)
+    let baseTemp;
+    if (month >= 5 && month <= 8) { // Summer (Jun-Sep)
+        baseTemp = 82;
+    } else if (month >= 9 && month <= 10) { // Fall (Oct-Nov)
+        baseTemp = 68;
+    } else if (month >= 11 || month <= 1) { // Winter (Dec-Feb)
+        baseTemp = 52;
+    } else { // Spring (Mar-May)
+        baseTemp = 72;
+    }
+    
+    // Small daily variation (±5°F)
+    const dateHash = now.getDate() + now.getMonth() * 31;
+    const tempVariation = (dateHash % 10) - 5;
+    const currentTemp = baseTemp + tempVariation;
+    
+    // Define consistent condition based on temperature
+    let currentCondition;
+    if (currentTemp > 85) {
+        currentCondition = 'Sunny';
+    } else if (currentTemp < 50) {
+        currentCondition = 'Cloudy';
+    } else if (currentTemp % 10 < 3) { // Use remainder to determine some days with rain
+        currentCondition = 'Light Rain';
+    } else if (currentTemp % 10 >= 7) {
+        currentCondition = 'Partly Cloudy';
+    } else {
+        currentCondition = 'Sunny';
+    }
+    
+    // Generate consistent forecast for next 3 days
     const forecast = [];
     for (let i = 1; i <= 3; i++) {
         const dayIndex = (today + i) % 7;
-        const condition = conditions[Math.floor(Math.random() * conditions.length)];
-        const temp = Math.floor(Math.random() * 30) + 50; // 50-80°F
+        // Base forecast on day of week for consistency
+        let condition;
+        const dayTemp = baseTemp + ((dateHash + i) % 10) - 5; // Similar algorithm but offset by day
+        
+        if (dayIndex % 7 === 0 || dayIndex % 7 === 3) { // Sunday or Wednesday
+            condition = 'Partly Cloudy';
+        } else if (dayIndex % 7 === 1 || dayIndex % 7 === 5) { // Monday or Friday
+            condition = 'Sunny';
+        } else if (dayIndex % 7 === 2) { // Tuesday
+            condition = 'Light Rain';
+        } else {
+            condition = 'Cloudy';
+        }
         
         forecast.push({
             day: days[dayIndex],
             condition: condition,
-            temperature: temp
+            temperature: dayTemp
         });
     }
     
     return {
         location: {
-            name: 'East Texas',
+            name: 'Tyler',
             state: 'TX'
         },
         current: {
             condition: currentCondition,
             temperature: currentTemp,
-            humidity: Math.floor(Math.random() * 50) + 30, // 30-80%
-            windSpeed: Math.floor(Math.random() * 15) + 5 // 5-20 mph
+            humidity: 55 + (dateHash % 20), // Consistent but varies by date (55-75%)
+            windSpeed: 5 + (dateHash % 10) // Consistent but varies by date (5-15 mph)
         },
         forecast: forecast
     };

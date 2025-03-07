@@ -8,14 +8,28 @@
  */
 
 // Cache for weather data to avoid excessive API calls
-const weatherCache = {
-  currentConditions: null,
-  forecast: null,
-  location: null,
-  lastUpdated: null,
-  // Cache expiration in milliseconds (30 minutes)
-  cacheExpiration: 30 * 60 * 1000
-};
+// Try to load previously saved cache from localStorage if available
+let weatherCache;
+try {
+  const savedCache = localStorage.getItem('weatherCache');
+  weatherCache = savedCache ? JSON.parse(savedCache) : {
+    currentConditions: null,
+    forecast: null,
+    location: null,
+    lastUpdated: null
+  };
+} catch (e) {
+  console.error('Error loading cache from localStorage:', e);
+  weatherCache = {
+    currentConditions: null,
+    forecast: null,
+    location: null,
+    lastUpdated: null
+  };
+}
+
+// Cache expiration in milliseconds (30 minutes)
+const CACHE_EXPIRATION = 30 * 60 * 1000;
 
 // Required headers for NWS API - they require a user-agent with contact info
 const API_HEADERS = {
@@ -25,15 +39,23 @@ const API_HEADERS = {
 
 /**
  * Get coordinates for the TechServ Garden location
+ * @param {boolean} useSpecificAddress - Whether to use the specific location or the general Tyler area
  * @returns {Object} with latitude and longitude
  */
-export const getGardenCoordinates = () => {
-  // Default location for the TechServ Garden in East Texas
-  // These should be updated with the actual garden coordinates
-  return {
-    latitude: 32.3513,  // Example coordinates for Tyler, Texas
-    longitude: -95.3011
-  };
+export const getGardenCoordinates = (useSpecificAddress = true) => {
+  if (useSpecificAddress) {
+    // Coordinates for 3258 Earl Campbell Pkwy, Tyler, TX 75701
+    return {
+      latitude: 32.3076,  // Precise coordinates for the requested address
+      longitude: -95.2882
+    };
+  } else {
+    // Default location for the TechServ Garden in East Texas (general Tyler area)
+    return {
+      latitude: 32.3513,  // General coordinates for Tyler, Texas
+      longitude: -95.3011
+    };
+  }
 };
 
 /**
@@ -42,17 +64,19 @@ export const getGardenCoordinates = () => {
  * @param {number} options.latitude - Latitude
  * @param {number} options.longitude - Longitude
  * @param {boolean} options.forceRefresh - Whether to bypass cache and force refresh
+ * @param {boolean} options.useSpecificAddress - Whether to use the specific Earl Campbell Pkwy address
  * @returns {Promise<Object>} - Weather data
  */
 export const getWeatherData = async (options = {}) => {
   try {
+    // Use specific coordinates from the address by default
     const { latitude, longitude } = options.latitude && options.longitude 
       ? options
-      : getGardenCoordinates();
+      : getGardenCoordinates(options.useSpecificAddress !== false);
     
     const now = new Date().getTime();
     const cacheIsValid = weatherCache.lastUpdated && 
-      (now - weatherCache.lastUpdated) < weatherCache.cacheExpiration;
+      (now - weatherCache.lastUpdated) < CACHE_EXPIRATION;
     
     // Return cached data if available and not expired
     if (!options.forceRefresh && cacheIsValid && weatherCache.currentConditions) {
@@ -148,6 +172,13 @@ export const getWeatherData = async (options = {}) => {
     weatherCache.forecast = forecast;
     weatherCache.location = location;
     weatherCache.lastUpdated = now;
+    
+    // Save cache to localStorage for persistence across page loads
+    try {
+      localStorage.setItem('weatherCache', JSON.stringify(weatherCache));
+    } catch (e) {
+      console.error('Error saving weather cache to localStorage:', e);
+    }
     
     return {
       currentConditions,
@@ -297,14 +328,16 @@ const getWeatherIconClass = (condition) => {
 /**
  * Get weather data for the TechServ Garden
  * @param {boolean} forceRefresh - Whether to bypass cache and force refresh
+ * @param {boolean} useSpecificAddress - Whether to use the specific Earl Campbell Pkwy address
  * @returns {Promise<Object>} - Weather data
  */
-export const getGardenWeather = async (forceRefresh = false) => {
-  const coordinates = getGardenCoordinates();
+export const getGardenWeather = async (forceRefresh = false, useSpecificAddress = true) => {
+  const coordinates = getGardenCoordinates(useSpecificAddress);
   return getWeatherData({
     latitude: coordinates.latitude,
     longitude: coordinates.longitude,
-    forceRefresh
+    forceRefresh,
+    useSpecificAddress
   });
 };
 

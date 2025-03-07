@@ -62,7 +62,8 @@ function initWeatherWidget() {
  */
 async function fetchAndUpdateWeather(widget, forceRefresh = false) {
     try {
-        const weatherData = await getGardenWeather(forceRefresh);
+        // Always use the specific address for Earl Campbell Pkwy
+        const weatherData = await getGardenWeather(forceRefresh, true);
         
         if (!weatherData || !weatherData.currentConditions) {
             throw new Error('Invalid weather data received');
@@ -117,18 +118,80 @@ function showLoadingState(widget) {
  * @param {Element} widget - Weather widget element
  */
 function updateWeatherWidgetWithMockData(widget) {
+    // Use a consistent set of data for 3258 Earl Campbell Pkwy, Tyler, TX 75701
+    // to avoid drastically changing weather display when the API fails
+    const now = new Date();
+    const month = now.getMonth(); // 0-11
+    
+    // Base temperature varies by season (higher in summer, lower in winter)
+    let baseTemp;
+    if (month >= 5 && month <= 8) { // Summer (Jun-Sep)
+        baseTemp = 82;
+    } else if (month >= 9 && month <= 10) { // Fall (Oct-Nov)
+        baseTemp = 68;
+    } else if (month >= 11 || month <= 1) { // Winter (Dec-Feb)
+        baseTemp = 52;
+    } else { // Spring (Mar-May)
+        baseTemp = 72;
+    }
+    
+    // Small daily variation (±5°F)
+    const dateHash = now.getDate() + now.getMonth() * 31;
+    const tempVariation = (dateHash % 10) - 5;
+    const currentTemp = baseTemp + tempVariation;
+    
+    // Define consistent condition based on temperature
+    let currentCondition;
+    if (currentTemp > 85) {
+        currentCondition = 'Sunny';
+    } else if (currentTemp < 50) {
+        currentCondition = 'Cloudy';
+    } else if (currentTemp % 10 < 3) { // Use remainder to determine some days with rain
+        currentCondition = 'Light Rain';
+    } else if (currentTemp % 10 >= 7) {
+        currentCondition = 'Partly Cloudy';
+    } else {
+        currentCondition = 'Sunny';
+    }
+    
+    // Generate consistent forecast based on current date
     const mockWeatherData = {
-        location: 'East Texas',
-        temperature: 78,
-        condition: 'Partly Cloudy',
-        humidity: 65,
-        windSpeed: 8,
+        location: 'Tyler, TX',
+        temperature: currentTemp,
+        condition: currentCondition,
+        humidity: 55 + (dateHash % 20), // Consistent but varies by date (55-75%)
+        windSpeed: 5 + (dateHash % 10), // Consistent but varies by date (5-15 mph)
         forecast: [
-            { day: 'Today', high: 78, low: 62, condition: 'Partly Cloudy' },
-            { day: 'Tomorrow', high: 82, low: 65, condition: 'Sunny' },
-            { day: 'Friday', high: 85, low: 68, condition: 'Sunny' },
-            { day: 'Saturday', high: 80, low: 64, condition: 'Scattered Showers' },
-            { day: 'Sunday', high: 76, low: 60, condition: 'Partly Cloudy' }
+            { 
+                day: 'Today', 
+                high: currentTemp, 
+                low: currentTemp - 15, 
+                condition: currentCondition 
+            },
+            { 
+                day: 'Tomorrow', 
+                high: currentTemp + (1 - (dateHash % 3)), 
+                low: currentTemp - 14, 
+                condition: dateHash % 3 === 0 ? 'Light Rain' : 'Partly Cloudy'
+            },
+            { 
+                day: 'Friday', 
+                high: currentTemp + (2 - (dateHash % 5)), 
+                low: currentTemp - 13, 
+                condition: dateHash % 5 === 0 ? 'Sunny' : 'Cloudy'
+            },
+            { 
+                day: 'Saturday', 
+                high: currentTemp + (3 - (dateHash % 4)), 
+                low: currentTemp - 12, 
+                condition: dateHash % 2 === 0 ? 'Partly Cloudy' : 'Sunny'
+            },
+            { 
+                day: 'Sunday', 
+                high: currentTemp + (1 - (dateHash % 6)), 
+                low: currentTemp - 14, 
+                condition: dateHash % 6 === 0 ? 'Light Rain' : 'Partly Cloudy'
+            }
         ]
     };
     
